@@ -1,0 +1,5 @@
+baseURL = "https://ece-3400-group.github.io"
+languageCode = "en-us"
+title = "Team Tugonma"
+theme="HugoMDL"
+

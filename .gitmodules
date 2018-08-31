@@ -1,0 +1,3 @@
+[submodule "website/themees/HugoMDL"]
+	path = website/themees/HugoMDL
+	url = https://github.com/jchatkinson/HugoMDL
