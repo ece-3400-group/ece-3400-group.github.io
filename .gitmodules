@@ -1,6 +1,3 @@
-[submodule "website/themees/HugoMDL"]
-	path = website/themees/HugoMDL
-	url = https://github.com/jchatkinson/HugoMDL
-[submodule "website/themes/HugoMDL"]
-	path = website/themes/HugoMDL
+[submodule "themes/HugoMDL"]
+	path = themes/HugoMDL
 	url = https://github.com/jchatkinson/HugoMDL
