@@ -72,12 +72,6 @@
 											<header class="major">
 												<h3>Internal Blink</h3>
 											</header>
-<<<<<<< Updated upstream
-											<p>We ran the original blink example on our connected Arduino board and were able to see the LED blinking.</p>
-											<ul class="actions">
-												<li><a href="ece-3400-group.github.io/Lab 1/Blink/Blink.ino" class="button" download>Download Code</a></li>
-											</ul>
-=======
                                             <p>We ran the original <code>
                                             Blink.ino</code>
                                             example on our connected Arduino
@@ -85,7 +79,9 @@
                                             blinking. This code used the
                                             <code>LED_BUILTIN pin on the board
                                             and toggled it on and off.</code> </p>
->>>>>>> Stashed changes
+											<ul class="actions">
+												<li><a href="ece-3400-group.github.io/Lab 1/Blink/Blink.ino" class="button" download>Download Code</a></li>
+											</ul>
 										</div>
 									</div>
 								</section>
@@ -131,13 +127,28 @@
 									</div>
 								</section>
 								<section>
-									<iframe width="560" height="auto"" src="https://www.youtube.com/embed/i7NAPfziOjE" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+									<iframe width="560" height="auto" src="https://www.youtube.com/embed/i7NAPfziOjE" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 									<div class="content">
 										<div class="inner">
 											<header class="major">
 												<h3>Using Variable Voltage to Dim LED</h3>
 											</header>
-											<p>In this segment of the lab we linked our previous steps (lighting up an LED and reading an analog voltage from a potentiometer) using a map function. This was necessary because the digital value of the analog input has a range of 0 to 1023, but writing an analog value to the LED was based on a range of values from 0 to 255. Luckily, libraries already existed to scale the input value down the necessary output value.</p>
+											<p>In this segment of the lab we
+                                            linked our previous steps (lighting
+                                            up an LED and reading an analog
+                                            voltage from a potentiometer) using
+                                            the <code>map</code> and
+                                            <code>constrain</code> function.
+                                            This was necessary because the
+                                            digital value of the analog input
+                                            has a range of 0 to 1023, but
+                                            writing an analog value to the LED
+                                            was based on a range of values from
+                                            0 to 255. Luckily, the functions we
+                                            used already existed to scale the input value down the necessary output value.</p>
+                                            <p>The potentiometer reading
+                                            controlled the brightness of the
+                                            LED's light.</p>
 											<ul class="actions">
 												<li><a href="ece-3400-group.github.io/Lab 1/AnalogRead-3400/AnalogRead-3400.ino" class="button" download>Download Code</a></li>
 											</ul>
@@ -151,7 +162,28 @@
 											<header class="major">
 												<h3>Controlling Servos Using Potentiometers</h3>
 											</header>
-											<p>Now that we'd learned to control LED's with a potentiometer, we made a leap to controlling servos using potentiometers. This required some knowledge of servo functionality: movement is controlled with a range of int values from 0 to 180, where 0 constitutes maximum speed rotation in one direction, 180 constitutes maximum speed rotation in the other direction, and 90 a stopped servo. This changed the parameters of our mapping function. Additionally, where previously we'd use an <code>analogWrite()</code> function to output the mapped value, now we used an existing servo library to <code>attach()</code> and <code>write()</code> to the Servo objects we defined at the top of our code.</p>
+											<p>Now that we'd learned to control
+                                            LEDs with a potentiometer, we made
+                                            a leap to controlling servos using
+                                            potentiometers. This required some
+                                            knowledge of servo functionality:
+                                            movement is controlled with a range
+                                            of <code>int</code> values from 0
+                                            to 180, where 0 constitutes maximum
+                                            speed rotation in one direction,
+                                            180 constitutes maximum speed
+                                            rotation in the other direction,
+                                            and 90 a stopped servo. This
+                                            changed the parameters when using
+                                            the <code>map</code> function.
+                                            Additionally, where previously we'd
+                                            use an <code>analogWrite()</code>
+                                            function to output the mapped
+                                            value, now we used an existing
+                                            <code>Servo</code> library to
+                                            <code>attach()</code> and
+                                            <code>write()</code> to the
+                                            <code>Servo</code> objects we defined at the top of our code.</p>
 										</div>
 									</div>
 								</section>
@@ -162,7 +194,15 @@
 											<header class="major">
 												<h3>Building a Robot</h3>
 											</header>
-											<p>Building off the success of operating the servos, we were able to begin constructing our first robot. First, we created an <code>invert()</code> function so that we could control the servos simultaneously. Without this important addition, the orientation of the servos opposite to each other would result in the wheels turning in opposite directions. The code base beyond this consisted of turning the servos on and off for various amounts of time so that eventually we were able to draw a figure-8 pattern, nicely encapsulated in our <code>figEight()</code> function. The robot itself consisted of a main plate to which we velcroed our Arduino board and 9V battery, and many screws, nuts, and washers to attach the servos and their wheels.</p>
+											<p>Building off the success of
+                                            operating the servos, we were able
+                                            to begin constructing our first
+                                            robot. First, we created an
+                                            <code>invert()</code> function so
+                                            that we could control the servos
+                                            simultaneously (since the 0 moved
+                                            the servo one direction and 180
+                                            moved the other direction). Without this important addition, the orientation of the servos opposite to each other would result in the wheels turning in opposite directions. The code base beyond this consisted of turning the servos on and off for various amounts of time so that eventually we were able to draw a figure-8 pattern, nicely encapsulated in our <code>figEight()</code> function. The robot itself consisted of a main plate to which we velcroed our Arduino board and 9V battery, and many screws, nuts, and washers to attach the servos and their wheels.</p>
 											<ul class="actions">
 												<li><a href="ece-3400-group.github.io/Lab 1/ParallaxServos-3400/ParallaxServos-3400.ino" class="button" download>Download Code</a></li>
 											</ul>
@@ -176,7 +216,11 @@
 									<header class="major">
 										<h2>Summary</h2>
 									</header>
-									<p>In this lab we were able to develop a functioning robot that drew out a figure-8 pattern. In the process we learned how to read and write to the ports of our Arduino board, and operate our Parallax servos with success. In future labs, we will make it a point to save our code separately more often so that we can show the exact file that we accomplished the particular task with.</p>
+									<p>In this lab we were able to develop a
+                                    functioning robot that drew out a figure-8
+                                    pattern. In the process we learned how to
+                                    read and write to the pins of our Arduino
+                                    board, and operate our Parallax servos with success. In future labs, we will make it a point to save our code separately more often so that we can show the exact file that we accomplished the particular task with.</p>
 									<h3>Extra Credit</h3>
 									<p>The Arduino board we used didn't have enough separate 5V pins for our needs, so we soldered a wire to the 5V pin to a small board, from which we were able to solder additional wires to wherever we needed power (primarily the servos). In our final video, you can see a tiny board hanging off the back of the robot! </p>
 									<ul class="actions">
