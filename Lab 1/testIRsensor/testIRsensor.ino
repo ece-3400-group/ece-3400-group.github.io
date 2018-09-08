@@ -138,7 +138,7 @@ void decideRoute(int sensorVals []){
       step++;
       turnLeft();
     }
-    step = step % 8;
+    step  = step % 8;
   }
   else if(sensorVals[2] < 200){   //right sensor on line now turn right
     leftSpeed = 180;
