@@ -1,0 +1,161 @@
+<!DOCTYPE HTML>
+<!--
+	Forty by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Milestone 1</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+				<!-- Note: The "styleN" class below should match that of the banner element. -->
+					<header id="header" class="alt style2">
+						<a href="index.html" class="logo"><strong>ECE 3400</strong></a>
+						<nav>
+							<a href="#menu">Menu</a>
+						</nav>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<ul class="links">
+							<li><a href="index.html">Home</a></li>
+							<li><a href="team_contract.html">Team Contract</a></li>
+						</ul>
+					</nav>
+
+				<!-- Banner -->
+				<!-- Note: The "styleN" class below should match that of the header element. -->
+					<section id="banner" class="style2">
+						<div class="inner">
+							<span class="image">
+								<img src="images/pic07.jpg" alt="" />
+							</span>
+							<header class="major">
+								<h1>Lab 1</h1>
+							</header>
+							<div class="content">
+								<p>Shot with Iphone X</p>
+							</div>
+						</div>
+					</section>
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- One -->
+							<section id="one">
+								<div class="inner">
+									<header class="major">
+										<h2>Introduction</h2>
+									</header>
+									<p>In Lab 1, we were able to assemble a functioning robot that was able to be given a simple script and run autonomously. In this next phase, we implemented line detection sensors so that our robot could take some guidance from it surroundings and use that to direct its movement as well.</p>
+								</div>
+							</section>
+
+						<!-- Two -->
+							<section id="two" class="spotlights">
+								<section>
+									<img src="images/QRE113.png" >
+									<div class="content">
+										<div class="inner">
+											<header class="major">
+												<h3>Beginning Line Tracing: Line Detection</h3>
+											</header>
+                        					<p>The lines we were tracing were white stripes on a black background. Hooking up the <a href="https://www.sparkfun.com/products/9453">QRE113 IR sensor</a> (pictured left) gave us values less than 200 mV over the line, and in the range of 400-550 mV above the table surface.</p>
+										</div>
+									</div>
+								</section>
+								<section>
+									<img src="images/linetracing.jpg" height="300em" >
+									<div class="content">
+										<div class="inner">
+											<header class="major">
+												<h3>Converting Data to Decision</h3>
+											</header>
+											<p>After we were able to accurately detect the line and background, we attached 3 sensors to the front of our robot to detect where the robot was relative to the line. When the middle sensor was activated, our robot was directly above the line. When the left sensor was activated, our robot was given a command to adjust left; the same logic was used when the robot's right sensor was activated.</p>
+										</div>
+									</div>
+								</section>
+								<section>
+									<iframe width="560" height="auto" src="https://www.youtube.com/embed/irl4QpPJS9c?ecver=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+									<div class="content" width="auto">
+										<div class="inner">
+											<header class="major">
+												<h3>Tackling Turns</h3>
+											</header>
+											<p>The implemented code up to this point allows our robot to trace a line. However, a major hurdle to completing a figure-8 is turning the robot from one line onto another line. Travelling to these intersections is relatively straightforward using the outline defined above, but adding complexity to trace intersections requires additional testing of our robot. First, we notice that as we reach an intersection, all of our IR sensors detect a line underneath them. This gives us a good indicator that we're approaching an intersection and lets us finish travelling to the intersection before we begin a 90 degree turn. The turn itself is relatively straight forward as well, turning our wheels in opposite directions. If everything executes properly now, our robot will detect and change over line tracing at intersections.</p>
+										</div>
+									</div>
+								</section>
+								<section>
+									<iframe width="560" height="auto" src="https://www.youtube.com/embed/WpGWhZh5ofk" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+									<div class="content">
+										<div class="inner">
+											<header class="major">
+												<h3>Figure 8 Tracking</h3>
+											</header>
+											<p>The Milestone is almost accomplished now. We are able to direct our robot to trace lines and make accurate turns. The only piece left is directing our robot through a series of turns to trace out a figure 8. To accomplish this, we defined right and left turns corresponding to a variable which kept track of executed turns up until that point. To check out the implementation of the various parts of this Milestone and try it yourself, download our code below!</p>
+											<ul class="actions">
+												<li><a href="ece-3400-group.github.io/Lab 1/testIRsensor/testIRsensor.ino" class="button" download>Download Code</a></li>
+											</ul>
+										</div>
+									</div>
+								</section>
+							</section>
+						<!-- Three -->
+							<section id="three">
+								<div class="inner">
+									<header class="major">
+										<h2>Summary</h2>
+									</header>
+									<p>Previously, we learned to use an Arduino Uno to operate servos, giving our robot some level of autonomous movement. However, the decisions for which servo was activated when had been determined by pre-written code. In this milestone, we made the decision for activating servos dependent on our robots environment. IR sensors tracked lines of tape and our robot was able to respond by tracing the path of that tape, even around turns. This culminated in our robot autonomously tracing a figure-8 pattern.</p>
+									<h3>Thoughts</h3>
+									<p>The current implementation of turning and path correction uses the Arduino <code>delay()</code> function throughout it. This isn't the most rigorous setup, as a discharged battery might affect the wheels speeds of our servos and change the distance our robot travels during those delays. Additionally, in the videos posted above, our robot stuttered throughout its tracking. This was a result of a poorly attached bearing. Since this filming, we've made adjustments to make sure our bearing is tightly attached at the robot has its sensors above the ground constantly, instead of bouncing back and forth.</p>
+									<ul class="actions">
+										<li><a href="index.html" class="button next">Back to Home</a></li>
+									</ul>
+								</div>
+							</section>
+
+					</div>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<div class="inner">
+							<ul class="icons">
+								<li><a href="#" class="icon alt fa-twitter"><span class="label">Twitter</span></a></li>
+								<li><a href="#" class="icon alt fa-facebook"><span class="label">Facebook</span></a></li>
+								<li><a href="#" class="icon alt fa-instagram"><span class="label">Instagram</span></a></li>
+								<li><a href="https://github.com/ece-3400-group/" class="icon alt fa-github"><span class="label">GitHub</span></a></li>
+								<li><a href="#" class="icon alt fa-linkedin"><span class="label">LinkedIn</span></a></li>
+							</ul>
+							<ul class="copyright">
+								<li>&copy; Cornell University</li><li>Design Credits: <a href="https://html5up.net">HTML5 UP</a></li>
+							</ul>
+						</div>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
