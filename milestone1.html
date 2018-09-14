@@ -61,14 +61,16 @@
 									</header>
 									<p>
 										In Lab 1, we were able to assemble a
-										functioning robot that was able 
+										functioning robot named LeBron that was able 
 										to be given a simple script and 
 										run autonomously. In this next 
 										phase, we implemented line 
-										detection sensors so that our robot
+										detection sensors so that LeBron
 										could take some guidance from it
 										surroundings and use that to 
-										direct its movement as well.</p>
+										direct its movement. Finally, we used 
+									our line detection functionality to implement a simple
+									Figure 8. </p>
 								</div>
 							</section>
 
@@ -86,8 +88,8 @@
 									Hooking up the 
 									<a href="https://www.sparkfun.com/products/9453">QRE113 
 										IR sensor</a> (pictured left) gave us 
-									values less than 200 mV over the line, and in 
-									the range of 400-550 mV above the table surface.</p>
+									values less than 200 mV over the line demarcated by white tape.Otherwise, it 
+									measured in the	the range of 400-550 mV above the table surface (darker colors). </p>
 										</div>
 									</div>
 								</section>
@@ -104,13 +106,15 @@
 												of our robot to detect where the 
 												robot was relative to the line.
 												When the middle sensor was activated,
-												our robot was directly above the 
+												LeBron was directly above the 
 												line. When the left sensor was 
-												activated, our robot was given
+												activated, LeBron was given
 												a command to adjust left; the 
 												same logic was used when the 
 												robot's right sensor was 
-												activated.</p>
+												activated. This way,LeBron was able to 
+												know its position relative to the line at all times.
+											</p>
 										</div>
 									</div>
 								</section>
@@ -144,11 +148,11 @@
 												a 90 degree turn. The turn 
 												itself is relatively straight
 												forward as well, turning our 
-												wheels in opposite directions. 
-												If everything executes properly 
-												now, our robot will detect and 
-												change over line tracing at 
-												intersections.</p>
+												wheels in opposite directions or 
+												rotating one wheel and pivoting on
+												the other. Therefore, at intersections, LeBron is able
+												to make accurate turns. 
+												</p>
 										</div>
 									</div>
 								</section>
@@ -210,7 +214,12 @@
 										filming, we've made adjustments to make sure 
 										our bearing is tightly attached at the robot 
 										has its sensors above the ground constantly, 
-										instead of bouncing back and forth.</p>
+										instead of bouncing back and forth, resulting in smoother operation.
+									Furthermore, we changed our turn logic to be less reliant on timed delays. Instead, 
+									the outer sensors detect when a turn is happening and Lebron continues the wheel motion
+									until the outer sensor in question returns to a white line. In other words, the sensor detects when a
+									sweep is begun and complete, allowing LeBron to turn and follow lines not necessarily at right angles. 
+									</p>
 									<ul class="actions">
 										<li><a href="index.html" class="button next">Back to Home</a></li>
 									</ul>
