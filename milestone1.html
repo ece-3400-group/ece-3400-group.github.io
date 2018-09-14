@@ -88,8 +88,8 @@
 									Hooking up the 
 									<a href="https://www.sparkfun.com/products/9453">QRE113 
 										IR sensor</a> (pictured left) gave us 
-									values less than 200 mV over the line demarcated by white tape.Otherwise, it 
-									measured in the	the range of 400-550 mV above the table surface (darker colors). </p>
+                                    <code>analogRead</code>values less than 200 over the line demarcated by white tape.Otherwise, it 
+									measured in the	the range of 400-550 above the table surface (darker colors). </p>
 										</div>
 									</div>
 								</section>
@@ -105,7 +105,10 @@
 												we attached 3 sensors to the front
 												of our robot to detect where the 
 												robot was relative to the line.
-												When the middle sensor was activated,
+												When the middle sensor was
+                                                activated (ie, its readings
+                                                showed that it was above the
+                                                white line / was low),
 												LeBron was directly above the 
 												line. When the left sensor was 
 												activated, LeBron was given
@@ -137,7 +140,7 @@
 												adding complexity to trace 
 												intersections requires additional 
 												testing of our robot. First, 
-												we notice that as we reach an 
+												we noticed that as we reach an 
 												intersection, all of our IR 
 												sensors detect a line underneath 
 												them. This gives us a good 
@@ -146,8 +149,7 @@
 												finish travelling to the 
 												intersection before we begin 
 												a 90 degree turn. The turn 
-												itself is relatively straight
-												forward as well, turning our 
+												itself is relatively straightforward as well, turning our 
 												wheels in opposite directions or 
 												rotating one wheel and pivoting on
 												the other. Therefore, at intersections, LeBron is able
@@ -211,7 +213,8 @@
 										Additionally, in the videos posted above, our robot 
 										stuttered throughout its tracking. This was a 
 										result of a poorly attached bearing. Since this 
-										filming, we've made adjustments to make sure 
+										filming, we've made adjustments and 3D
+                                        printed a new part to make sure 
 										our bearing is tightly attached at the robot 
 										has its sensors above the ground constantly, 
 										instead of bouncing back and forth, resulting in smoother operation.
@@ -219,6 +222,13 @@
 									the outer sensors detect when a turn is happening and Lebron continues the wheel motion
 									until the outer sensor in question returns to a white line. In other words, the sensor detects when a
 									sweep is begun and complete, allowing LeBron to turn and follow lines not necessarily at right angles. 
+									    <ul class="actions">
+												<li><a
+                                                        href="ece-3400-group.github.io/images/26mm_Ball_bearing
+                                                        v4.stl" class="button"
+                                                        download>Download Bearing
+                                                    STL</a></li>
+											</ul>
 									</p>
 									<ul class="actions">
 										<li><a href="index.html" class="button next">Back to Home</a></li>
