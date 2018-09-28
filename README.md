@@ -1,6 +1,6 @@
 # ece-3400-group.github.io
 
-The Github repo for the the 23 Savages Autonomous Intelligent System. 
+Tha Github repo for Camp Tugunma. 
 
 Our Website:
 https://ece-3400-group.github.io/
