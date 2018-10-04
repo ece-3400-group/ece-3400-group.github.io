@@ -6,7 +6,7 @@
 -->
 <html>
 	<head>
-		<title>Labs</title>
+		<title>Lab 2</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
@@ -45,7 +45,7 @@
 								<h1>Lab 2</h1>
 							</header>
 							<div class="content">
-								<p>LABron Gets Handles </p>
+								<p>LABron Gets Some Gear</p>
 							</div>
 						</div>
 					</section>
@@ -59,8 +59,22 @@
 									<header class="major">
 										<h2>Introduction</h2>
 									</header>
-									<p>In Lab 2, we built out our robots sensors
-										to include photodiodes and a microphone. </p>
+									<p>In this lab we built out our robots sensors to include photodiodes and a microphone. The goal of Lab 2 was for our robot to be able to respond to a 660Hz whistle and separately detect both a 6.08 kHz and 18 kHz IR signal emitted from treasures and other robots respectively. To accomplish this, we split into two groups, an Acoustic Team and an IR Team. The Acoustic Team was composed of Ho-Jung and David. The IR Team was composed of Rohan and Shubhom. Below we detail the methodology by which we accomplished these tasks.</p>
+
+									<header class="major">
+										<h4>Fast Fourier Transform Library</h4>
+									</header>
+									<p>
+										The purpose of the Open Music Labs Arduino FFT package is to quickly identify the frequency of inputs to the Arduino. Ideally, analog
+										 filters we create will be able to filter out undesirable
+										  signals (decoys and ambient noise), allowing a software solution
+											 to detect favorable signals (such as treasures). In the Fourier transform, the frequency of received signals will have a
+												significantly higher amplitude than other ones,
+												 making detection of treasures and start signals simple.
+												  As a result, the FFT is a convenient way to sample
+													 frequencies in a way that can be interpreted in the
+													  Arduino software.
+									</p>
 								</div>
 							</section>
 
@@ -68,20 +82,60 @@
 							<section id="two">
 								<div class="inner">
 									<header class="major">
-										<h2>Fast Fourier Transform</h2>
+										<h2>IR Team</h2>
 									</header>
 									<p>
-										The purpose of the FFT package is to allow the software
-										to distinguish between different frequencies. The ideal
-										 circuits created will be able to filter out undesirable
-										  signals (decoys and ambient noise), allowing the software
-											 to detect favorable signals (such as treasures). In the
-											  software, the FFT of favorable signal will have a
-												significantly higher amplitude from other ones,
-												 thereby allowing logical detection of treasures.
-												  As a result, the FFT is a convenient way to signal
-													 frequencies in a way that can be interpreted in the
-													  Arduino software.
+										In this section we will discuss how Shubhom and Rohan were able to implement the IR sensoron a separate breadboard through various stages.
+									</p>
+								</div>
+							</section>
+
+						<!-- Three -->
+							<section id="three" class="spotlights">
+								<section>
+									<img src="images/Lab2/IRpt1.png" style="height:30em;width:31em;padding-left:1em;"/>
+									
+									<div class="content">
+										<div class="inner">
+											<header class="major">
+												<h3>Beginning to Sense IR</h3>
+											</header>
+											<p>We were able to begin sensing IR light with a very simple setup. We place our Vout node connected to a pulldown resistor, separated from Vdd by the phototransistor sensor. This design rests at 0V in the absence of IR light, and rises as sensed IR light allows current to flow through the circuit and a growing voltage drop is measured across the resistor. Increasing the resistance here would make circuit more sensitive, but for our needs a 2kΩ was enough.</p>
+										</div>
+									</div>
+								</section>
+								<section>
+									<img src="images/pic09.jpg" alt="" data-position="top center" />
+									<div class="content">
+										<div class="inner">
+											<header class="major">
+												<h3>Adding Analog Filtering and Gain</h3>
+											</header>
+											<p>The rationale behind this decision was relatively straightforward. The signal we were picking up off our IR sensor would fall to 0V in the absence of light, but rests very close to 0V when detected IR light isn't very strong as well. Giving our sensor output gain would therefore allow us to see the consistent 6.08 kHz signal we are looking for. However, along with this signal we would see the saturating 18 kHz signal. In order to avoid this issue, we implemented a low pass filter with a pole of 12 kHz to reduce the amplitude of the decoy signals our robot would have to parse through.</p>
+										</div>
+									</div>
+								</section>
+								<section>
+									<img src="images/pic10.jpg" alt="" data-position="25% 25%" />
+									<div class="content">
+										<div class="inner">
+											<header class="major">
+												<h3>Software Interpretation of Signal</h3>
+											</header>
+											<p>Determining the presence of a 6 kHz signal right now is done using the FFT library. We find that the signal appears in <b>bin/bins XXX</b>. Because we generally see a large amount of environmental IR light, we only accept that a 6 kHz signal is indeed present when the perceived amplitude is 3 times larger than the bins around it.</p>
+										</div>
+									</div>
+								</section>
+							</section>
+
+							<!-- Two -->
+							<section id="two">
+								<div class="inner">
+									<header class="major">
+										<h2>Audio Team</h2>
+									</header>
+									<p>
+										
 									</p>
 								</div>
 							</section>
