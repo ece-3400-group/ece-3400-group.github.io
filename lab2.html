@@ -165,24 +165,27 @@
 									</div>
 								</section>
 								<section>
-									<a href="generic.html" class="image">
-										<img src="images/pic10.jpg" alt="" data-position="25% 25%" />
-									</a>
+									<img src="images/pic10.jpg" alt="" data-position="25% 25%" />
 									<div class="content">
 										<div class="inner">
 											<header class="major">
-												<h3>Sed nunc ligula</h3>
+												<h3>Identifying Signals</h3>
 											</header>
-											<p>Nullam et orci eu lorem consequat tincidunt vivamus et sagittis magna sed nunc rhoncus condimentum sem. In efficitur ligula tate urna. Maecenas massa sed magna lacinia magna pellentesque lorem ipsum dolor. Nullam et orci eu lorem consequat tincidunt. Vivamus et sagittis tempus.</p>
-											<ul class="actions">
-												<li><a href="generic.html" class="button">Learn more</a></li>
-											</ul>
+											<p>Finally, we were able to use the Arduino FFT Library to begin detecting the 660 Hz signal that we were searching for. From this point, all we have left to do is create an automatic detection algorithm for both audio and IR signals.</p>
 										</div>
 									</div>
 								</section>
 							</section>
 
 						<!-- Four -->
+						<section id="four">
+								<div class="inner">
+									<header class="major">
+										<h2>Automatic Detection</h2>
+									</header>
+									<p>Previoulsy, we were able to determine which FFT bins a signal would fall into within some range of error (eg ± 2 bins). Armed with this knowledge, we were able to create a deteciton algorithm for each of the 3 signals we were using around our robot: a 660 Hz audio signal, a 6.08 Khz IR signal, and an 18 kHz IR signal. Above a detected threshold, we determined that the signal was in fact present in the robots environment. To make it simpler to run the FFT on bother IR and audio circuit outputs, we combined the Amplifer signals using a simple adder circuit and were thus able to analogRead on one port and run the FFT on this data, cutting down on processing by a factor of 2.</p>
+								</div>
+							</section>
 							<section id="four">
 								<div class="inner">
 									<header class="major">
