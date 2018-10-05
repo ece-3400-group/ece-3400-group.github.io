@@ -85,7 +85,7 @@
 										<h2>IR Team</h2>
 									</header>
 									<p>
-										In this section we will discuss how Shubhom and Rohan were able to implement the IR sensoron a separate breadboard through various stages.
+										In this section we will discuss how Shubhom and Rohan were able to implement the IR sensor on a separate breadboard and capture correct frequency analyses using the FFT library.
 									</p>
 								</div>
 							</section>
@@ -111,7 +111,7 @@
 											<header class="major">
 												<h3>Adding Analog Filtering and Gain</h3>
 											</header>
-											<p>The rationale behind this decision was relatively straightforward. The signal we were picking up off our IR sensor would fall to 0V in the absence of light, but rests very close to 0V when detected IR light isn't very strong as well. Giving our sensor output gain would therefore allow us to see the consistent 6.08 kHz signal we are looking for. However, along with this signal we would see the saturating 18 kHz signal. In order to avoid this issue, we implemented a low pass filter with a pole of 12 kHz to reduce the amplitude of the decoy signals our robot would have to parse through.</p>
+											<p>The rationale behind this decision was relatively straightforward. The signal we were picking up off our IR sensor would fall to 0V in the absence of light, but rests very close to 0V when detected IR light isn't very strong as well. Amplifying our sensor output would therefore allow us to see the consistent 6.08 kHz signal we are looking for. However, the 18 kHz signal's proximity in the frequency domain to 6 kHz would result in some saturation of the signal we're searching for. In order to avoid this issue, we implemented a low pass filter with a pole of 12 kHz to reduce the amplitude of the decoy signals and noise our robot would have to parse through. <b>To the left you can view our FFT analysis of a 6kHz signal and 18 kHz signal in bins 20 and 45 respectively. </b></p>
 										</div>
 									</div>
 								</section>
@@ -122,7 +122,7 @@
 											<header class="major">
 												<h3>Software Interpretation of Signal</h3>
 											</header>
-											<p>Determining the presence of a 6 kHz signal right now is done using the FFT library. We find that the signal appears in <b>bin/bins XXX</b>. Because we generally see a large amount of environmental IR light, we only accept that a 6 kHz signal is indeed present when the perceived amplitude is 3 times larger than the bins around it.</p>
+											<p>Determining the presence of a 6 kHz signal right now is done using the FFT library. We find that the signal appears in <b>bin/bins XXX</b>. Because we generally see a large amount of environmental IR light, we only accept that a 6 kHz signal is indeed present when the perceived amplitude is approximately 3 times larger than the bins around it.</p>
 										</div>
 									</div>
 								</section>
@@ -135,7 +135,7 @@
 										<h2>Audio Team</h2>
 									</header>
 									<p>
-										
+										In this section we will discuss how Ho-Jung and David were able to construct a functioning microphone circuit on a separate breadboard and determine frequency using the FFT library.
 									</p>
 								</div>
 							</section>
