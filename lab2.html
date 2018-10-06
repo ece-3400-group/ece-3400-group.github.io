@@ -126,6 +126,13 @@
 								</section>
 								<section>
 									<img src="images/pic09.jpg" alt="" data-position="top center" />
+									<figure class="class" >
+									<!-- style="display:flex" -->
+											<img src="images/Lab2/Lab2_BeforeFilter_Optical.png" alt="BeforeFilter_Optical"/>
+											<figcaption>Pre-filtering IR Signal  FFT.</figcaption>
+											<img src="images/Lab2/Lab2_AfterFilter_Optical.png" alt="AfterFilter_Optical"/>
+											<figcaption>Filtered IR Signal FFT.</figcaption>
+									</figure>
 									<div class="content">
 										<div class="inner">
 											<header class="major">
@@ -141,25 +148,13 @@
 												for. In order to avoid this issue, we implemented a low pass filter
 												with a pole of 12 kHz to reduce the amplitude of the decoy signals
 												and noise our robot would have to parse through.
-												<b>To the left you can view our FFT analysis of a 6kHz signal and 18 kHz signal in bins
-												20 and 45 respectively. To the right you can view our FFT analysis of a 6kHz signal and 18 kHz
+												<b>To the upper you can view our FFT analysis of a 6.08kHz signal and 18 kHz signal in bins
+												44 and 122 respectively. To the buttom you can view our FFT analysis of a 6.08kHz signal and 18 kHz
 												signal in bins 44 and 122 respectively. </b></p>
 										</div>
 									</div>
 								</section>
-								<section>
-									<div class="content">
-										<div class="inner">
-											<figure>
-											<img src="images/Lab2/Lab2_BeforeFilter_Optical.png" align="left"/>
-													<figcaption>Pre-filtering IR Signal  FFT.</figcaption>
-											</figure>
-											<figure>
-											<img src="images/Lab2/Lab2_AfterFilter_Optical.png" align="right"/>
-													<figcaption>Filtered IR Signal FFT.</figcaption>
-											</figure>
-									</div>
-								</section>
+
 								<section>
 									<img src="images/pic10.jpg" alt="" data-position="25% 25%" />
 									<div class="content">
@@ -212,8 +207,10 @@
 										</div>
 									</div>
 								</section>
-								<section>
-									<img src="images/Lab2/660Hz_Time_Audio.png" alt="" data-position="top center" />
+
+								<!-- Four -->
+								<section id="four" class="spotlights">
+									<img src="images/Lab2/660Hz_Time_Audio.png" alt="" data-position="top center" /> <!---data-position="top center"--->
 									<div class="content">
 										<div class="inner">
 											<header class="major">
@@ -228,6 +225,7 @@
 
 									</div>
 								</section>
+
 								<section>
 									<img src="images/pic10.jpg" alt="" data-position="25% 25%" />
 									<div class="content">
@@ -245,8 +243,8 @@
 								</section>
 							</section>
 
-						<!-- Four -->
-						<section id="four">
+						<!-- Five -->
+						<section id="five" class="spotlights">
 								<div class="inner">
 									<header class="major">
 										<h2>Automatic Detection</h2>
@@ -264,9 +262,10 @@
 										signals using a simple adder circuit (pictured below) and were thus able to analogRead on
 										one port and run the FFT on this data, cutting down on processing by
 										a factor of 2.</p>
-										<img src="images/Lab2/Lab2_bb.png" alt="" data-position="top center" />
+										<img src="images/Lab2/Lab2_bb.png" alt="" data-position="center" width="749" height="281"/>
 								</div>
 							</section>
+
 							<section id="four">
 								<div class="inner">
 									<header class="major">
