@@ -176,39 +176,24 @@
 								</section>
 
 								<section>
-                                    <section>
-									<img src="images/Lab2/660Hz_Time_Audio.png" style="height:25em;width:25em;" />
-										<img
-                                        src="images/Lab2/AudioCircuit_Filtered.png" style="height:20em;width:32em;" />
-                                    
-										
-                                    </section>
+                  <section>
+										<img src="images/Lab2/660Hz_Time_Audio.png" style="height:25em;width:25em;" />
+										<img src="images/Lab2/AudioCircuit_Filtered.png" style="height:20em;width:32em;" />
+									</section>
 									<div class="content">
 										<div class="inner">
 											<header class="major">
 												<h3>Detecting our Desired Audio Signal</h3>
 											</header>
-											<p>We combined a simple RC low pass
-                                            filter after the output of the
-												amplifier to block out
-                                                background chatter and any
-                                                decoy frequencies. When putting
-                                                the amplified microphone signal
-                                                on the scope, we saw a spurious
-                                                ~1300 kHz frequency so we made
-                                                a low pass with a R = 12 kOhm and
-                                                C = 100 uF to get a cutoff
-                                                frequency of 1/(2*pi*R*C) =
-                                                1326 Hz. A picture of the
-                                                microphone signal amplified is
-                                            shown, with the microphone signal
-                                            in blue and the amplified signal in
-                                            yellow. FFTs of the whole system is
-                                            also shown, unfiltered on the top
-                                            and filtered on the bottom. From
-                                            this, it can be seen that the
-                                            filter attenuates the spurious
-                                            frequency a bit.</p>
+											<p>We combined a simple RC low pass filter after the output of the
+												amplifier to block out background chatter and any decoy frequencies.
+												When putting the amplified microphone signal on the scope, we saw a
+												spurious ~1300 kHz frequency so we made a low pass with a R = 12 kOhm and
+												C = 100 uF to get a cutoff frequency of 1/(2*pi*R*C) = 1326 Hz. A picture of the
+												microphone signal amplified is shown, with the microphone signal
+												in blue and the amplified signal in yellow. FFTs of the whole system is
+												 also shown, unfiltered on the top and filtered on the bottom. From
+												 this, it can be seen that the filter attenuates the spurious frequency a bit.</p>
 										</div>
 
 									</div>
@@ -222,12 +207,12 @@
 								<section>
 									<img src="images/Lab2/FFT_CH2_660Hz2.png" style="padding-right: 5em;"/>
 									<img src="images/Lab2/FFT_CH1_660Hz2.png"/>
-									
+
 								</section>
 								<p>
 									On the left we see the pre-amplified unfiltered signal, while the total circuit output is shown on the right. Notice that the FFT displays a number of harmonics which end up in our signal output. These are digitally filtered/ignored later.
 								</p>
-								
+
 							</div>
 						</section>
 
