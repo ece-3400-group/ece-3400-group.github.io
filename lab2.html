@@ -14,6 +14,7 @@
 		<script type="text/javascript" async
   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async>
 		</script>
+		<script type="text/javascript" src="http://latex.codecogs.com/latexit.js"></script>
 	</head>
 	<body class="is-preload">
 
@@ -141,10 +142,9 @@
 							<section id="three" class="spotlights">
 								<section>
 									<section style="padding-left: 1em;">
-									<img src="images/Lab2/Lab2 - MIC_bb.png" style="height:20em;width:32em;padding-left:0.3em;" />
-									<img
-                                    src="images/Lab2/AudioCircuit_noFilter.png" style="height:20em;width:32em;padding-left:0.3em;" />
-                                </section>
+										<img src="images/Lab2/Lab2 - MIC_bb.png" style="height:20em;width:32em;padding-left:0.3em;" />
+										<img src="images/Lab2/AudioCircuit_noFilter.png" style="height:20em;width:32em;padding-left:0.3em;" />
+                  </section>
 									<div class="content">
 										<div class="inner">
 											<header class="major">
@@ -191,7 +191,7 @@
 											<p>We combined a simple RC low pass filter after the output of the
 												amplifier to block out background chatter and any decoy frequencies.
 												When putting the amplified microphone signal on the scope, we saw a
-												spurious ~1300 kHz frequency so we made a low pass with a R = 12 k &#8486; and
+												spurious ~1300 kHz frequency so we made a low pass with a R = 12 kΩ; and
 												C = 100 uF to get a cutoff frequency of \( 1 \over 2 \pi RC \)= 1326 Hz. A picture of the
 												microphone signal amplified is shown, with the microphone signal
 												in blue and the amplified signal in yellow. FFTs of the whole system is
@@ -239,10 +239,10 @@
                                             This led us to believe that the
                                             Arduino was actually sampling ~67
                                             kHz instead, because for 256
-                                            samples, the 255th sample = fs/2.
-                                            So, each bin is (fs/2)*(1/256).
-                                            Since the 660 Hz was in bin 6, 660
-                                            = (fs/2)*(1/256)*6.
+                                            samples, the 255th sample = \( fs \over 2 \).
+                                            So, each bin is \( fs \over 2\)\(1 \over 256\).
+                                            Since the 660 Hz was in bin 6, 660 (Hz)
+                                            = \(fs \over 2\)\(1 \over 256\)\(6\) (Hz).
                                             Note the the FFT shown was not
                                             normalized.
                                             </p>
