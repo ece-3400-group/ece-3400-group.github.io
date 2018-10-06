@@ -62,7 +62,7 @@
 									<p>In this lab we built out our robots sensors to include photodiodes and 
 										a microphone. The goal of Lab 2 was for our robot to be able to 
 										respond to a 660Hz whistle and separately detect both a 6.08 kHz
-										and 18 kHz IR signal emitted from treasures and other robots respectively. 
+										and 18 kHz IR signal emitted from other robots and decoys respectively. 
 										To accomplish this, we split into two groups, an Acoustic Team and an IR Team. T
 										The Acoustic Team was composed of Ho-Jung and David. The IR Team was composed 
 										of Rohan and Shubhom. Below we detail the methodology by which we 
@@ -74,15 +74,13 @@
 									<p>
 										The purpose of the Open Music Labs Arduino FFT package is to quickly identify
 										the frequency of inputs to the Arduino. Ideally, analog
-										filters we create will be able to filter out undesirable
-										signals (decoys and ambient noise), allowing a software solution
-										to detect favorable signals (such as treasures). In the Fourier transform,
+										filters we create will be able to distinguish different signals from other robots, decoys, and the start whistle. In the Fourier transform,
 										the frequency of received signals will have a
 										significantly higher amplitude than other ones,
 										making detection of treasures and start signals simple.
 										As a result, the FFT is a convenient way to sample
-										frequencies in a way that can be interpreted in the
-										 Arduino software.
+										frequencies in a way that can be used with 
+										 Arduino logic to allow robots to interact with their surroundings. 
 									</p>
 								</div>
 							</section>
@@ -141,7 +139,7 @@
 												with a pole of 12 kHz to reduce the amplitude of the decoy signals 
 												and noise our robot would have to parse through. <b>To the left you
 												can view our FFT analysis of a 6kHz signal and 18 kHz signal in bins 
-												20 and 45 respectively. </b></p>
+												44 and 122 respectively. </b></p>
 										</div>
 										<img src="images/Lab2/Lab2_BeforeFilter_Optical.png"/>
 											  <figcaption>Pre-filtering IR Signal  FFT.</figcaption>
@@ -156,7 +154,14 @@
 											<header class="major">
 												<h3>Software Interpretation of Signal</h3>
 											</header>
-											<p>Determining the presence of a 6 kHz signal right now is done using the FFT library. We find that the signal appears in <b>bin/bins XXX</b>. Because we generally see a large amount of environmental IR light, we only accept that a 6 kHz signal is indeed present when the perceived amplitude is approximately 3 times larger than the bins around it.</p>
+											<p>Determining the presence of a 6 kHz signal right now is
+												done using the FFT library. We find that the signal
+												appears in <b>bin/bins 44</b>. Because we generally see a large amount of environmental IR light,
+												we only accept that a 6 kHz signal is indeed present when the perceived 
+												amplitude is of a predefined threshold in magnitude. This threshold is determined by analyzing 
+												all FFT frequencies and observing the largest peaks. The program logic then assesses if the bins 
+											where we expect to see the whistle signal (660Hz), IR hat (6.08 kHz), and IR Decoy (18 kHz) contain FFT
+											magnitudes that surpass the threshold we defined. </p>
 										</div>
 									</div>
 								</section>
@@ -195,7 +200,7 @@
 									</div>
 								</section>
 								<section>
-									<img src="images/pic09.jpg" alt="" data-position="top center" />
+									<img src="images/Lab2/660Hz_Time_Audio.png" alt="" data-position="top center" />
 									<div class="content">
 										<div class="inner">
 											<header class="major">
@@ -207,6 +212,7 @@
 												we were able to view signals through the FFT function 
 												of our oscilloscope (pictured to the right).</p>
 										</div>
+
 									</div>
 								</section>
 								<section>
