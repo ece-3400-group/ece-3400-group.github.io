@@ -220,7 +220,8 @@
 											</header>
 											<p>Finally, we were able to use the Arduino FFT Library
 												to begin detecting the 660 Hz signal that we were
-												searching for. From this point, all we had left to
+												searching for. We find the max
+                                                point of FFT magnitudes at 660 Hz. From this point, all we had left to
 												do is the creation of an automatic detection algorithm for
 												both audio and IR signals.</p>
                                             <p>
@@ -350,6 +351,24 @@
 								<header class="major">
 									<h2>Automatic Detection and Summary</h2>
 								</header>
+                                <p> In the end, we could distinguish a 6.08 kHz
+                                signal from a 18 Hz IR signal (video below).
+                                The video below also shows both the audio and
+                                IR code working together, and shows the Arduino
+                                distinguishing a 660 Hz tone from the music on
+                                the phone close to it (playing from Spotify).
+                                When the 660 Hz tone is detected, the Serial
+                                monitor prints out <code>Whistle
+                                    detected!</code>. When the IR hat is
+                                detected, <code>IR hat detected!</code> is
+                                printed, and when the IR decoy is detcted,
+                                <code>IR decoy detected!</code> is printed.
+                                (You may have to pause the screen during the
+                                Serial monitor printouts.)
+                                <p> In our setup, all 3 messages are printed
+                                because we put all 3 components together to
+                                show they could all work together in 1 system.</p>
+                                </p>
 								<p>Previously, we were able to determine which FFT bins a signal would
 										fall into within some range of error (eg ± 2 bins). Armed with
 										this knowledge, we were able to create a deteciton algorithm
