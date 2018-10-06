@@ -88,11 +88,8 @@
 								</div>
 							</section>
 
-						<!-- Two -->
-
-
 							<!-- Two -->
-							<section id="two">
+							<section id="two" class="spotlights">
 								<div class="inner">
 									<header class="major">
 										<h2>Audio Team</h2>
@@ -105,7 +102,7 @@
 								</div>
 							</section>
 
-						<!-- Three -->
+							<!-- Three -->
 							<section id="three" class="spotlights">
 								<section>
 									<img src="images/Lab2/Lab2 - MIC_bb.png" style="height:20em;width:33em;padding-left:2em;" />
@@ -124,8 +121,7 @@
 									</div>
 								</section>
 
-								<!-- Four -->
-								<section id="four" class="spotlights">
+								<section>
 									<img src="images/Lab2/660Hz_Time_Audio.png" style="height:25em;width:25em;padding-right:1em;" />
 									<div class="content">
 										<div class="inner">
@@ -150,15 +146,17 @@
 												<h3>Identifying Signals</h3>
 											</header>
 											<p>Finally, we were able to use the Arduino FFT Library
-												to begin detecting the 660 Hz signal that we were s
-												earching for. From this point, all we had left to
-												do the creation of an automatic detection algorithm for
+												to begin detecting the 660 Hz signal that we were
+												searching for. From this point, all we had left to
+												do is the creation of an automatic detection algorithm for
 												both audio and IR signals.</p>
 										</div>
 									</div>
 								</section>
 							</section>
-						<section id="two">
+
+						<!-- Four -->
+						<section id="four" class="spotlights">
 								<div class="inner">
 									<header class="major">
 										<h2>IR Team</h2>
@@ -171,8 +169,7 @@
 								</div>
 							</section>
 
-						<!-- Three -->
-							<section id="three" class="spotlights">
+							<section>
 								<section>
 									<img src="images/Lab2/IRpt1.png" style="height:25em;width:25em;padding-left:1em;"/>
 
@@ -193,6 +190,7 @@
 										</div>
 									</div>
 								</section>
+
 								<section>
 									<section>
 										<img src="images/Lab2/Lab2_BeforeFilter_Optical.png"/>
@@ -213,66 +211,76 @@
 												to 6 kHz would result in some saturation of the signal we're searching
 												for. In order to avoid this issue, we implemented a low pass filter
 												with a pole of 12 kHz to reduce the amplitude of the decoy signals
-												and noise our robot would have to parse through. Pictured above you can view our FFT analysis of a 6.08kHz signal before amplification and filtering. Below you can view the post amplification and filtering results. </p>
-
+												and noise our robot would have to parse through. Pictured above you can
+												view our FFT analysis of a 6.08kHz signal before amplification and filtering.
+												Below you can view the post amplification and filtering results. </p>
 										</div>
 									</div>
-
 								</section>
 
 								<section>
-									<img src="images/Lab2/IR_fft.png" style="height:20em;width:33em;padding-left:2em;"/>
-									<div class="content">
-										<div class="inner">
-											<header class="major">
-												<h3>Software Interpretation of Signal</h3>
-											</header>
-											<p>Determining the presence of a 6 kHz signal right now is
-											done using the FFT library. We find that the signal 6.08 kHz signal
-											appears in binbins 44. The decoy signal appears in bin 122. Because we generally see a large amount of environmental IR light, we only accept that a 6.08/18 kHz signal is indeed present when the perceived amplitude is of a predefined threshold in magnitude. This threshold is determined by analyzing all FFT frequencies and observing the largest peaks, then calculating a relative threshold based off these values. The program logic then assesses if the bins where we expect to see the whistle signal (660Hz), IR hat (6.08 kHz), and IR Decoy (18 kHz) contain FFT magnitudes that surpass the threshold we defined. </p>
-										</div>
+								<img src="images/Lab2/IR_fft.png" style="height:20em;width:33em;padding-left:2em;"/>
+								<div class="content">
+									<div class="inner">
+										<header class="major">
+											<h3>Software Interpretation of Signal</h3>
+										</header>
+										<p>Determining the presence of a 6 kHz signal right now is
+										done using the FFT library. We find that the signal 6.08 kHz signal
+										appears in binbins 44. The decoy signal appears in bin 122. Because
+										we generally see a large amount of environmental IR light, we only
+										accept that a 6.08/18 kHz signal is indeed present when the perceived
+										amplitude is of a predefined threshold in magnitude. This threshold is
+										determined by analyzing all FFT frequencies and observing the largest peaks,
+										 then calculating a relative threshold based off these values. The program
+										 logic then assesses if the bins where we expect to see the whistle signal
+										  (660Hz), IR hat (6.08 kHz), and IR Decoy (18 kHz) contain FFT magnitudes
+											that surpass the threshold we defined. </p>
 									</div>
-								</section>
+								</div>
 							</section>
+						</section>
+
 						<!-- Five -->
-							<section id="three">
-								<div class="inner">
-									<header class="major">
-										<h2>Automatic Detection and Summary</h2>
-									</header>
-									<p>Previously, we were able to determine which FFT bins a signal would
-											fall into within some range of error (eg ± 2 bins). Armed with
-											this knowledge, we were able to create a deteciton algorithm
-											for each of the 3 signals we were using around our robot: a 660
-											Hz audio signal, a 6.08 Khz IR signal, and an 18 kHz IR signal.
-											Above a detected threshold, we determined that the signal was in
-											fact present in the robots environment. To make it simpler to run
-											the FFT on bother IR and audio circuit outputs, we combined the Amplifier
-											signals using a simple adder circuit (pictured below) and were thus able to analogRead on
-											one port and run the FFT on this data, cutting down on processing by
-											a factor of 2. By the end of this lab, we were able to successfully determine the frequency of signals in our robot's environment and respond to cues.</p>
-									<iframe width="560" height="315" src="https://www.youtube.com/embed/XRJNm6omO2U" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-									<br></br>
-									<ul class="actions">
-										<li><a href="https://github.com/ece-3400-group/ece-3400-group.github.io/blob/master/Lab%202/FFT/Lab2_fft.ino" class="button">Download Our Code</a></li>
-									</ul>
-								</div>
+						<section id="five" class="spotlights">
+							<div class="inner">
+								<header class="major">
+									<h2>Automatic Detection and Summary</h2>
+								</header>
+								<p>Previously, we were able to determine which FFT bins a signal would
+										fall into within some range of error (eg ± 2 bins). Armed with
+										this knowledge, we were able to create a deteciton algorithm
+										for each of the 3 signals we were using around our robot: a 660
+										Hz audio signal, a 6.08 Khz IR signal, and an 18 kHz IR signal.
+										Above a detected threshold, we determined that the signal was in
+										fact present in the robots environment. To make it simpler to run
+										the FFT on bother IR and audio circuit outputs, we combined the Amplifier
+										signals using a simple adder circuit (pictured below) and were thus able to analogRead on
+										one port and run the FFT on this data, cutting down on processing by
+										a factor of 2. By the end of this lab, we were able to successfully determine the frequency of signals in our robot's environment and respond to cues.</p>
+								<iframe width="560" height="315" src="https://www.youtube.com/embed/XRJNm6omO2U" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+								<br></br>
+								<ul class="actions">
+									<li><a href="https://github.com/ece-3400-group/ece-3400-group.github.io/blob/master/Lab%202/FFT/Lab2_fft.ino" class="button">Download Our Code</a></li>
+								</ul>
+							</div>
 
-							</section>
+						</section>
 
-							<section id="three">
-								<div class="inner">
-									<header class="major">
-										<h2>Final Circuit</h2>
-									</header>
-									<img src="images/Lab2/Lab2_bb.png" alt="" data-position="center" width="749" height="281"/>
-									<br></br>
-									<ul class="actions">
-										<li><a href="index.html" class="button next">Back to Home</a></li>
-									</ul>
-								</div>
-							</section>
+						<section>
+							<div class="inner">
+								<header class="major">
+									<h2>Final Circuit</h2>
+								</header>
+								<img src="images/Lab2/Lab2_bb.png" alt="" data-position="center" width="749" height="281"/>
+								<br></br>
+								<ul class="actions">
+									<li><a href="index.html" class="button next">Back to Home</a></li>
+								</ul>
+							</div>
+						</section>
 					</div>
+
 				<!-- Footer -->
 					<footer id="footer">
 						<div class="inner">
