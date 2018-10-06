@@ -59,13 +59,13 @@
 									<header class="major">
 										<h2>Introduction</h2>
 									</header>
-									<p>In this lab we built out our robots sensors to include photodiodes and 
-										a microphone. The goal of Lab 2 was for our robot to be able to 
+									<p>In this lab we built out our robots sensors to include photodiodes and
+										a microphone. The goal of Lab 2 was for our robot to be able to
 										respond to a 660Hz whistle and separately detect both a 6.08 kHz
-										and 18 kHz IR signal emitted from treasures and other robots respectively. 
-										To accomplish this, we split into two groups, an Acoustic Team and an IR Team. T
-										The Acoustic Team was composed of Ho-Jung and David. The IR Team was composed 
-										of Rohan and Shubhom. Below we detail the methodology by which we 
+										and 18 kHz IR signal emitted from treasures and other robots respectively.
+										To accomplish this, we split into two groups, an Acoustic Team and an IR Team.
+										The Acoustic Team was composed of Ho-Jung and David. The IR Team was composed
+										of Rohan and Shubhom. Below we detail the methodology by which we
 										accomplished these tasks.</p>
 
 									<header class="major">
@@ -94,7 +94,7 @@
 										<h2>IR Team</h2>
 									</header>
 									<p>
-										In this section we will discuss how Shubhom and Rohan were able 
+										In this section we will discuss how Shubhom and Rohan were able
 										to implement the IR sensor on a separate breadboard and capture
 										correct frequency analyses using the FFT library.
 									</p>
@@ -105,21 +105,21 @@
 							<section id="three" class="spotlights">
 								<section>
 									<img src="images/Lab2/IRpt1.png" style="height:30em;width:31em;padding-left:1em;"/>
-									
+
 									<div class="content">
 										<div class="inner">
 											<header class="major">
 												<h3>Beginning to Sense IR</h3>
 											</header>
-											<p>We were able to begin sensing IR light with a very simple setup. 
+											<p>We were able to begin sensing IR light with a very simple setup.
 												We place our Vout node connected to a pulldown resistor,
-												separated from Vdd by the phototransistor sensor. This 
+												separated from Vdd by the phototransistor sensor. This
 												design rests at 0V in the absence of IR light, and rises
 												as sensed IR light allows current to flow through the circuit
 												and a growing voltage drop is measured across the resistor.
 												Increasing the resistance here would make circuit more sensitive,
 												but for our needs a 2kΩ was enough.</p>
-											
+
 										</div>
 									</div>
 								</section>
@@ -130,22 +130,22 @@
 											<header class="major">
 												<h3>Adding Analog Filtering and Gain</h3>
 											</header>
-											<p>The rationale behind this decision was relatively straightforward. 
+											<p>The rationale behind this decision was relatively straightforward.
 												The signal we were picking up off our IR sensor would fall to 0V i
-												n the absence of light, but rests very close to 0V when detected IR 
+												n the absence of light, but rests very close to 0V when detected IR
 												light isn't very strong as well. Amplifying our sensor output would
 												therefore allow us to see the consistent 6.08 kHz signal we are looking
-												for. However, the 18 kHz signal's proximity in the frequency domain 
-												to 6 kHz would result in some saturation of the signal we're searching 
-												for. In order to avoid this issue, we implemented a low pass filter 
-												with a pole of 12 kHz to reduce the amplitude of the decoy signals 
+												for. However, the 18 kHz signal's proximity in the frequency domain
+												to 6 kHz would result in some saturation of the signal we're searching
+												for. In order to avoid this issue, we implemented a low pass filter
+												with a pole of 12 kHz to reduce the amplitude of the decoy signals
 												and noise our robot would have to parse through. <b>To the left you
-												can view our FFT analysis of a 6kHz signal and 18 kHz signal in bins 
+												can view our FFT analysis of a 6kHz signal and 18 kHz signal in bins
 												20 and 45 respectively. </b></p>
 										</div>
-										<img src="images/Lab2/Lab2_BeforeFilter_Optical.png"/>
+										<img src="images/Lab2/Lab2_BeforeFilter_Optical.png" height="600" width="600"/>
 											  <figcaption>Pre-filtering IR Signal  FFT.</figcaption>
-										<img src="images/Lab2/Lab2_AfterFilter_Optical.png"/>
+										<img src="images/Lab2/Lab2_AfterFilter_Optical.png" height="600" width="600"/>
 											  <figcaption>Filtered IR Signal FFT.</figcaption>
 									</div>
 								</section>
@@ -169,8 +169,8 @@
 										<h2>Audio Team</h2>
 									</header>
 									<p>
-										In this section we will discuss how Ho-Jung and David were 
-										able to construct a functioning microphone circuit on a separate 
+										In this section we will discuss how Ho-Jung and David were
+										able to construct a functioning microphone circuit on a separate
 										breadboard and determine frequency using the FFT library.
 									</p>
 								</div>
@@ -185,9 +185,9 @@
 											<header class="major">
 												<h3>Building the Microphone Circuit</h3>
 											</header>
-											<p>Before we are able to determine the presence of a 660 Hz 
-												signal in the robots environment, we need to wire 
-												the microphone sensor correctly and start receiving 
+											<p>Before we are able to determine the presence of a 660 Hz
+												signal in the robots environment, we need to wire
+												the microphone sensor correctly and start receiving
 												digital pulses encoding the audio impulses around the cicuit.
 												We referenced Team Alpha's design from last year and
 												were very quickly able to begin sampling audio tones digitally. </p>
@@ -201,10 +201,10 @@
 											<header class="major">
 												<h3>Detecting our Desired Audio Signal</h3>
 											</header>
-											<p>The next part of this was combining a low pass filter and 
-												amplifier to boost the recieved signals and make them 
-												more discernable to the FFT. Once this was complete, 
-												we were able to view signals through the FFT function 
+											<p>The next part of this was combining a low pass filter and
+												amplifier to boost the recieved signals and make them
+												more discernable to the FFT. Once this was complete,
+												we were able to view signals through the FFT function
 												of our oscilloscope (pictured to the right).</p>
 										</div>
 									</div>
@@ -216,10 +216,10 @@
 											<header class="major">
 												<h3>Identifying Signals</h3>
 											</header>
-											<p>Finally, we were able to use the Arduino FFT Library 
+											<p>Finally, we were able to use the Arduino FFT Library
 												to begin detecting the 660 Hz signal that we were s
-												earching for. From this point, all we had left to 
-												do the creation of an automatic detection algorithm for 
+												earching for. From this point, all we had left to
+												do the creation of an automatic detection algorithm for
 												both audio and IR signals.</p>
 										</div>
 									</div>
@@ -232,17 +232,17 @@
 									<header class="major">
 										<h2>Automatic Detection</h2>
 									</header>
-									<iframe width="560" height="315" src="https://www.youtube.com/embed/XRJNm6omO2U" frameborder="0" 
+									<iframe width="560" height="315" src="https://www.youtube.com/embed/XRJNm6omO2U" frameborder="0"
 										allow="autoplay; encrypted-media" allowfullscreen></iframe>
-									<p>Previously, we were able to determine which FFT bins a signal would 
-										fall into within some range of error (eg ± 2 bins). Armed with 
+									<p>Previously, we were able to determine which FFT bins a signal would
+										fall into within some range of error (eg ± 2 bins). Armed with
 										this knowledge, we were able to create a deteciton algorithm
-										for each of the 3 signals we were using around our robot: a 660 
-										Hz audio signal, a 6.08 Khz IR signal, and an 18 kHz IR signal. 
-										Above a detected threshold, we determined that the signal was in 
-										fact present in the robots environment. To make it simpler to run 
-										the FFT on bother IR and audio circuit outputs, we combined the Amplifier 
-										signals using a simple adder circuit (pictured below) and were thus able to analogRead on 
+										for each of the 3 signals we were using around our robot: a 660
+										Hz audio signal, a 6.08 Khz IR signal, and an 18 kHz IR signal.
+										Above a detected threshold, we determined that the signal was in
+										fact present in the robots environment. To make it simpler to run
+										the FFT on bother IR and audio circuit outputs, we combined the Amplifier
+										signals using a simple adder circuit (pictured below) and were thus able to analogRead on
 										one port and run the FFT on this data, cutting down on processing by
 										a factor of 2.</p>
 										<img src="images/Lab2/Lab2_bb.png" alt="" data-position="top center" />
@@ -253,9 +253,9 @@
 									<header class="major">
 										<h2>Massa libero</h2>
 									</header>
-									<p>Nullam et orci eu lorem consequat tincidunt vivamus et sagittis libero. 
-										Mauris aliquet magna magna sed nunc rhoncus pharetra. Pellentesque condimentum sem. 
-										In efficitur ligula tate urna. Maecenas laoreet massa vel lacinia pellentesque lorem ipsum dolor. 
+									<p>Nullam et orci eu lorem consequat tincidunt vivamus et sagittis libero.
+										Mauris aliquet magna magna sed nunc rhoncus pharetra. Pellentesque condimentum sem.
+										In efficitur ligula tate urna. Maecenas laoreet massa vel lacinia pellentesque lorem ipsum dolor.
 										Nullam et orci eu lorem consequat tincidunt. Vivamus et sagittis libero.
 										Mauris aliquet magna magna sed nunc rhoncus amet pharetra et feugiat tempus.</p>
 									<ul class="actions">
