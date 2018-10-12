@@ -110,6 +110,6 @@ void loop(){
   decideRoute(vals);   // Make the route
   servoSpeed(leftServo, rightServo, servoSpeeds[0], servoSpeeds[1]);
   delay(20);        // wait 20 ms
-  adjustRoute(leftServo, rightServo, vals);    // adjust route to maximize chance of staying in line
-  delay(10);        // wait 10 ms
+  //adjustRoute(leftServo, rightServo, vals);    // adjust route to maximize chance of staying in line
+  //delay(10);        // wait 10 ms
 }
