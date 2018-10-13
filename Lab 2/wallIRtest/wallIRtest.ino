@@ -7,7 +7,7 @@ port at 18kHz.
 #define FFT_N 256 // set to 256 point fft
 #include <FFT.h> // include the library
 
-int adc_0 = 0x40;
+int adc_5 = 0x45;
 
 void setup() {
   Serial.begin(9600); // use the serial port
@@ -16,11 +16,11 @@ void setup() {
   //ADMUX = 0x40; // use adc0
   DIDR0 = 0x01; // turn off the digital input for adc0
 
-  pinMode(A3,INPUT);  // IR sensor 1
+  pinMode(A4,INPUT);  // IR sensor 1
 }
 
 void readfft(int adc) {
-  ADMUX = adc;
+  ADMUX = adc_5;
   int init_adcsra = ADCSRA;
   ADCSRA = 0xe5; // set the adc to free running mode
   cli();  // UDRE interrupt slows this way down on arduino1.0
@@ -86,6 +86,7 @@ void readfft(int adc) {
 }
 
 // Code for IR sensor test
+int IRPin = A4; 
 
 float averageDistanceIRReading(int delayTime, int IRpin,int n){
   // Average n measurements from specified IRPin separated by delayTime amount of time
@@ -111,7 +112,6 @@ bool wallDetected(int wallThreshold){
   // decide if a wall is there.
 
   int delayTime = 30; 
-  int IRPin = A3; 
   int n = 5;
 
   float average = averageDistanceIRReading(delayTime,IRPin,n); // take an average to be less sensitive to noise
@@ -130,13 +130,13 @@ void loop(){
   bool wallDetect = wallDetected(400); //parameter is threshold
   if (wallDetect){
     Serial.print("Wall detected  ");
-    Serial.println (analogRead(A3));
+    Serial.println (analogRead(IRPin));
   }
   else{
     Serial.print("No wall detected  ");
-    Serial.println (analogRead(A3));
+    Serial.println (analogRead(IRPin));
   }
-  //readfft(adc_0);
-  //Serial.print (analogRead(A3));
+  //readfft(adc_5);
+  //Serial.print (analogRead(A4));
   delay(100);
 }

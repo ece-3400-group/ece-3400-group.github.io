@@ -4,18 +4,20 @@
 const int binWhistle = 6;       // 660Hz BIN
 const int binIRHat   = 44;      // 6.08kHz BIN
 const int binIRDecoy = 122;     // 18kHz BIN
-const int audioThreshold = 100;
+const int audioThreshold = 120;
 const int hatThreshold = 100;
 const int decoyThreshold = 60;
 
 void setupFFT(){
   TIMSK0 = 0; // turn off timer0 for lower jitter
-  ADCSRA = 0xe5; // set the adc to free running mode
-  ADMUX = 0x44; // use adc4
+  /* Adding these two lines wouldn't make the fft work
+  //ADCSRA = 0xe5; // set the adc to free running mode
+  //ADMUX = 0x45; // use adc4
+  */
   DIDR0 = 0x01; // turn off the digital input for adc0
 }
 
-byte readFFT(int adcPinNum = ADC0_FFT) {
+byte readFFT(int adcPinNum = ADC5_FFT) {
   ADMUX = adcPinNum;
   int pastADCReading = ADCSRA;
   ADCSRA = 0xe5;
@@ -37,6 +39,12 @@ byte readFFT(int adcPinNum = ADC0_FFT) {
   fft_mag_log(); // take the output of the fft
   sei();
   ADCSRA = pastADCReading;
+
+//  for (byte i = 0 ; i < FFT_N/2 ; i++) { 
+//     Serial.print(fft_log_out[i]); // send out the data
+//     Serial.print("\t");
+//  }
+//   Serial.println(" "); 
 
   byte result = isFFTPeak();
   return result;
@@ -75,25 +83,22 @@ void debugFFT(){
       }
     }
     for (int i=binWhistle-2;i<binWhistle+2;i++){    // search in range of plus and minus 2
-      int threshold = 100;
-      if (fft_log_out[i]>threshold){
-        Serial.println("Whistle detected!");
+      if (fft_log_out[i]>audioThreshold){
+        Serial.print("Whistle detected!");
         Serial.println(fft_log_out[i]);
       }
     }
 
     for (int i=binIRHat-2;i<binIRHat+2;i++){       // search in range of plus and minus 2
-      int threshold = 100;
-      if (fft_log_out[i]>threshold){
-        Serial.println("IR Hat detected!");
+      if (fft_log_out[i]>hatThreshold){
+        Serial.print("IR Hat detected!");
         Serial.println(fft_log_out[i]);
       }
     }
 
     for (int i=binIRDecoy-2;i<binIRDecoy+2;i++){    // search in range of plus and minus 2
-      int threshold = 60;
-      if (fft_log_out[i]>threshold){
-        Serial.println("IR Decoy detected!");
+      if (fft_log_out[i]>decoyThreshold){
+        Serial.print("IR Decoy detected!");
         Serial.println(fft_log_out[i]);
       }
     }

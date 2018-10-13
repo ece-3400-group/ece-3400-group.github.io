@@ -9,9 +9,10 @@
 #define ADC2_FFT 0x42
 #define ADC3_FFT 0x43
 #define ADC4_FFT 0x44
+#define ADC5_FFT 0x45
 
 void setupFFT();
-byte readFFT(int adcPinNum = ADC4_FFT);
+byte readFFT(int adcPinNum = ADC5_FFT);
 byte isFFTPeak();
 void debugFFT();
 void displayLedFFT( byte fftResult, int audioPin, int hatPin, int decoyPin );

@@ -23,8 +23,8 @@ int averageDistanceIRReading(int delayTime, const int IRPin, int n){
     average += readings[i];
   }
   average = average/(n); // avoid integer division issues
-  //Serial.print("Average "); 
-  Serial.println(average);
+//  Serial.print("Average "); 
+//  Serial.println(average);
   return average;
 }
 
@@ -38,6 +38,8 @@ int wallDetected(){
   int averageRight = averageDistanceIRReading(delayTime, IRPinRight, n);
 
   if (averageRight < wallThreshold){
+    Serial.print("R sensor doesn't detect wall");
+    Serial.println(averageRight);
     return 0;     // Turn right (R sensor doesn't detect wall)
   }
   else{

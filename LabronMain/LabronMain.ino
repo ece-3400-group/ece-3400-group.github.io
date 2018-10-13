@@ -26,6 +26,7 @@ void setup() {
 
 void loop() {
   rightHandWallFollow();
-  byte fftResult = readFFT(ADC0_FFT);
+  byte fftResult = readFFT(ADC5_FFT);
+  debugFFT();
   displayLedFFT(fftResult, audioPin, hatPin, decoyPin);
 }
