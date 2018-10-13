@@ -16,7 +16,7 @@ void setup() {
   Serial.begin(9600); // use the serial port
   TIMSK0 = 0; // turn off timer0 for lower jitter
   ADCSRA = 0xe5; // set the adc to free running mode
-  ADMUX = 0x40; // use adc0
+  ADMUX = 0x44; // use adc4
   DIDR0 = 0x01; // turn off the digital input for adc0
 }
 
@@ -40,11 +40,11 @@ void readfft() {
     fft_mag_log(); // take the output of the fft
     sei();
     Serial.println("start");
-    for (byte i = 0 ; i < FFT_N/2 ; i++) {
-      // Serial.print(fft_log_out[i]); // send out the data
-      // Serial.print("\t");
-    }
-    // Serial.println(" ");
+//    for (byte i = 0 ; i < FFT_N/2 ; i++) {
+//       Serial.print(fft_log_out[i]); // send out the data
+//       Serial.print("\t");
+//    }
+//     Serial.println(" ");
 
     int maxbin = 2;
     for (int i=2; i<FFT_N/2;i++){   // start at a bin above 0 so that DC IR light is not compared
@@ -57,9 +57,9 @@ void readfft() {
     int binIRDecoy = 122;     // 18kHz BIN
 
     for (int i=binWhistle-2;i<binWhistle+2;i++){    // search in range of plus and minus 2
-      int threshold = 100;
+      int threshold = 120;
       if (fft_log_out[i]>threshold){
-        Serial.println("Whistle detected!");
+        Serial.print("Whistle detected!");
         Serial.println(fft_log_out[i]);
       }
     }

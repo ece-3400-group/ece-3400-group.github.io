@@ -102,7 +102,7 @@ float averageDistanceIRReading(int delayTime, int IRpin,int n){
     }
     average = average/((float)n); // avoid integer division issues
     //Serial.print("Average "); 
-    Serial.println(average);
+    //Serial.println(average);
     return average;
 }
 
@@ -120,14 +120,14 @@ bool wallDetected(int wallThreshold){
     return true; 
   }
   else{
-    return false; 
+    return false;
   }
   return false; 
 
 }
 
 void loop(){
-  bool wallDetect = wallDetected(250); //parameter is threshold
+  bool wallDetect = wallDetected(400); //parameter is threshold
   if (wallDetect){
     Serial.print("Wall detected  ");
     Serial.println (analogRead(A3));
@@ -136,7 +136,7 @@ void loop(){
     Serial.print("No wall detected  ");
     Serial.println (analogRead(A3));
   }
-  readfft(adc_0);
+  //readfft(adc_0);
   //Serial.print (analogRead(A3));
   delay(100);
 }
