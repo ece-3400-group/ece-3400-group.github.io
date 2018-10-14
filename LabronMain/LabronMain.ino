@@ -2,31 +2,34 @@
 #include "helpers.h"
 #include "sensors.h"
 #include "FFTs.h"
-const int audioPin = 3;
-const int hatPin = 4;
-const int decoyPin = 5;
+
+byte fftResult;
 
 void rightHandWallFollow() {
   int wallDetect = wallDetected();
   if (wallDetect == 0) turnRight();
   else if (wallDetect == 1) turnLeft(); 
-  goStraight();
+  else goStraight();
 }
 
 void setup() {
   serialBegin(9600);
   setupLineSensors();
-  setupServos();
+  //setupServos();
   setupIR();
   setupFFT();
-  pinMode(audioPin, OUTPUT);
-  pinMode(hatPin, OUTPUT);
-  pinMode(decoyPin, OUTPUT);
+  setupDebugFFT();
 }
 
 void loop() {
-  rightHandWallFollow();
-  byte fftResult = readFFT(ADC5_FFT);
-  debugFFT();
+ // rightHandWallFollow();
+  wallDetected();
+ // Serial.println("===============================================");
+  Serial.println(analogRead(IRPinFront));
+    //Serial.println("===============================================");
+
+  //fftResult = readFFT(ADC5_FFT);
+  //debugFFT();
+  delay(50);
   displayLedFFT(fftResult, audioPin, hatPin, decoyPin);
 }

@@ -113,6 +113,7 @@ void moveToIntersection(){
 void goStraight(){
   leftServo.write(180);
   rightServo.write(0);
+  checkSensors();
 }
 
 // Logic for deciding the route for figure 8 for the robot

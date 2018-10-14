@@ -11,9 +11,15 @@
 #define ADC4_FFT 0x44
 #define ADC5_FFT 0x45
 
+extern const int MASTER_FFT_PIN;
+extern const int audioPin;
+extern const int hatPin;
+extern const int decoyPin;
+
 void setupFFT();
 byte readFFT(int adcPinNum = ADC5_FFT);
 byte isFFTPeak();
+void setupDebugFFT();
 void debugFFT();
 void displayLedFFT( byte fftResult, int audioPin, int hatPin, int decoyPin );
 

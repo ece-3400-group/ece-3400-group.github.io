@@ -1,5 +1,9 @@
 #ifndef SENSORS
 #define SENSORS
+#include <Arduino.h>
+
+extern const int IRPinRight;
+extern const int IRPinFront;
 
 void setupIR();
 int averageDistanceIRReading(int delayTime, int IRpin,int n);

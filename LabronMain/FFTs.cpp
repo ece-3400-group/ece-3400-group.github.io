@@ -1,12 +1,24 @@
 #include "FFTs.h"
 #include <FFT.h> // include the library
 
+const int MASTER_FFT_PIN = A5;
+const int audioPin = 8;
+const int hatPin = 9;
+const int decoyPin = 10;
+
 const int binWhistle = 6;       // 660Hz BIN
 const int binIRHat   = 44;      // 6.08kHz BIN
 const int binIRDecoy = 122;     // 18kHz BIN
-const int audioThreshold = 120;
-const int hatThreshold = 100;
+const int audioThreshold = 100;
+const int hatThreshold = 60;
 const int decoyThreshold = 60;
+byte result;
+
+void setupDebugFFT(){
+  pinMode(audioPin, OUTPUT);
+  pinMode(hatPin, OUTPUT);
+  pinMode(decoyPin, OUTPUT);
+}
 
 void setupFFT(){
   TIMSK0 = 0; // turn off timer0 for lower jitter
@@ -15,6 +27,7 @@ void setupFFT(){
   //ADMUX = 0x45; // use adc4
   */
   DIDR0 = 0x01; // turn off the digital input for adc0
+  pinMode(MASTER_FFT_PIN, INPUT);
 }
 
 byte readFFT(int adcPinNum = ADC5_FFT) {
@@ -51,27 +64,33 @@ byte readFFT(int adcPinNum = ADC5_FFT) {
 }
 
 byte isFFTPeak() {
-  byte result = 0b0000;
-  if (fft_log_out[binWhistle]>audioThreshold) {
-    result |= 0b0001;
+  result = 0b0000;
+  for (int i=binWhistle-1;i<binWhistle+1;i++){    // search in range of plus and minus 2
+      if (fft_log_out[i]>audioThreshold) result |= 0b0001;
   }
-  if (fft_log_out[binIRHat]>hatThreshold) {
-    result |= 0b0010;
-  }
-  if (fft_log_out[binIRDecoy]>decoyThreshold) {
-    result |= 0b0100;
-  }
+
+    for (int i=binIRHat-2;i<binIRHat+2;i++){       // search in range of plus and minus 2
+      if (fft_log_out[i]>hatThreshold) result |= 0b0010;
+    }
+
+    for (int i=binIRDecoy-2;i<binIRDecoy+2;i++){    // search in range of plus and minus 2
+      if (fft_log_out[i]>decoyThreshold)result |= 0b0100;
+    }
+ 
   return result;
 }
 
 void displayLedFFT( byte fftResult, int audioPin, int hatPin, int decoyPin ) {
-  if (fftResult & 0b01 == 1) digitalWrite(audioPin, HIGH);
+  if (fftResult & 0b01) {
+    digitalWrite(audioPin, HIGH);
+    Serial.println("--------------------------------------------------------");
+  }
   else digitalWrite(audioPin, LOW);
 
-  if (fftResult & 0b010 == 1) digitalWrite(hatPin, HIGH);
+  if (fftResult & 0b010) digitalWrite(hatPin, HIGH);
   else digitalWrite(hatPin, LOW);
 
-  if (fftResult & 0b0100 == 1) digitalWrite(decoyPin, HIGH);
+  if (fftResult & 0b0100) digitalWrite(decoyPin, HIGH);
   else digitalWrite(decoyPin, LOW);
 }
 
@@ -82,7 +101,7 @@ void debugFFT(){
         maxbin = i;
       }
     }
-    for (int i=binWhistle-2;i<binWhistle+2;i++){    // search in range of plus and minus 2
+    for (int i=binWhistle-1;i<binWhistle+1;i++){    // search in range of plus and minus 2
       if (fft_log_out[i]>audioThreshold){
         Serial.print("Whistle detected!");
         Serial.println(fft_log_out[i]);
