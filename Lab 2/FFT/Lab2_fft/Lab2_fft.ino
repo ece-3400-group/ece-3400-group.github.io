@@ -16,8 +16,9 @@ void setup() {
   Serial.begin(9600); // use the serial port
   TIMSK0 = 0; // turn off timer0 for lower jitter
   ADCSRA = 0xe5; // set the adc to free running mode
-  ADMUX = 0x44; // use adc4
+  ADMUX = 0x45; // use adc4
   DIDR0 = 0x01; // turn off the digital input for adc0
+  pinMode(A5, INPUT);
 }
 
 void readfft() {
