@@ -45,36 +45,7 @@ void checkSensors(){
   vals[2] = analogRead(QRE1113_Pin2);
 }
 
-// Write a speed to the servos
-void servoSpeed(int leftSpeed, int rightSpeed){
-  leftServo.write(leftSpeed);   // left Servo speed
-  rightServo.write(rightSpeed); // right Servo speed
-}
-
-// Stop servo wheels
-void straightenServo(){
-  // Finish turn by setting both servos to equal (0) speed
-  leftServo.write(90);
-  rightServo.write(90);
-}
-
-// Turn slightly left
-void slightLeft(){
-  leftServo.write(60);
-  rightServo.write(60);
-  delay(50);
-  straightenServo();
-}
-
-// Turn slightly right
-void slightRight(){
-  leftServo.write(120);
-  rightServo.write(120);
-  delay(50);
-  straightenServo();
-}
-
-// Turn left smoothly
+// Turn left
 void turnLeft(){
   leftServo.write(90);
   rightServo.write(0);
@@ -87,8 +58,7 @@ void turnLeft(){
   rightServo.write(90);
 }
 
-// Turn right smoothly
-
+// Turn right
 void turnRight(){
   leftServo.write(180);
   rightServo.write(90);
@@ -101,28 +71,24 @@ void turnRight(){
   leftServo.write(90);
 }
 
-// Move to the intersection for right angle turns
-void moveToIntersection(){
-  // move forward a little bit so that LeBron can turn
+// Move forwrard
+void goStraight(){
   leftServo.write(180);
   rightServo.write(0);
-  delay(350);
+}
+
+// Stop moving
+void stop(){
   leftServo.write(90);
   rightServo.write(90);
 }
 
-void goStraight(){
-  leftServo.write(180);
-  rightServo.write(0);
-  checkSensors();
-}
-
 // Logic for deciding the route for figure 8 for the robot
 void decideRoute() {
+  checkSensors();
   int leftSpeed; int rightSpeed; int direction;
   if (vals[0]>200 && vals[2]>200 && vals[1] < 200){  //go straight
-    leftSpeed = 180; // max speed
-    rightSpeed = 0;  // max speed
+    goStraight();
   }
 
   // take 8 steps for the figure 8 route
@@ -130,65 +96,33 @@ void decideRoute() {
   {
   	direction = wallDetected();
   	if (direction == 0){
-  		// No wall detected to right, so turn right
-  		leftSpeed = 180;
-    	rightSpeed = 90;
+  	  // No wall detected to right, so turn right
+  	  turnRight();
   	}
   	else if (direction == 1){
-  		// Wall detected to right AND in front, so turn left
-  		leftSpeed = 90;
-    	rightSpeed = 0;
+  	  // Wall detected to right AND in front, so turn left
+  	  turnLeft();
   	}
   	else if (direction == 2){
-  		// Wall detected to right, but NOT in front, so move forward
-  		leftSpeed = 180;
-  		rightSpeed = 0;
+  	  // Wall detected to right, but NOT in front, so move forward
+  	  goStraight();
   	}
   	else {
-  		Serial.println("Sorry something really weird happened :^(")
+  	  Serial.println("Sorry something really weird happened :^(")
+  	  stop();
   	}
   }
 
   // Adjust the robot a bit if it's off the line
   else if(vals[2] < 200){   //right sensor on line now turn right
-    leftSpeed = 180;
-    rightSpeed = 90;
+    turnRight();
   }
   else if(vals[0] < 200){  //left sensor on line now turn left
-    leftSpeed = 90;
-    rightSpeed = 0;
+    turnLeft();
   }
 
   // Stop the robot if it's off any white lines
   else{ //stop
-    leftSpeed=90;
-    rightSpeed=90;
-  }
-
-  // Set the speeds for the servos
-  servoSpeed(leftSpeed, rightSpeed);
-//  Serial.print("Left speed: ");
-//  Serial.println(leftSpeed);
-//  Serial.print("Right speed: ");
-//  Serial.println(rightSpeed);
-//  Serial.println("");
-}
-
-
-// Adjust the routes of the servos
-void adjustRoute(){
-  // Read the 3 sensor values
-  checkSensors();
-
-  // Nudge robot path a little left
-  if (vals[0]<vals[1]&&vals[0]<vals[2]){         //left sensor is least
-    slightLeft();
-  }
-  // Nudge robot path a little right
-  else if ((vals[2]<vals[0])&&(vals[2]<vals[1])){//right sensor is least
-    slightRight();
-  }
-  else{ //middle is least (most white), LeBron is on track
-    return;
+    stop();
   }
 }

@@ -22,12 +22,7 @@ void setup() {
 }
 
 void loop() {
- // rightHandWallFollow();
-  wallDetected();
- // Serial.println("===============================================");
-  Serial.println(analogRead(IRPinFront));
-    //Serial.println("===============================================");
-
+  decideRoute();
   //fftResult = readFFT(ADC5_FFT);
   //debugFFT();
   delay(50);
