@@ -15,7 +15,7 @@ void rightHandWallFollow() {
 void setup() {
   serialBegin(9600);
   setupLineSensors();
-  //setupServos();
+  setupServos();
   setupIR();
   setupFFT();
   setupDebugFFT();

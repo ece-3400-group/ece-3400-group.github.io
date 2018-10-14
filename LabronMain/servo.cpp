@@ -1,5 +1,6 @@
 #include "servo.h"
 #include <Arduino.h>
+#include "sensors.h"
 
 /*==================== [ Initialize Servos ] ================in===============*/
 Servo rightServo;
@@ -118,7 +119,7 @@ void goStraight(){
 
 // Logic for deciding the route for figure 8 for the robot
 void decideRoute() {
-  int leftSpeed; int rightSpeed; byte step;
+  int leftSpeed; int rightSpeed; int direction;
   if (vals[0]>200 && vals[2]>200 && vals[1] < 200){  //go straight
     leftSpeed = 180; // max speed
     rightSpeed = 0;  // max speed
@@ -127,19 +128,25 @@ void decideRoute() {
   // take 8 steps for the figure 8 route
   else if (vals[0] < 200 && vals[1] < 200 && vals[2] < 200)  //intersection initiate turn
   {
-    if (step < 2){
-      step++;
-      turnLeft();
-    }
-    else if (step <= 5){
-      step++;
-      turnRight();
-    }
-    else {
-      step++;
-      turnLeft();
-    }
-    step  = step % 8; // repeat for figure 8
+  	direction = wallDetected();
+  	if (direction == 0){
+  		// No wall detected to right, so turn right
+  		leftSpeed = 180;
+    	rightSpeed = 90;
+  	}
+  	else if (direction == 1){
+  		// Wall detected to right AND in front, so turn left
+  		leftSpeed = 90;
+    	rightSpeed = 0;
+  	}
+  	else if (direction == 2){
+  		// Wall detected to right, but NOT in front, so move forward
+  		leftSpeed = 180;
+  		rightSpeed = 0;
+  	}
+  	else {
+  		Serial.println("Sorry something really weird happened :^(")
+  	}
   }
 
   // Adjust the robot a bit if it's off the line
