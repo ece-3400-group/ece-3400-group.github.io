@@ -3,7 +3,15 @@
 
 const int IRPinFront = A3; 
 const int IRPinRight = A4;
+const int RightWallPin = 11;
+const int ForwardWallPin = 12;
+
 const int wallThreshold = 230;
+
+void setupWallDetection() {
+  pinMode(RightWallPin, OUTPUT);
+  pinMode(ForwardWallPin, OUTPUT);
+}
 
 void setupIR() {
   pinMode(IRPinFront, INPUT);
@@ -34,13 +42,24 @@ int wallDetected(){
   int averageForward = averageDistanceIRReading(delayTime, IRPinFront, n); // take an average to be less sensitive to noise
   int averageRight = averageDistanceIRReading(delayTime, IRPinRight, n);
 
+  digitalWrite(ForwardWallPin, LOW);
+  digitalWrite(RightWallPin, LOW);
   if (averageRight < wallThreshold){
+    Serial.print("R sensor doesn't detect wall = ");
+    Serial.println(averageRight);
     return 0;     // Turn right (R sensor doesn't detect wall)
   }
   else{
     if(averageForward > wallThreshold) {
       return 1;   // Turn left (both F and R sensors detect wall)
     }
+      Serial.print("FORWARD WALL DETECTED = "); Serial.println(averageForward);
+      digitalWrite(RightWallPin, HIGH);
+      digitalWrite(ForwardWallPin, HIGH);
+      return 1;   // Turn left (both F and R sensors detect wall)
+    }
+    Serial.print("Wall detected! = "); Serial.println(averageRight);
+    digitalWrite(RightWallPin, HIGH);
     return 2;     // Continue moving forward (only R sensor detects wall)
   }
 }

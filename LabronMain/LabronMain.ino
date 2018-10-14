@@ -19,6 +19,7 @@ void setup() {
   setupIR();
   setupFFT();
   setupDebugFFT();
+  setupWallDetection();
 }
 
 void loop() {
@@ -27,4 +28,5 @@ void loop() {
   //debugFFT();
   delay(50);
   displayLedFFT(fftResult, audioPin, hatPin, decoyPin);
+  delay(100);
 }

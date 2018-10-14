@@ -10,8 +10,8 @@ const int binWhistle = 6;       // 660Hz BIN
 const int binIRHat   = 44;      // 6.08kHz BIN
 const int binIRDecoy = 122;     // 18kHz BIN
 const int audioThreshold = 100;
-const int hatThreshold = 60;
-const int decoyThreshold = 60;
+const int hatThreshold = 100;
+const int decoyThreshold = 100;
 byte result;
 
 void setupDebugFFT(){
