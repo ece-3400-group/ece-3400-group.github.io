@@ -51,7 +51,7 @@ void turnLeft(){
   rightServo.write(0);
   delay(600);
   checkSensors();
-  while(vals[1] > 200)
+  while(vals[1] > 750)
   {
     checkSensors();
   }
@@ -64,7 +64,7 @@ void turnRight(){
   rightServo.write(90);
   delay(600);
   checkSensors();
-  while(vals[1] > 200)
+  while(vals[1] > 750)
   {
     checkSensors();
   }
@@ -87,12 +87,12 @@ void stop(){
 void decideRoute() {
   checkSensors();
   int leftSpeed; int rightSpeed; int direction;
-  if (vals[0]>200 && vals[2]>200 && vals[1] < 200){  //go straight
+  if (vals[0]>750 && vals[2]>750 && vals[1] < 750){  //go straight
     goStraight();
   }
 
   // take 8 steps for the figure 8 route
-  else if (vals[0] < 200 && vals[1] < 200 && vals[2] < 200)  //intersection initiate turn
+  else if (vals[0] < 750 && vals[1] < 750 && vals[2] < 750)  //intersection initiate turn
   {
   	direction = wallDetected();
   	if (direction == 0){
@@ -114,10 +114,10 @@ void decideRoute() {
   }
 
   // Adjust the robot a bit if it's off the line
-  else if(vals[2] < 200){   //right sensor on line now turn right
+  else if(vals[2] < 750){   //right sensor on line now turn right
     turnRight();
   }
-  else if(vals[0] < 200){  //left sensor on line now turn left
+  else if(vals[0] < 750){  //left sensor on line now turn left
     turnLeft();
   }
 
