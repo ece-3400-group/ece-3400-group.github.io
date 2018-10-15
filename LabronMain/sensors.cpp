@@ -6,7 +6,7 @@ const int IRPinRight = A4;
 const int RightWallPin = 11;
 const int ForwardWallPin = 12;
 
-const int wallThreshold = 230;
+const int wallThreshold = 350;
 
 void setupWallDetection() {
   pinMode(RightWallPin, OUTPUT);
