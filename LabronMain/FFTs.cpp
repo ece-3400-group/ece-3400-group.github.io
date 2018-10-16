@@ -1,5 +1,6 @@
 #include "FFTs.h"
 #include <FFT.h> // include the library
+#include "servo.h"
 
 const int MASTER_FFT_PIN = A5;
 const int audioPin = 8;
@@ -10,7 +11,7 @@ const int binWhistle = 6;       // 660Hz BIN
 const int binIRHat   = 44;      // 6.08kHz BIN
 const int binIRDecoy = 122;     // 18kHz BIN
 const int audioThreshold = 100;
-const int hatThreshold = 100;
+const int hatThreshold = 70;
 const int decoyThreshold = 100;
 byte result;
 
@@ -21,12 +22,12 @@ void setupDebugFFT(){
 }
 
 void setupFFT(){
-  TIMSK0 = 0; // turn off timer0 for lower jitter
+  //TIMSK0 = 0; // turn off timer0 for lower jitter
   /* Adding these two lines wouldn't make the fft work
   //ADCSRA = 0xe5; // set the adc to free running mode
   //ADMUX = 0x45; // use adc4
   */
-  DIDR0 = 0x01; // turn off the digital input for adc0
+ // DIDR0 = 0x05; // turn off the digital input for adc0
   pinMode(MASTER_FFT_PIN, INPUT);
 }
 
@@ -112,6 +113,8 @@ void debugFFT(){
       if (fft_log_out[i]>hatThreshold){
         Serial.print("IR Hat detected!");
         Serial.println(fft_log_out[i]);
+        turnAround();
+        
       }
     }
 
@@ -119,6 +122,7 @@ void debugFFT(){
       if (fft_log_out[i]>decoyThreshold){
         Serial.print("IR Decoy detected!");
         Serial.println(fft_log_out[i]);
+        
       }
     }
 

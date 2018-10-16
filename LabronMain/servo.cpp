@@ -47,34 +47,73 @@ void checkSensors(){
 
 // Turn left
 void turnLeft(){
+  Serial.println("Left");
   leftServo.write(90);
   rightServo.write(0);
-  delay(600);
+  delay(300);
   checkSensors();
-  while(vals[1] > 750)
+  while(vals[1] > 800)
   {
     checkSensors();
   }
   rightServo.write(90);
+}
+
+// Turn slightly left
+void slightLeft(){
+  Serial.println("Slight Left");
+  leftServo.write(60);
+  rightServo.write(60);
+  delay(15);
+  goStraight();
+  delay(5);
+  stop();
+}
+
+// Turn slightly right
+void slightRight(){
+  Serial.println("Slight Right");
+  leftServo.write(120);
+  rightServo.write(120);
+  delay(15);
+  goStraight();
+  delay(5);
+  stop();
 }
 
 // Turn right
 void turnRight(){
+  Serial.println("RIGHT");
   leftServo.write(180);
   rightServo.write(90);
-  delay(600);
+  delay(300);
   checkSensors();
-  while(vals[1] > 750)
+  while(vals[1] > 800)
   {
     checkSensors();
   }
   leftServo.write(90);
 }
 
-// Move forwrard
-void goStraight(){
+//Turn around
+void turnAround(){
   leftServo.write(180);
   rightServo.write(0);
+  delay(400);
+  checkSensors();
+  while(vals[1] > 800){
+    checkSensors();
+  }
+  stop();
+}
+
+// Move forwrard
+void goStraight(){
+  Serial.println("Straight");
+  leftServo.write(100);
+  rightServo.write(80);
+  //delay(100);
+  //stop();
 }
 
 // Stop moving
@@ -83,42 +122,57 @@ void stop(){
   rightServo.write(90);
 }
 
-// Logic for deciding the route for figure 8 for the robot
+// Logic for deciding the route for the robot
 void decideRoute() {
   checkSensors();
   int leftSpeed; int rightSpeed; int direction;
-  if (vals[0]>750 && vals[2]>750 && vals[1] < 750){  //go straight
+  if (vals[0]>800 && vals[2]>800 && vals[1] < 800){  //go straight
+    Serial.println("If statement");
     goStraight();
   }
 
   // take 8 steps for the figure 8 route
-  else if (vals[0] < 750 && vals[1] < 750 && vals[2] < 750)  //intersection initiate turn
+  else if (vals[0] < 800 && vals[1] < 800 && vals[2] < 800)  //intersection initiate turn
   {
+    stop();
+    Serial.println("Else if statement");
   	direction = wallDetected();
   	if (direction == 0){
   	  // No wall detected to right, so turn right
   	  turnRight();
+      digitalWrite(RightWallPin, LOW);
+      digitalWrite(ForwardWallPin, LOW);
   	}
   	else if (direction == 1){
   	  // Wall detected to right AND in front, so turn left
+      digitalWrite(RightWallPin, HIGH);
+      digitalWrite(ForwardWallPin, HIGH);
   	  turnLeft();
+     digitalWrite(RightWallPin, LOW);
+      digitalWrite(ForwardWallPin, LOW);
+     Serial.println("forward Wall detected");
   	}
   	else if (direction == 2){
   	  // Wall detected to right, but NOT in front, so move forward
+  	  digitalWrite(RightWallPin, HIGH);
+      digitalWrite(ForwardWallPin, LOW);
   	  goStraight();
+     
+     Serial.println("right");
   	}
   	else {
-  	  Serial.println("Sorry something really weird happened :^(")
+  	  Serial.println("Sorry something really weird happened :^(");
   	  stop();
   	}
   }
 
   // Adjust the robot a bit if it's off the line
-  else if(vals[2] < 750){   //right sensor on line now turn right
-    turnRight();
+  else if(vals[2] < 800){   //right sensor on line now turn right
+    slightRight();
   }
-  else if(vals[0] < 750){  //left sensor on line now turn left
-    turnLeft();
+  else if(vals[0] < 800){  //left sensor on line now turn leftdigitalWrite(RightWallPin, LOW);
+
+    slightLeft();
   }
 
   // Stop the robot if it's off any white lines

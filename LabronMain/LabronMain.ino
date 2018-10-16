@@ -5,15 +5,9 @@
 
 byte fftResult;
 
-void rightHandWallFollow() {
-  int wallDetect = wallDetected();
-  if (wallDetect == 0) turnRight();
-  else if (wallDetect == 1) turnLeft(); 
-  else goStraight();
-}
-
 void setup() {
   serialBegin(9600);
+  pinMode(LED_BUILTIN, OUTPUT);
   setupLineSensors();
   setupServos();
   setupIR();
@@ -21,12 +15,17 @@ void setup() {
   setupDebugFFT();
   setupWallDetection();
 }
-
+int count = 0;
 void loop() {
+ // digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
+  //delay(500);
+  //wallDetected();
   decideRoute();
-  //fftResult = readFFT(ADC5_FFT);
-  //debugFFT();
-  delay(50);
+  if (count == 0){
+    fftResult = readFFT(ADC5_FFT);
+    debugFFT();
+  }
   displayLedFFT(fftResult, audioPin, hatPin, decoyPin);
-  delay(100);
+  count++;
+  count = count % 3;
 }

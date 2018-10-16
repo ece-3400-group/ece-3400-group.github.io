@@ -4,6 +4,8 @@
 
 extern const int IRPinRight;
 extern const int IRPinFront;
+extern const int ForwardWallPin;
+extern const int RightWallPin;
 
 void setupIR();
 void setupWallDetection();

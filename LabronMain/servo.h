@@ -17,7 +17,10 @@ void turnLeft();
 void turnRight();
 void goStraight();
 void stop();
+void slightRight();
+void slightLeft();
 
+void turnAround();
 
 void decideRoute();
 
