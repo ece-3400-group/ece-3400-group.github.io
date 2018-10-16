@@ -34,7 +34,7 @@ RF24 radio(9,10);
 //
 
 // Radio pipe addresses for the 2 nodes to communicate.
-const uint64_t pipes[2] = { 0x0000000002LL, 0x0000000003LL };
+const uint64_t pipes[2] = { 0x0000000046LL, 0x0000000047LL };
 
 //
 // Role management
