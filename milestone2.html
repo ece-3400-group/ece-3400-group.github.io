@@ -73,6 +73,9 @@
 												<h3>Distance Sensors</h3>
 											</header>
 											<p>The distance sensors we are given for this lab are the <a href="http://www.sharp-world.com/products/device/lineup/data/pdf/datasheet/gp2y0a41sk_e.pdf">Sharp GP2Y0A41SK0F short-range IR sensors</a>. The sensors take in a voltage rail and ground as well as a signal line. Determining wall distance works by reading the signal line output from the sensors. Generally, this value is in the range of 500 and 0, higher values indicating a closer object. For our design, we set a threshold of 300 before our robot determines there is a wall in front of its sensor.</p>
+                                            <p>The video below shows the robot
+                                        detecting a wall with the sensor and
+                                        making a turn.</p>
 										</div>
 									</div>
 								</section>
@@ -84,6 +87,10 @@
 												<h3>Right-Hand Wall Following</h3>
 											</header>
 											<p>The basic premise behind right-hand wall following is to always follow the wall on your right side. When that wall disappears, turn right and move forward. If there is a wall on your right side and in front of you, you turn left, placing the wall in front of you on your right side again. In this way, it is possible for LABron to navigate a maze of walls using only two distance sensors placed to the right and front.</p>
+                                            <p>An example sketch ofonly the
+                                            right hand following lofic using
+                                            the short range IR sensors is
+                                            linked below.</p>
 											<ul class="actions">
 												<li><a href="https://github.com/ece-3400-group/ece-3400-group.github.io/blob/master/Milestone2/ExampleLogic.ino" class="button" download>Download Code Logic Here</a></li>
 											</ul>
@@ -110,7 +117,35 @@
 											<header class="major">
 												<h3>Problem: Power bank Issue</h3>
 											</header>
-											<p>After integrating the audio and IR sensors, we began to see a significant amount of low frequency noise on coming off our Arduino supplied power rails. Our initial assumption was that the arduino was powering too many different components, so we moves the new sensors over to the second power bank to spread out the load. However, doing this resulted in a very low current draw from the battery; the power bank would shut off automatically and the sensors would stop sending signals back to the Arduino. Eventually we switched our servos off of the Arduino power rail onto their own battery, and left the sensors all powered off the Arduino. </p>
+											<p>After integrating the audio and
+                                            IR sensors, we began to see a
+                                            significant amount of low frequency
+                                            noise on coming off our Arduino
+                                            supplied power rails. Our initial
+                                            assumption was that the Arduino was
+                                            powering too many different
+                                            components, so we moves the new
+                                            sensors over to the second power
+                                            bank to spread out the load.
+                                            However, doing this resulted in a
+                                            very low current draw from the
+                                            battery; the power bank would shut
+                                            off automatically and the sensors
+                                            would stop sending signals back to
+                                            the Arduino. Eventually we switched
+                                            our line sensors and short range
+                                            distance sensors off of the Arduino
+                                            power rail onto their own battery,
+                                            and left the sensors and servos all powered off the Arduino. </p>
+                                            <p>We left the servos powered from
+                                            the Arduino since the power bank
+                                            was shutting off on its own after
+                                            ~20-30 seconds when the servos were
+                                            powered from the external source.
+                                            This was because the battery shuts
+                                            off when there is not enough
+                                            current drawn from it. So, the
+                                            servos were left connected.</p>
 										</div>
 									</div>
 								</section>
@@ -121,9 +156,24 @@
 											<header class="major">
 												<h3>Final Run</h3>
 											</header>
-											<p>After struggling through various problems and integrating the new components and behavior into LAbron's codebase, we were able to demonstrate maze exploration following the RH Rule, with responses to the frequency of the IR hat when it is detected (see the green LED). The combination of a green and yellow LED indicate that both the Right and Front distance sensor detect a wall, which LAbron inteprets as a left turn.</p>
+											<p>After struggling through various
+                                            problems and integrating the new
+                                            components and behavior into
+                                            LAbron's codebase, we were able to
+                                            demonstrate maze exploration
+                                            through an arbitrary set of walls
+                                            following the Right Hand Rule, with
+                                            responses to the frequency of the
+                                            IR hat (representing other robots) when it is detected (see the
+                                            green LED farthest from the
+                                            programming cable). The combination of a
+                                            green and yellow LED near the blue
+                                            programming cable indicate that both the Right and Front distance sensor detect a wall, which LAbron inteprets as a left turn.</p>
 											<ul class="actions">
-												<li><a href="https://ece-3400-group.github.io/LabronMain/LabronMain.ino" class="button" download>Download Final Code Here</a></li>
+												<li><a
+                                                        href="https://github.com/ece-3400-group/ece-3400-group.github.io/tree/master/LabronMain"
+                                                        class="button"
+                                                download>Link to Final Code Here</a></li>
 											</ul>
 										</div>
 									</div>
@@ -136,7 +186,15 @@
 									<header class="major">
 										<h2>Conclusion</h2>
 									</header>
-									<p>LABron was successful in completing the maze using our logic. However, as we fiddled with its ability to follow lines, we drastically reduced the speed of line tracing. In the current code base has integrated the correct components, but in the future we would like to see LABron move through the maze faster with smoother direciton correcting mechanisms. This will hopefully be implemented by Lab 3.</p>
+									<p>LABron was successful in completing the
+                                    maze using our logic. However, as we
+                                    fiddled with its ability to follow lines,
+                                    we drastically reduced the speed of line
+                                    tracing. In the current code base has
+                                    integrated the correct components, but in
+                                    the future we would like to see LABron move
+                                    through the maze faster with smoother
+                                    direction correcting mechanisms. This will hopefully be implemented by Lab 3.</p>
 									<ul class="actions">
 										<li><a href="index.html" class="button next">Back to Home</a></li>
 									</ul>
