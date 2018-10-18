@@ -86,11 +86,25 @@
 											</header>
 											<p>The basic premise behind right-hand wall following is to always follow the wall on your right side. When that wall disappears, turn right and move forward. If there is a wall on your right side and in front of you, you turn left, placing the wall in front of you on your right side again. In this way, it is possible for LABron to navigate a maze of walls using only two distance sensors placed to the right and front.</p>
 											<ul class="actions">
-												<li><a href="Milestone2/ExampleLogic.ino" class="button" download>Download Code Logic Here</a></li>
+												<li><a href="https://github.com/ece-3400-group/ece-3400-group.github.io/blob/master/Milestone2/ExampleLogic.ino" class="button" download>Download Code Logic Here</a></li>
 											</ul>
 										</div>
 									</div>
 								</section>
+
+								<section>
+									<img src="images/Milestone2/power_bank_29-7850.jpg" style="padding-left:1em;" />
+									<div class="content">
+										<div class="inner">
+											<header class="major">
+												<h3>Problem: Power bank Issue</h3>
+											</header>
+											<p>After we implement distance sensors, our microphone and IR hat output appeared gittering in its signal. To find out the problem, we replace the power bank with power supplier, then we find out the voltage and current output is incorrect. There we realized the current output from Arduino to the breadboard is insufficient. And the Arduino would keep entering it off as well.
+											Moreove, after we equipped the robot with two power banks, the power bank started to turn it self off as well. Again, we test the current draw by sensors. The current is too small, 22mA, to keep the power bank on. We have to balance the required current for the two power bank. </p>
+										</div>
+									</div>
+								</section>
+
 								<section>
 									<a href="generic.html" class="image">
 										<img src="images/pic10.jpg" alt="" data-position="25% 25%" />
