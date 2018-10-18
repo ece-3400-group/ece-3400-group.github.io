@@ -77,8 +77,7 @@
 									</div>
 								</section>
 								<section>
-									<img src="images/Milestone2/distanceSensor.png" alt="" data-position="top center" />
-									<p> Picture of sensor on robot instead of this one -------></p>
+									<iframe width="560" height="315" src="https://www.youtube.com/embed/NxXAH7k8x6c" frameborder="0" allow="autoplay; encrypted-media" style="padding-right:1em;"allowfullscreen></iframe>
 									<div class="content">
 										<div class="inner">
 											<header class="major">
@@ -91,32 +90,40 @@
 										</div>
 									</div>
 								</section>
-
 								<section>
-									<img src="images/Milestone2/power_bank_29-7850.jpg" style="padding-left:1em;" />
-									<div class="content">
-										<div class="inner">
-											<header class="major">
-												<h3>Problem: Power bank Issue</h3>
-											</header>
-											<p>After we implement distance sensors, our microphone and IR hat output appeared gittering in its signal. To find out the problem, we replace the power bank with power supplier, then we find out the voltage and current output is incorrect. There we realized the current output from Arduino to the breadboard is insufficient. And the Arduino would keep entering it off as well.
-											Moreove, after we equipped the robot with two power banks, the power bank started to turn it self off as well. Again, we test the current draw by sensors. The current is too small, 22mA, to keep the power bank on. We have to balance the required current for the two power bank. </p>
-										</div>
-									</div>
-								</section>
-
-								<section>
-									<a href="generic.html" class="image">
-										<img src="images/pic10.jpg" alt="" data-position="25% 25%" />
-									</a>
+									<img src="images/Milestone2/IntegrateCode.png" height="350" style="padding-left:1em;">
 									<div class="content">
 										<div class="inner">
 											<header class="major">
 												<h3>Integrating Different Components</h3>
 											</header>
-											<p>Nullam et orci eu lorem consequat tincidunt vivamus et sagittis magna sed nunc rhoncus condimentum sem. In efficitur ligula tate urna. Maecenas massa sed magna lacinia magna pellentesque lorem ipsum dolor. Nullam et orci eu lorem consequat tincidunt. Vivamus et sagittis tempus.</p>
+											<p>The various circuits we finished in Lab 2 now have to be integrated into a functioning version of LABron, our robot. Attaching the circuits was very simple, requiring  us to simply attach the circuits to a free analog pins. Integrating them into the code, however, was more difficult. Because the FFT is time intensive, we decided to only run the FFT every three times LABron reached the <code>loop()</code> function in the main <code>.ino</code> file. This logic is performed using the value of <code>count</code>. Ideally, this would let LABron be more responsive to queues from the line it follows, and the signals around it.</p>
+										</div>
+									</div>
+								</section>
+								<section>
+									<section>
+									<img src="images/Milestone2/power_bank_29-7850.jpg" height="315" style="padding-right:8em;"/>
+									</section>
+									<div class="content">
+										<div class="inner">
+											<header class="major">
+												<h3>Problem: Power bank Issue</h3>
+											</header>
+											<p>After integrating the audio and IR sensors, we began to see a significant amount of low frequency noise on coming off our Arduino supplied power rails. Our initial assumption was that the arduino was powering too many different components, so we moves the new sensors over to the second power bank to spread out the load. However, doing this resulted in a very low current draw from the battery; the power bank would shut off automatically and the sensors would stop sending signals back to the Arduino. Eventually we switched our servos off of the Arduino power rail onto their own battery, and left the sensors all powered off the Arduino. </p>
+										</div>
+									</div>
+								</section>
+								<section>
+									<iframe width="560" height="315" src="https://www.youtube.com/embed/NXW5ouEzAQ8" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="padding-left: 1em;"></iframe>
+									<div class="content">
+										<div class="inner">
+											<header class="major">
+												<h3>Final Run</h3>
+											</header>
+											<p>After struggling through various problems and integrating the new components and behavior into LAbron's codebase, we were able to demonstrate maze exploration following the RH Rule, with responses to the frequency of the IR hat when it is detected (see the green LED). The combination of a green and yellow LED indicate that both the Right and Front distance sensor detect a wall, which LAbron inteprets as a left turn.</p>
 											<ul class="actions">
-												<li><a href="generic.html" class="button">Download Our Final Code</a></li>
+												<li><a href="https://ece-3400-group.github.io/LabronMain/LabronMain.ino" class="button" download>Download Final Code Here</a></li>
 											</ul>
 										</div>
 									</div>
@@ -127,9 +134,9 @@
 							<section id="three">
 								<div class="inner">
 									<header class="major">
-										<h2>Conlusion</h2>
+										<h2>Conclusion</h2>
 									</header>
-									<p>Nullam et orci eu lorem consequat tincidunt vivamus et sagittis libero. Mauris aliquet magna magna sed nunc rhoncus pharetra. Pellentesque condimentum sem. In efficitur ligula tate urna. Maecenas laoreet massa vel lacinia pellentesque lorem ipsum dolor. Nullam et orci eu lorem consequat tincidunt. Vivamus et sagittis libero. Mauris aliquet magna magna sed nunc rhoncus amet pharetra et feugiat tempus.</p>
+									<p>LABron was successful in completing the maze using our logic. However, as we fiddled with its ability to follow lines, we drastically reduced the speed of line tracing. In the current code base has integrated the correct components, but in the future we would like to see LABron move through the maze faster with smoother direciton correcting mechanisms. This will hopefully be implemented by Lab 3.</p>
 									<ul class="actions">
 										<li><a href="index.html" class="button next">Back to Home</a></li>
 									</ul>
