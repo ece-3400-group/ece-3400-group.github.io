@@ -91,6 +91,8 @@
                                             right hand following lofic using
                                             the short range IR sensors is
                                             linked below.</p>
+											<p>The basic premise behind right-hand wall following is to always follow the wall on your right side. When that wall disappears, turn right and move forward. If there is a wall on your right side and in front of you, you turn left, placing the wall in front of you on your right side again. In this way, it is possible for LABron to navigate a maze of walls using only two distance sensors placed to the right and front.
+											LABron's implementation of the RH Wall Following is to check at intersections. In this way, our robot continues to trace the line and choose turns based off where the walls around it are.</p>
 											<ul class="actions">
 												<li><a href="https://github.com/ece-3400-group/ece-3400-group.github.io/blob/master/Milestone2/ExampleLogic.ino" class="button" download>Download Code Logic Here</a></li>
 											</ul>
