@@ -1,5 +1,5 @@
 // we do not need two packets 
-byte maze [] [] ; // local map of the 9x9 maze, (0,0) is top left corner
+byte maze [9][9] ; // local map of the 9x9 maze, (0,0) is top left corner
 byte positionPacket; // bits 0-3 encode x-coordinate, bits 4-7 encode y-coordinate
 byte metaPacket; // bits 0-3 NSEW wall ,bits 4-7 encode treasure information (see below) 
                  // In the local map, each coordinate from positionPacket is used 
@@ -29,18 +29,26 @@ byte metaPacket; // bits 0-3 NSEW wall ,bits 4-7 encode treasure information (se
 #define GREEN 0b10;
 #define BLUE 0b11;
 
-
+int getBit(int n, int s, int f)
+{
+    int result = 0;
+    for(int k=0; k<(f-s); k++){
+        int t = (n & (1<<(k+s)))!=0;
+        result |= t<<k;
+    }
+    return result;
+}
 
 byte metaPacketEncode(byte wallDirection, byte shape, byte color){
   // With a known wallDdirection,shape, and color, output a metaPacket encoding
-  return (direction<<4)|(shape<<2)|color;
+  return (wallDirection<<4)|(shape<<2)|color;
 }
 
 void metaPacketDecode(byte metaPacket){
   // With a known wallDdirection,shape, and color, output a metaPacket encoding
-  byte wallDirection = metaPacket[4:7];
-  byte shape = metaPacket[2:3];
-  byte color = metaPacket[0:1];
+  byte wallDirection = getBit(metaPacket, 4, 8);
+  byte shape = getBit(metaPacket, 2, 4); //metaPacket[2:3];
+  byte color = getBit(metaPacket, 0, 2); //metaPacket[0:1];
   return NULL;
 }
 
