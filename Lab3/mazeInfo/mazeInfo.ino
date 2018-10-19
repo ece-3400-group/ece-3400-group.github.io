@@ -1,3 +1,5 @@
+#include <string.h>
+
 // we do not need two packets 
 byte maze [9][9] ; // local map of the 9x9 maze, (0,0) is top left corner
 byte positionPacket; // bits 0-3 encode x-coordinate, bits 4-7 encode y-coordinate
@@ -29,14 +31,21 @@ byte metaPacket; // bits 0-3 NSEW wall ,bits 4-7 encode treasure information (se
 #define GREEN 0b10;
 #define BLUE 0b11;
 
-int getBit(int n, int s, int f)
-{
-    int result = 0;
-    for(int k=0; k<(f-s); k++){
-        int t = (n & (1<<(k+s)))!=0;
-        result |= t<<k;
-    }
-    return result;
+String North = String("North");
+String South = String("South");
+String East = String("East");
+String West = String("West");
+String shape = String("None");
+String color = String("None");
+
+int getBit(int n, int s, int f){
+  // extract binary bins from a byte. n=Binary Byte; s=Start Bin; f=Final Bin;
+  int result = 0;
+  for(int k=0; k<(f-s); k++){
+      int t = (n & (1<<(k+s)))!=0;
+      result |= t<<k;
+  }
+  return result;
 }
 
 byte metaPacketEncode(byte wallDirection, byte shape, byte color){
@@ -49,7 +58,6 @@ void metaPacketDecode(byte metaPacket){
   byte wallDirection = getBit(metaPacket, 4, 8);
   byte shape = getBit(metaPacket, 2, 4); //metaPacket[2:3];
   byte color = getBit(metaPacket, 0, 2); //metaPacket[0:1];
-  return NULL;
 }
 
 void mazeUpdate(int x, int y, byte metaPacket){
