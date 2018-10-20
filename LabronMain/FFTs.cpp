@@ -113,6 +113,7 @@ void debugFFT(){
       if (fft_log_out[i]>hatThreshold){
         Serial.print("IR Hat detected!");
         Serial.println(fft_log_out[i]);
+        Serial.print("turning around");
         turnAround();
         
       }

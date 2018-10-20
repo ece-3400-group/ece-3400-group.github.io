@@ -40,19 +40,22 @@ void readServos(byte debug=1) {
 // Check the IR sensor data
 void checkSensors(){
   // Read the IR sensor data
-  vals[0] = analogRead(QRE1113_Pin0);
-  vals[1] = analogRead(QRE1113_Pin1);
-  vals[2] = analogRead(QRE1113_Pin2);
+  vals[0] = analogRead(QRE1113_Pin0);  // Right sensor
+  vals[1] = analogRead(QRE1113_Pin1);  // Middle Sensor
+  vals[2] = analogRead(QRE1113_Pin2);  // Left Sensor
+//  Serial.print("right: ");Serial.println(vals[0]);
+//  Serial.print("mid: ");Serial.println(vals[1]);
+//  Serial.print("left: ");Serial.println(vals[2]);
+//  Serial.println("");
 }
 
 // Turn left
 void turnLeft(){
-  Serial.println("Left");
   leftServo.write(90);
   rightServo.write(0);
-  delay(300);
+  delay(600);
   checkSensors();
-  while(vals[1] > 800)
+  while(vals[1] > 200)
   {
     checkSensors();
   }
@@ -61,34 +64,27 @@ void turnLeft(){
 
 // Turn slightly left
 void slightLeft(){
-  Serial.println("Slight Left");
-  leftServo.write(60);
-  rightServo.write(60);
-  delay(15);
+  leftServo.write(90);
+  rightServo.write(0);
+  delay(50);
   goStraight();
-  delay(5);
-  stop();
 }
 
 // Turn slightly right
 void slightRight(){
-  Serial.println("Slight Right");
-  leftServo.write(120);
-  rightServo.write(120);
-  delay(15);
+  leftServo.write(180);
+  rightServo.write(90);
+  delay(50);
   goStraight();
-  delay(5);
-  stop();
 }
 
 // Turn right
 void turnRight(){
-  Serial.println("RIGHT");
   leftServo.write(180);
   rightServo.write(90);
-  delay(300);
+  delay(500);
   checkSensors();
-  while(vals[1] > 800)
+  while(vals[1] > 200)
   {
     checkSensors();
   }
@@ -101,7 +97,7 @@ void turnAround(){
   rightServo.write(0);
   delay(400);
   checkSensors();
-  while(vals[1] > 800){
+  while(vals[1] > 200){
     checkSensors();
   }
   stop();
@@ -109,11 +105,8 @@ void turnAround(){
 
 // Move forwrard
 void goStraight(){
-  Serial.println("Straight");
   leftServo.write(100);
   rightServo.write(80);
-  //delay(100);
-  //stop();
 }
 
 // Stop moving
@@ -125,17 +118,16 @@ void stop(){
 // Logic for deciding the route for the robot
 void decideRoute() {
   checkSensors();
+  Serial.println(vals[1]);  // Taking out all the print statements makes LABron act weird im leaving one in -R
   int leftSpeed; int rightSpeed; int direction;
-  if (vals[0]>800 && vals[2]>800 && vals[1] < 800){  //go straight
-    Serial.println("If statement");
+  if (vals[0]>200 && vals[2]>200 && vals[1] < 200){  //go straight
     goStraight();
   }
 
   // take 8 steps for the figure 8 route
-  else if (vals[0] < 800 && vals[1] < 800 && vals[2] < 800)  //intersection initiate turn
+  else if (vals[0] < 200 && vals[1] < 200 && vals[2] < 200)  //intersection initiate turn
   {
     stop();
-    Serial.println("Else if statement");
   	direction = wallDetected();
   	if (direction == 0){
   	  // No wall detected to right, so turn right
@@ -156,9 +148,11 @@ void decideRoute() {
   	  // Wall detected to right, but NOT in front, so move forward
   	  digitalWrite(RightWallPin, HIGH);
       digitalWrite(ForwardWallPin, LOW);
-  	  goStraight();
-     
-     Serial.println("right");
+      goStraight();
+      while(vals[0] < 200 || vals[2] < 200){
+        checkSensors();
+      }
+  	  stop();
   	}
   	else {
   	  Serial.println("Sorry something really weird happened :^(");
@@ -167,12 +161,12 @@ void decideRoute() {
   }
 
   // Adjust the robot a bit if it's off the line
-  else if(vals[2] < 800){   //right sensor on line now turn right
-    slightRight();
-  }
-  else if(vals[0] < 800){  //left sensor on line now turn leftdigitalWrite(RightWallPin, LOW);
-
+  else if(vals[2] < 200){   //left sensor on line now adjust left
+    Serial.println("############################");
     slightLeft();
+  }
+  else if(vals[0] < 200){  //right sensor on line now adjust right
+    slightRight();
   }
 
   // Stop the robot if it's off any white lines
