@@ -14,18 +14,24 @@ void setup() {
   setupFFT();
   setupDebugFFT();
   setupWallDetection();
+  while( waitForStart() == 0b0001);
 }
 int count = 0;
 void loop() {
- // digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
-  //delay(500);
-  //wallDetected();
   decideRoute();
   if (count == 0){
-    fftResult = readFFT(ADC5_FFT);
     debugFFT();
+              fftResult = readFFT(ADC5_FFT);
+
+    while (fftResult & IRHAT_MASK) {
+          fftResult = readFFT(ADC5_FFT);
+       Serial.println(" THE IRHAT");
+      //Serial.println("TURNING AROUND");
+      //turnAround();
+      stop();
+    }
   }
   displayLedFFT(fftResult, audioPin, hatPin, decoyPin);
   count++;
-  count = count % 3;
+  count = count % 2;
 }

@@ -15,6 +15,10 @@ const int QRE1113_Pin1 = A1; // connected to analog 1
 const int QRE1113_Pin2 = A2; // connected to analog 2
 
 int vals[3];         // container for sensor output
+const int leftLineThresh = 200;
+const int middleLineThresh = 200;
+const int rightLineThresh = 200;
+
 
 void setupLineSensors() {
   pinMode(QRE1113_Pin0,INPUT);  // IR sensor 1
@@ -31,7 +35,7 @@ void setupServos() {
 void readServos(byte debug=1) {
   int left = leftServo.read();
   int right = rightServo.read();
-  if (debug) {
+  if (debug && left != 90  || right !=90) {
     Serial.print( "Left Servo = [ " ); Serial.print( left ); Serial.println( " ]");
     Serial.print( "Rightt Servo = [ " ); Serial.print( right ); Serial.println( " ]");
   }
@@ -43,6 +47,7 @@ void checkSensors(){
   vals[0] = analogRead(QRE1113_Pin0);  // Right sensor
   vals[1] = analogRead(QRE1113_Pin1);  // Middle Sensor
   vals[2] = analogRead(QRE1113_Pin2);  // Left Sensor
+//  readServos();
 //  Serial.print("right: ");Serial.println(vals[0]);
 //  Serial.print("mid: ");Serial.println(vals[1]);
 //  Serial.print("left: ");Serial.println(vals[2]);
@@ -55,7 +60,7 @@ void turnLeft(){
   rightServo.write(0);
   delay(600);
   checkSensors();
-  while(vals[1] > 200)
+  while(vals[1] > middleLineThresh)
   {
     checkSensors();
   }
@@ -84,7 +89,7 @@ void turnRight(){
   rightServo.write(90);
   delay(500);
   checkSensors();
-  while(vals[1] > 200)
+  while(vals[1] > middleLineThresh)
   {
     checkSensors();
   }
@@ -120,12 +125,13 @@ void decideRoute() {
   checkSensors();
   Serial.println(vals[1]);  // Taking out all the print statements makes LABron act weird im leaving one in -R
   int leftSpeed; int rightSpeed; int direction;
-  if (vals[0]>200 && vals[2]>200 && vals[1] < 200){  //go straight
+  if (vals[0]> leftLineThresh && vals[2]>rightLineThresh && vals[1] < middleLineThresh){  //go straight
+    //Serial.println("If statement");
     goStraight();
   }
 
   // take 8 steps for the figure 8 route
-  else if (vals[0] < 200 && vals[1] < 200 && vals[2] < 200)  //intersection initiate turn
+  else if (vals[0] < leftLineThresh && vals[1] < middleLineThresh && vals[2] < rightLineThresh)  //intersection initiate turn
   {
     stop();
   	direction = wallDetected();
@@ -134,38 +140,38 @@ void decideRoute() {
   	  turnRight();
       digitalWrite(RightWallPin, LOW);
       digitalWrite(ForwardWallPin, LOW);
-  	}
-  	else if (direction == 1){
-  	  // Wall detected to right AND in front, so turn left
+    }
+    else if (direction == 1){
+      // Wall detected to right AND in front, so turn left
       digitalWrite(RightWallPin, HIGH);
       digitalWrite(ForwardWallPin, HIGH);
-  	  turnLeft();
+      turnLeft();
      digitalWrite(RightWallPin, LOW);
       digitalWrite(ForwardWallPin, LOW);
-     Serial.println("forward Wall detected");
-  	}
-  	else if (direction == 2){
-  	  // Wall detected to right, but NOT in front, so move forward
-  	  digitalWrite(RightWallPin, HIGH);
+     //Serial.println("forward Wall detected");
+    }
+    else if (direction == 2){
+      // Wall detected to right, but NOT in front, so move forward -- the while loop keeps LABron moving off the intersection
+      digitalWrite(RightWallPin, HIGH);
       digitalWrite(ForwardWallPin, LOW);
       goStraight();
-      while(vals[0] < 200 || vals[2] < 200){
+      while(vals[0] < rightLineThresh || vals[2] < leftLineThresh){
         checkSensors();
       }
   	  stop();
   	}
   	else {
-  	  Serial.println("Sorry something really weird happened :^(");
+  	  //Serial.println("Sorry something really weird happened :^(");
   	  stop();
   	}
   }
 
   // Adjust the robot a bit if it's off the line
-  else if(vals[2] < 200){   //left sensor on line now adjust left
-    Serial.println("############################");
+  else if(vals[2] < leftLineThresh){   //left sensor on line now adjust left
+    //Serial.println("############################");
     slightLeft();
   }
-  else if(vals[0] < 200){  //right sensor on line now adjust right
+  else if(vals[0] < rightLineThresh){  //right sensor on line now adjust right
     slightRight();
   }
 

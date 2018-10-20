@@ -6,7 +6,7 @@ const int IRPinRight = A4;
 const int RightWallPin = 11;
 const int ForwardWallPin = 12;
 
-const int wallThreshold = 300;
+const int wallThreshold = 300; // blaze it
 
 
 void setupWallDetection() {
@@ -51,14 +51,16 @@ int wallDetected(){
     return 0;     // Turn right (R sensor doesn't detect wall)
   }
   else{
+    Serial.print("\n\t\tAverageRight = "); Serial.println(averageRight);
+    Serial.print("\n\t\tAverageForward = "); Serial.println(averageForward);
     if(averageForward > wallThreshold) {
-      Serial.print("FORWARD WALL DETECTED = "); Serial.println(averageForward);
+      Serial.print("FORWARD WALL DETECTED = "); //Serial.println(averageForward);
      // digitalWrite(ForwardWallPin, HIGH);
      // digitalWrite(RightWallPin, HIGH);
       return 1;   // Turn left (both F and R sensors detect wall)
     }
-    Serial.print("Wall detected! = "); Serial.println(averageRight);
-  //  digitalWrite(RightWallPin, HIGH);
+    Serial.print("Wall detected! = "); //Serial.println(averageRight);
+   // digitalWrite(RightWallPin, HIGH);
     return 2;     // Continue moving forward (only R sensor detects wall)
   }
 }

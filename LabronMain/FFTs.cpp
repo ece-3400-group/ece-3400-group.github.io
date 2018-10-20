@@ -11,9 +11,9 @@ const int binWhistle = 6;       // 660Hz BIN
 const int binIRHat   = 44;      // 6.08kHz BIN
 const int binIRDecoy = 122;     // 18kHz BIN
 const int audioThreshold = 100;
-const int hatThreshold = 70;
+const int hatThreshold = 50;
 const int decoyThreshold = 100;
-byte result;
+byte result; byte fftBefore;
 
 void setupDebugFFT(){
   pinMode(audioPin, OUTPUT);
@@ -58,40 +58,54 @@ byte readFFT(int adcPinNum = ADC5_FFT) {
 //     Serial.print(fft_log_out[i]); // send out the data
 //     Serial.print("\t");
 //  }
-//   Serial.println(" "); 
+//   //Serial.println(" "); 
 
   byte result = isFFTPeak();
   return result;
 }
 
+byte waitForStart() {
+  Serial.println("Waiting for start"); // DO NOT DELETE THIS COMMENT
+  stop();
+  byte fftReading = readFFT();
+  if (fftReading & AUDIO_MASK) {
+    Serial.println("------------------------------------------------------ started------");
+    return 0b0000;
+  }
+  return 0b0001;
+}
+
 byte isFFTPeak() {
+  fftBefore = result++ % 3;
   result = 0b0000;
   for (int i=binWhistle-1;i<binWhistle+1;i++){    // search in range of plus and minus 2
-      if (fft_log_out[i]>audioThreshold) result |= 0b0001;
+      if (fft_log_out[i]>audioThreshold) {
+        result |= AUDIO_MASK;
+        Serial.println("DETECTEDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
+      }
   }
 
     for (int i=binIRHat-2;i<binIRHat+2;i++){       // search in range of plus and minus 2
-      if (fft_log_out[i]>hatThreshold) result |= 0b0010;
+      if (fft_log_out[i]>hatThreshold) result |= IRHAT_MASK;
     }
 
     for (int i=binIRDecoy-2;i<binIRDecoy+2;i++){    // search in range of plus and minus 2
-      if (fft_log_out[i]>decoyThreshold)result |= 0b0100;
+      if (fft_log_out[i]>decoyThreshold)result |= DECOY_MASK;
     }
- 
   return result;
 }
 
 void displayLedFFT( byte fftResult, int audioPin, int hatPin, int decoyPin ) {
-  if (fftResult & 0b01) {
+  if ((fftResult & AUDIO_MASK) && (fftBefore & AUDIO_MASK)) {
+    //Serial.println("TURNING ON LED****************************************");
     digitalWrite(audioPin, HIGH);
-    Serial.println("--------------------------------------------------------");
   }
   else digitalWrite(audioPin, LOW);
 
-  if (fftResult & 0b010) digitalWrite(hatPin, HIGH);
+  if (fftResult & IRHAT_MASK) digitalWrite(hatPin, HIGH);
   else digitalWrite(hatPin, LOW);
 
-  if (fftResult & 0b0100) digitalWrite(decoyPin, HIGH);
+  if (fftResult & DECOY_MASK) digitalWrite(decoyPin, HIGH);
   else digitalWrite(decoyPin, LOW);
 }
 
@@ -113,16 +127,14 @@ void debugFFT(){
       if (fft_log_out[i]>hatThreshold){
         Serial.print("IR Hat detected!");
         Serial.println(fft_log_out[i]);
-        Serial.print("turning around");
-        turnAround();
-        
+        Serial.print("turning around");        
       }
     }
 
     for (int i=binIRDecoy-2;i<binIRDecoy+2;i++){    // search in range of plus and minus 2
       if (fft_log_out[i]>decoyThreshold){
         Serial.print("IR Decoy detected!");
-        Serial.println(fft_log_out[i]);
+        //Serial.println(fft_log_out[i]);
         
       }
     }
