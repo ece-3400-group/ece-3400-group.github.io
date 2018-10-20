@@ -10,14 +10,38 @@ byte metaPacket; // bits 0-3 NSEW wall ,bits 4-7 encode treasure information (se
 // Assume we begin at (0,0) facing NORTH
 // Define a bunch of vectors that can be shifted and  ORd together to create encoding
 
+byte metaPacketNorthEast;
+                 // In the local map, each coordinate from positionPacket is used
+                 // to refer to a 1 byte metaPacket
+                // bit 0 = NorthEast identifier
+                // bit 1 = 0 if North, 1 if East
+                // bit 2 = 1 if wall detected here
+                // bit 3 = 1 if  other robot detected
+                // bit 4 = 1 if visited before
+                // bit 5-6 = treasure shape (00 NONE, 01 TRIANGLE, 10 CIRCLE, 11 SQUARE)
+                // bit 7-8 = treasure color (00 NONE, 01 RED, 10 BLUE, 11 GREEN)
+
+byte metaPacketSouthWest;
+
+                 // In the local map, each coordinate from positionPacket is used
+                 // to refer to a 1 byte metaPacket
+                 // bit 1 =SouthWest identifier
+                 // bit 1 = 0 if South, 1 if West
+                 // bit 2 = 1 if wall detected here
+                 // bit 3 = 1 if other robot detected
+                 // bit 4 = 1 if visited before
+                 // bit 5-6 = treasure shape (00 NONE, 01 TRIANGLE, 10 CIRCLE, 11 SQUARE)
+                 // bit 7-8 = treasure color (00 NONE, 01 RED, 10 BLUE, 11 GREEN)
+
 // Positional macros
 #define UNKNOWN 0b0000
 
 // Wall macros
-#define NORTH 0b1000
-#define SOUTH 0b0100
-#define WEST 0b0010
-#define EAST 0b0001
+#define NORTH 0b00
+#define EAST 0b01
+#define SOUTH 0b10
+#define WEST 0b11
+
 
 // Treasure shape
 #define NOSHAPE 0b00
@@ -64,16 +88,62 @@ byte metaPacketEncode(byte wallDirection, byte shape, byte color){
   return (wallDirection<<4)|(shape<<2)|color;
 }
 
-void metaPacketDecode(byte metaPacket){
+void metaPacketDecode_Shubhom(byte metaPacket){
   // With a known wallDdirection,shape, and color, output a metaPacket encoding
+  byte walldir = getBit(metaPacket, 0, 2);  // extract bin 0 to 1
+  byte walldetect = getBit(metaPacket, 2, 3);  // extract bin 1 
+  byte robot = getBit(metaPacket, 3, 4);  // extract bin 1 
+  byte visited = getBit(metaPacket, 4, 5);  // extract bin 1 
+  byte shape = getBit(metaPacket, 5, 7);  // extract bin 1 
+  byte color = getBit(metaPacket, 7, 9);  // extract bin 1 
+  
+//  byte wallWest = getBit(metaPacket, 1, 2);  // extract bin 1 
+//  byte wallNorth = getBit(metaPacket, 2, 3);  // extract bin 2
+//  byte wallEast = getBit(metaPacket, 3, 4);  // extract bin 3
+//  byte wallSouth = getBit(metaPacket, 4, 5);  // extract bin 4
+//  byte shape = getBit(metaPacket, 5, 7);                // extract bin 5 to 6
+//  byte color = getBit(metaPacket, 7, 9);                 // extract bin 7 to 8
+  
+  if(WEST == walldir && walldetect){West = "true";}
+  else{West = "false";}
+  
+  if(NORTH == walldir && walldetect){North = "true";}
+  else{North = "false";}
+  
+  if(EAST == walldir && walldetect){East = "true";}
+  else{East = "false";}
+  
+  if(SOUTH == walldir && walldetect){South = "true";}
+  else{South = "false";}
+
+  // treasure shape byte to string
+  if(NOSHAPE == shape){TShape = "none";}  
+  else if(TRIANGLE == shape){TShape = "triangle";}  
+  else if(CIRCLE == shape){TShape = "circle";}
+  else if(SQUARE == shape){TShape = "square";}
+  else{TShape = "none";}
+  
+  // treasure color byte to string
+  if(NOCOLOR == color){TColor = "none";}  
+  else if(RED == color){TColor = "red";}  
+  else if(GREEN == color){TColor = "green";}
+  else if(BLUE == color){TColor = "blue";}
+  else{TColor = "none";}
+}
+
+void metaPacketDecode_Position(byte metaPacket){
+ byte rows = getBit(metaPacket, 0, 4);  // extract bin 1 
+ byte cols = getBit(metaPacket, 4, 8);  // extract bin 1 
+}
+
+void metaPacketDecode_Treasure(byte metaPacket){
+  // With a known wallDdirection,shape, and color, output a metaPacket encoding  
   byte wallWest = getBit(metaPacket, 1, 2);  // extract bin 1 
   byte wallNorth = getBit(metaPacket, 2, 3);  // extract bin 2
   byte wallEast = getBit(metaPacket, 3, 4);  // extract bin 3
   byte wallSouth = getBit(metaPacket, 4, 5);  // extract bin 4
   byte shape = getBit(metaPacket, 5, 7);                // extract bin 5 to 6
   byte color = getBit(metaPacket, 7, 9);                 // extract bin 7 to 8
-  byte rows = getBit(metaPacket, 9,13);                 // extract bin 9 to 12
-  byte cols = getBit(metaPacket, 13, 17);                 // extract bin 13 to 16
   
   if(WEST == wallWest){West = "true";}
   else{West = "false";}
@@ -140,5 +210,6 @@ void outputGUI(){
 void loop() {
   // put your main code here, to run repeatedly:
   outputGUI();
+  delay(1000);
 }
 
