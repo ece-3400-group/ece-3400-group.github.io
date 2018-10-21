@@ -116,12 +116,13 @@ void stop(){
 }
 
 // Logic for deciding the route for the robot
-void decideRoute() {
+byte decideRoute() {
   checkSensors();
   Serial.println(vals[1]);  // Taking out all the print statements makes LABron act weird im leaving one in -R
-  int leftSpeed; int rightSpeed; int direction;
+  int leftSpeed; int rightSpeed; byte direction;
   if (vals[0]>200 && vals[2]>200 && vals[1] < 200){  //go straight
     goStraight();
+    return 0;          // No intersection reached, so return 0 (no radio information necessary)
   }
 
   // take 8 steps for the figure 8 route
@@ -129,25 +130,27 @@ void decideRoute() {
   {
     stop();
   	direction = wallDetected();
-  	if (direction == 0){
+  	if (direction == 0b10000000 || direction == 0b00000000){
   	  // No wall detected to right, so turn right
+      direction = direction || 0b000001000;
   	  turnRight();
       digitalWrite(RightWallPin, LOW);
       digitalWrite(ForwardWallPin, LOW);
   	}
-  	else if (direction == 1){
+  	else if (direction == 0b11000000){
   	  // Wall detected to right AND in front, so turn left
       digitalWrite(RightWallPin, HIGH);
       digitalWrite(ForwardWallPin, HIGH);
+      direction = direction || 0b00000010;
   	  turnLeft();
-     digitalWrite(RightWallPin, LOW);
+      digitalWrite(RightWallPin, LOW);
       digitalWrite(ForwardWallPin, LOW);
-     Serial.println("forward Wall detected");
   	}
-  	else if (direction == 2){
+  	else if (direction == 0b01000000){
   	  // Wall detected to right, but NOT in front, so move forward
   	  digitalWrite(RightWallPin, HIGH);
       digitalWrite(ForwardWallPin, LOW);
+      direction = direction || 0b00001000;
       goStraight();
       while(vals[0] < 200 || vals[2] < 200){
         checkSensors();
@@ -158,19 +161,26 @@ void decideRoute() {
   	  Serial.println("Sorry something really weird happened :^(");
   	  stop();
   	}
+
+   // direction now contains wall information in its first 4 bits, and new direction information in its last 4 bits
+   // first four bits organized [F, R, B[ehind], L] and are raised high when a wall is present
+   // next four bits organized {forward, right, left, turnaround} to be interpreted in main loop
+   return direction;   
   }
 
   // Adjust the robot a bit if it's off the line
   else if(vals[2] < 200){   //left sensor on line now adjust left
-    Serial.println("############################");
-    slightLeft();
+    slightLeft();          // No intersection reached, so return 0 (no radio information necessary)
+    return 0;
   }
   else if(vals[0] < 200){  //right sensor on line now adjust right
-    slightRight();
+    slightRight();          // No intersection reached, so return 0 (no radio information necessary)
+    return 0;
   }
 
   // Stop the robot if it's off any white lines
   else{ //stop
-    stop();
+    stop();                // No intersection reached, so return 0 (no radio information necessary)
+    return 0;
   }
 }

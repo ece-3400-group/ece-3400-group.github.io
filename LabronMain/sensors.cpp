@@ -34,31 +34,25 @@ int averageDistanceIRReading(int delayTime, const int IRPin, int n){
   return average;
 }
 
-int wallDetected(){
+byte wallDetected(){
   // Using an average measurement for a period of timesteps
   // decide if a wall is there.
+  // return the correct byte describing the walls around the robot
   int delayTime = 30; 
   const int n = 5;
 
   int averageForward = averageDistanceIRReading(delayTime, IRPinFront, n); // take an average to be less sensitive to noise
   int averageRight = averageDistanceIRReading(delayTime, IRPinRight, n);
 
+  bool right = true ? averageRight > wallThreshold : false;
+  bool front = true ? averageForward > wallThreshold : false;
+
+  // returning encoded wall packet
+  // encoding goes (F, R, B[ehind], L, nullx4 so for example if wall was in front then first bit is high all others are 0
+  if (right && front) return 0b11000000;
+  else if (right && !front) return 0b01000000;
+  else if (!right and front) return 0b10000000;
+  else return 0b00000000;
+
   
-  if (averageRight < wallThreshold){
-    Serial.print("R sensor doesn't detect wall = ");
-    Serial.println(averageRight);
- 
-    return 0;     // Turn right (R sensor doesn't detect wall)
-  }
-  else{
-    if(averageForward > wallThreshold) {
-      Serial.print("FORWARD WALL DETECTED = "); Serial.println(averageForward);
-     // digitalWrite(ForwardWallPin, HIGH);
-     // digitalWrite(RightWallPin, HIGH);
-      return 1;   // Turn left (both F and R sensors detect wall)
-    }
-    Serial.print("Wall detected! = "); Serial.println(averageRight);
-  //  digitalWrite(RightWallPin, HIGH);
-    return 2;     // Continue moving forward (only R sensor detects wall)
-  }
 }
