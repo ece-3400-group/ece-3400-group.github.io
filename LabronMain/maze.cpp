@@ -23,7 +23,7 @@ byte updateDirection(byte decidedRoute){ // decidedRoute is output of decidedRou
   int wallForward = bitRead(decidedRoute,4);
   int wallRight = bitRead(decidedRoute,5);
   int wallLeft = bitRead(decidedRoute,6);
-  int wallBehind = bitRead (decidedRoute,7)
+  int wallSouth     = bitRead (decidedRoute,7); 
   if (direction == 0b01){ // facing EAST
     if (wallForward == 1){
       // North wall at x,y
@@ -103,7 +103,6 @@ byte updateDirection(byte decidedRoute){ // decidedRoute is output of decidedRou
   int behind = bitRead (decidedRoute,7); // how will it detect a wall behind it?
   if (forward+right+left+behind != 1){
     Serial.println("Multiple directions specified. Check logic");
-    throw();
   }
 
   if (right == 1){
