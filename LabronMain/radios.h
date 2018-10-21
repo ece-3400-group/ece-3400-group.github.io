@@ -1,11 +1,8 @@
-#ifndef RADIOS
-#define RADIOS
+#ifndef RADIOS_H
+#define RADIOS_H
 #include <Arduino.h>
-
-// TODO: EXTERN CONSTS based on Lab3/sendMazeInfo.ino
 
 void setupRadios();
 void packetTransmission(byte positionPacket, byte metaPacket);
 
-
-#endif // SENSORS
+#endif // RADIOS_H

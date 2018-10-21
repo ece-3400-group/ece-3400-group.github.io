@@ -1,19 +1,7 @@
-/*
-Test packet sending with encoded packets.
-*/
-
-
 #include <SPI.h>
 #include "nRF24L01.h"
 #include "RF24.h"
 #include "printf.h"
-
-//
-// Hardware configuration
-//
-
-
-
 
 // Send two packets per transmission
 //
@@ -29,26 +17,12 @@ Test packet sending with encoded packets.
 
 // we do not need two packets
 // Set up nRF24L01 radio on SPI bus plus pins 9 & 10
-
 RF24 radio(9,10);
-
-//
-// Topology
-//
 
 // Radio pipe addresses for the 2 nodes to communicate.
 const uint64_t pipes[2] = { 0x0000000070LL, 0x0000000071LL };
-
-//
-// Role management
-//
-// Set up role.  This sketch uses the same software for all the nodes
-// in this system.  Doing so greatly simplifies testing.
-//
-
 // The various roles supported by this sketch
 typedef enum { role_ping_out = 1, role_pong_back } role_e;
-
 // The debug-friendly names of those roles
 const char* role_friendly_name[] = { "invalid", "Ping out", "Pong back"};
 
@@ -57,11 +31,6 @@ role_e role = role_pong_back;
 
 void setupRadios(void)
 {
-  //
-  // Print preamble
-  //
-
-  Serial.begin(57600);
   printf_begin();
   printf("\n\rRF24/examples/GettingStarted/\n\r");
   printf("ROLE: %s\n\r",role_friendly_name[role]);
@@ -70,7 +39,6 @@ void setupRadios(void)
   //
   // Setup and configure rf radio
   //
-
   radio.begin();
 
   // optionally, increase the delay between retries & # of retries
@@ -87,11 +55,9 @@ void setupRadios(void)
   // optionally, reduce the payload size.  seems to
   // improve reliability
   //radio.setPayloadSize(8);
-
   //
   // Open pipes to other nodes for communication
   //
-
   // This simple sketch opens two pipes for these two nodes to communicate
   // back and forth.
   // Open 'our' pipe for writing

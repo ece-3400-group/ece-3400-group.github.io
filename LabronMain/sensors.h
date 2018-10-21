@@ -2,14 +2,28 @@
 #define SENSORS
 #include <Arduino.h>
 
-extern const int IRPinRight;
-extern const int IRPinFront;
-extern const int ForwardWallPin;
-extern const int RightWallPin;
+/******************* [ Threshold Values ] **************************/
+#define wallThreshold 300
+#define wallDetectedDelay 30
+#define wallDetectedAverage 5
 
+/******************* [ Pin Definitions ] **************************/
+#define IRFRONT_PIN     A3 
+#define IRRIGHT_PIN     A4
+#define RIGHTWALL_PIN   3
+#define FORWARDWALL_PIN 4
+
+/******************* [ Bit Definitions ] **************************/
+// returning encoded wall packet
+  // encoding goes (F, R, B[ehind], L, nullx4 so for example if wall was in front then first bit is high all others are 0
+#define FRONT  0b10000000
+#define RIGHT  0b01000000
+#define NOWALL 0b00000000
+
+/******************* [ Function Prototypes ] **************************/
 void setupIR();
 void setupWallDetection();
 int averageDistanceIRReading(int delayTime, int IRpin,int n);
-int wallDetected();
+byte wallDetected();
 
 #endif // SENSORS
