@@ -14,24 +14,45 @@ void setup() {
   setupFFT();
   setupDebugFFT();
   setupWallDetection();
-  while( waitForStart() == 0b0001);
 }
 int count = 0;
 void loop() {
-  decideRoute();
-  if (count == 0){
-    debugFFT();
-              fftResult = readFFT(ADC5_FFT);
+ // digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
+  //delay(500);
+  //wallDetected();
+  byte routeInfo = decideRoute();  // routeInfo organized [F,R,B,L; forward, right, left, turnaround]
+  if (routeInfo != 0){
+     if (bitRead(routeInfo, 3)){
+        //we're moving forward - coordinate this with current position and direction for updates
+     }
+     else if(bitRead(routeInfo, 2)){
+        //we're turning right - coordinate this with current position and direction for updates
+     }
+     else if(bitRead(routeInfo, 1)){
+        //we're turning left - coordinate this with current position and direction for updates
+     }
+     else if(bitRead(routeInfo, 0)){
+        //we're turning around - we'll need to adjust so that we somehow know whenever turnaround is called where our position is (maybe put all this in its own file)
+     }
 
-    while (fftResult & IRHAT_MASK) {
-          fftResult = readFFT(ADC5_FFT);
-       Serial.println(" THE IRHAT");
-      //Serial.println("TURNING AROUND");
-      //turnAround();
-      stop();
-    }
+     if (bitRead(routeInfo, 7)) {
+        // there's a forward wall}
+     }
+     if (bitRead(routeInfo, 6)) {
+        // there's a right wall}
+     }
+     if (bitRead(routeInfo, 5)) {
+        // there's a left wall}
+     }
+     
+
+    //heres where we'll transmit to radio
+  }
+  if (count == 0){
+    fftResult = readFFT(ADC5_FFT);
+    debugFFT();
   }
   displayLedFFT(fftResult, audioPin, hatPin, decoyPin);
   count++;
-  count = count % 2;
+  count = count % 3;
 }
