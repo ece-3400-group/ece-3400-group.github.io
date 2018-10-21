@@ -18,6 +18,7 @@
   // encoding goes (F, R, B[ehind], L, nullx4 so for example if wall was in front then first bit is high all others are 0
 #define FRONT  0b10000000
 #define RIGHT  0b01000000
+#define LEFT   0b00010000
 #define NOWALL 0b00000000
 
 /******************* [ Function Prototypes ] **************************/
