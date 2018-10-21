@@ -1,5 +1,4 @@
-/* File to keep track of internal maze state and direction */
-
+#include "maze.h"
 
 void updateMaze(int x, int y, byte metaPacket){
   

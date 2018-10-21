@@ -1,22 +1,14 @@
 #include "sensors.h"
 #include <Arduino.h>
 
-const int IRPinFront = A3; 
-const int IRPinRight = A4;
-const int RightWallPin = 11;
-const int ForwardWallPin = 12;
-
-const int wallThreshold = 300;
-
-
 void setupWallDetection() {
-  pinMode(RightWallPin, OUTPUT);
-  pinMode(ForwardWallPin, OUTPUT);
+  pinMode(RIGHTWALL_PIN, OUTPUT);
+  pinMode(FORWARDWALL_PIN, OUTPUT);
 }
 
 void setupIR() {
-  pinMode(IRPinFront, INPUT);
-  pinMode(IRPinRight, INPUT);
+  pinMode(IRFRONT_PIN, INPUT);
+  pinMode(IRRIGHT_PIN, INPUT);
 }
 
 int averageDistanceIRReading(int delayTime, const int IRPin, int n){
@@ -38,21 +30,29 @@ byte wallDetected(){
   // Using an average measurement for a period of timesteps
   // decide if a wall is there.
   // return the correct byte describing the walls around the robot
-  int delayTime = 30; 
-  const int n = 5;
+  int averageForward = averageDistanceIRReading(wallDetectedDelay, IRFRONT_PIN, wallDetectedAverage); // take an average to be less sensitive to noise
+  int averageRight = averageDistanceIRReading(wallDetectedDelay, IRRIGHT_PIN, wallDetectedAverage);
 
-  int averageForward = averageDistanceIRReading(delayTime, IRPinFront, n); // take an average to be less sensitive to noise
-  int averageRight = averageDistanceIRReading(delayTime, IRPinRight, n);
-
-  bool right = true ? averageRight > wallThreshold : false;
-  bool front = true ? averageForward > wallThreshold : false;
+  bool right = averageRight > wallThreshold;
+  bool front = averageForward > wallThreshold;
 
   // returning encoded wall packet
   // encoding goes (F, R, B[ehind], L, nullx4 so for example if wall was in front then first bit is high all others are 0
-  if (right && front) return 0b11000000;
-  else if (right && !front) return 0b01000000;
-  else if (!right and front) return 0b10000000;
-  else return 0b00000000;
+  if (right && front) {
+    Serial.println(F("Right and Front"));
+    return ( FRONT | RIGHT );
+  }
+  else if (right && !front) {
+    Serial.println(F("Right"));
+    return RIGHT;
+  }
+  else if (!right and front) {
+    Serial.println(F("Front"));
+    return FRONT;
+  }
+  else {
+        Serial.println(F("nothing"));
 
-  
+    return NOWALL;
+  }
 }

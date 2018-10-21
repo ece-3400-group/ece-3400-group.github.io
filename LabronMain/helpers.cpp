@@ -8,5 +8,4 @@ int invert(int number){
 
 void serialBegin( int baudrate ) {
   Serial.begin( baudrate );
-  //Serial.println("START");
 }

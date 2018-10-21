@@ -2,32 +2,14 @@
 #include <FFT.h> // include the library
 #include "servo.h"
 
-const int MASTER_FFT_PIN = A5;
-const int audioPin = 8;
-const int hatPin = 9;
-const int decoyPin = 10;
-
-const int binWhistle = 6;       // 660Hz BIN
-const int binIRHat   = 44;      // 6.08kHz BIN
-const int binIRDecoy = 122;     // 18kHz BIN
-const int audioThreshold = 100;
-const int hatThreshold = 50;
-const int decoyThreshold = 100;
 byte result; byte fftBefore;
 
 void setupDebugFFT(){
-  pinMode(audioPin, OUTPUT);
-  pinMode(hatPin, OUTPUT);
-  pinMode(decoyPin, OUTPUT);
+  pinMode(AUDIO_PIN, OUTPUT);
+  pinMode(IRHAT_PIN, OUTPUT);
 }
 
 void setupFFT(){
-  //TIMSK0 = 0; // turn off timer0 for lower jitter
-  /* Adding these two lines wouldn't make the fft work
-  //ADCSRA = 0xe5; // set the adc to free running mode
-  //ADMUX = 0x45; // use adc4
-  */
- // DIDR0 = 0x05; // turn off the digital input for adc0
   pinMode(MASTER_FFT_PIN, INPUT);
 }
 
@@ -65,13 +47,16 @@ byte readFFT(int adcPinNum = ADC5_FFT) {
 }
 
 byte waitForStart() {
-  Serial.println("Waiting for start"); // DO NOT DELETE THIS COMMENT
+  //Serial.println("Waiting for start"); // DO NOT DELETE THIS COMMENT
+  //Serial.print("  ");
   stop();
   byte fftReading = readFFT();
   if (fftReading & AUDIO_MASK) {
-    Serial.println("------------------------------------------------------ started------");
+    Serial.println(F("------------------------------------------------------ started------"));
     return 0b0000;
   }
+  delay(200);
+  stop();
   return 0b0001;
 }
 
@@ -81,7 +66,7 @@ byte isFFTPeak() {
   for (int i=binWhistle-1;i<binWhistle+1;i++){    // search in range of plus and minus 2
       if (fft_log_out[i]>audioThreshold) {
         result |= AUDIO_MASK;
-        Serial.println("DETECTEDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
+        Serial.println(F("DETECTEDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD"));
       }
   }
 
@@ -95,18 +80,15 @@ byte isFFTPeak() {
   return result;
 }
 
-void displayLedFFT( byte fftResult, int audioPin, int hatPin, int decoyPin ) {
+void displayLedFFT( byte fftResult, int audioPin, int hatPin ) {
   if ((fftResult & AUDIO_MASK) && (fftBefore & AUDIO_MASK)) {
     //Serial.println("TURNING ON LED****************************************");
-    digitalWrite(audioPin, HIGH);
+    digitalWrite(AUDIO_PIN, HIGH);
   }
-  else digitalWrite(audioPin, LOW);
+  else digitalWrite(AUDIO_PIN, LOW);
 
   if (fftResult & IRHAT_MASK) digitalWrite(hatPin, HIGH);
-  else digitalWrite(hatPin, LOW);
-
-  if (fftResult & DECOY_MASK) digitalWrite(decoyPin, HIGH);
-  else digitalWrite(decoyPin, LOW);
+  else digitalWrite(IRHAT_PIN, LOW);
 }
 
 void debugFFT(){
@@ -118,16 +100,16 @@ void debugFFT(){
     }
     for (int i=binWhistle-1;i<binWhistle+1;i++){    // search in range of plus and minus 2
       if (fft_log_out[i]>audioThreshold){
-        Serial.print("Whistle detected!");
+        Serial.print(F("Whistle detected!"));
         Serial.println(fft_log_out[i]);
       }
     }
 
     for (int i=binIRHat-2;i<binIRHat+2;i++){       // search in range of plus and minus 2
       if (fft_log_out[i]>hatThreshold){
-        Serial.print("IR Hat detected!");
+        Serial.print(F("IR Hat detected!"));
         Serial.println(fft_log_out[i]);
-        Serial.print("turning around");        
+        Serial.print(F("turning around"));        
       }
     }
 
