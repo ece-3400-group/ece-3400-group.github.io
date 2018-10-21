@@ -2,7 +2,7 @@
 #include "helpers.h"
 #include "sensors.h"
 #include "FFTs.h"
-
+# include "radios.h"
 byte fftResult;
 
 void setup() {
@@ -13,6 +13,7 @@ void setup() {
   setupIR();
   setupFFT();
   setupDebugFFT();
+  setupRadios();
   setupWallDetection();
   while( waitForStart() == 0b0001);
 }
