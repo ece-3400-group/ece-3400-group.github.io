@@ -7,10 +7,10 @@
  */
  
 /**
- * @file printf.h
+ * @file Serial.println.h
  *
  * Setup necessary to direct stdout to the Arduino Serial library, which
- * enables 'printf'
+ * enables 'Serial.println'
  */
 
 #ifndef __PRINTF_H__

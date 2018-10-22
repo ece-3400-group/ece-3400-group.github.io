@@ -110,7 +110,7 @@ void stop(){
 // Logic for deciding the route for the robot
 byte decideRoute() {
   checkSensors();
-  //Serial.println(vals[1]);  // Taking out all the print statements makes LABron act weird im leaving one in -R
+  Serial.println(vals[1]);  // Taking out all the print statements makes LABron act weird im leaving one in -R
   int leftSpeed; int rightSpeed; byte direction = 0b00000000;
   if (vals[0]>LINE_THRESHOLD && vals[2]>LINE_THRESHOLD && vals[1] < LINE_THRESHOLD){  //go straight
     //Serial.println("NOTHING");
