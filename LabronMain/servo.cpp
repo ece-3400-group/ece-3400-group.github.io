@@ -121,31 +121,28 @@ byte decideRoute() {
   else if (vals[0] < LINE_THRESHOLD && vals[1] < LINE_THRESHOLD && vals[2] < LINE_THRESHOLD)  //intersection initiate turn
   {
     stop();
-  	direction = wallDetected();
-  Serial.println("==================================");
-  Serial.println(direction);
-  Serial.println("==================================");
-  	if (direction == FRONT || direction == NOWALL){
-  	  // No wall detected to right, so turn right
+    direction = wallDetected();
+    if (direction == FRONT || direction == NOWALL){
+      // No wall detected to right, so turn right
       direction = direction | 0b000001000;
-  	  turnRight();
+      turnRight();
       digitalWrite(RIGHTWALL_PIN, LOW);
       digitalWrite(FORWARDWALL_PIN, LOW);
       Serial.println("No Wall");
-  	}
-  	else if ((direction & FRONT) && (direction & RIGHT)){
-  	  // Wall detected to right AND in front, so turn left
+    }
+    else if ((direction & FRONT) && (direction & RIGHT)){
+      // Wall detected to right AND in front, so turn left
       digitalWrite(RIGHTWALL_PIN, HIGH);
       digitalWrite(FORWARDWALL_PIN, HIGH);
       direction = direction | 0b00000010;
-  	  turnLeft();
+      turnLeft();
      Serial.println("Wall to RIght and FRONT");
       digitalWrite(RIGHTWALL_PIN, LOW);
       digitalWrite(FORWARDWALL_PIN, LOW);
-  	}
-  	else if (direction == RIGHT){
-  	  // Wall detected to right, but NOT in front, so move forward
-  	  digitalWrite(RIGHTWALL_PIN, HIGH);
+    }
+    else if (direction == RIGHT){
+      // Wall detected to right, but NOT in front, so move forward
+      digitalWrite(RIGHTWALL_PIN, HIGH);
       digitalWrite(FORWARDWALL_PIN, LOW);
       direction = direction | 0b00001000;
       goStraight();
@@ -153,12 +150,12 @@ byte decideRoute() {
       while(vals[0] < LINE_THRESHOLD || vals[2] < LINE_THRESHOLD){
         checkSensors();
       }
-  	  stop();
-  	}
-  	else {
-  	  Serial.println(F("Sorry something really weird happened :^("));
-  	  stop();
-  	}
+      stop();
+    }
+    else {
+      Serial.println(F("Sorry something really weird happened :^("));
+      stop();
+    }
    return direction;   
   }
 

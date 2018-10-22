@@ -21,21 +21,19 @@ RF24 radio(9, 10);
 // Radio pipe addresses for the 2 nodes to communicate.
 const uint64_t pipes[2] = { 0x0000000070LL, 0x0000000071LL };
 // The various roles supported by this sketch
-typedef enum { role_ping_out = 1, role_pong_back } role_e;
+typedef enum { role_ping_out = 1, role_pong_back = 0} role_e;
 // The debug-friendly names of those roles
 const char* role_friendly_name[] = { "invalid", "Ping out", "Pong back"};
 
 // The role of the current running sketch
-role_e role = role_pong_back;
+role_e role = role_ping_out;
 
 void setupRadios(void)
 {
   pinMode(RADIO_DEBUG_LED, OUTPUT);
-  //printf_begin();
-  Serial.println("\n\rRF24/examples/GettingStarted/\n\r");
-  Serial.print("ROLE: "); Serial.println(role_friendly_name[role]);
-  Serial.println("*** PRESS 'T' to begin transmitting to the other node\n\r");
-
+  printf_begin();
+  printf("\nRF24/examples/GettingStarted/\n");
+  printf("ROLE: "); printf(role_friendly_name[role]);
   //
   // Setup and configure rf radio
   //
@@ -51,18 +49,20 @@ void setupRadios(void)
   radio.setPALevel(RF24_PA_MIN);
   //RF24_250KBPS for 250kbs, RF24_1MBPS for 1Mbps, or RF24_2MBPS for 2Mbps
   radio.setDataRate(RF24_250KBPS);
-
+  //printf("MIDDLE of radio steup\n");
   //
   // Dump the configuration of the rf unit for debugging
   //
 
-
+ 
   role = role_ping_out;
   radio.openWritingPipe(pipes[0]);
   radio.openReadingPipe(1, pipes[1]);
   
-    radio.printDetails();
-    radio.startListening();
+  radio.startListening();
+  radio.printDetails();
+ // printf("end of radio steup\n");
+
 }
 
 void packetTransmission(int positionPacket, byte DEBUG=1)
@@ -72,14 +72,16 @@ void packetTransmission(int positionPacket, byte DEBUG=1)
   //
   
   // First, stop listening so we can talk.
+  //Serial.println("IN PACKET TRANSMISSION");
   radio.stopListening();
+  //Serial.println("Stop Listening");
 
   // Take the time, and send it.  This will block until complete
-  //unsigned long startTime = millis();
+  unsigned long startTime = millis();
   Serial.print("Now sending %lu..."); 
-  bool ok1 = radio.write( &positionPacket, sizeof(positionPacket));
+  bool ok1 = radio.write( &positionPacket, sizeof(int));
  // bool ok2 = radio.write( &metaPacket, sizeof(metaPacket));
-
+  Serial.println("Written");
 
   if (ok1)
     Serial.println("Transmission sent with positionPacket and metaPacket");
@@ -99,7 +101,7 @@ void packetTransmission(int positionPacket, byte DEBUG=1)
   // Describe the results
   if ( timeout )
   {
-    Serial.println("Failed! Response timed out.\n\r");
+   // Serial.println(F("Failed! Response timed out.\n\r"));
   }
   else
   {
@@ -110,7 +112,7 @@ void packetTransmission(int positionPacket, byte DEBUG=1)
     // Spew it
     if (DEBUG)
     digitalWrite(RADIO_DEBUG_LED, !digitalRead(RADIO_DEBUG_LED));
-    //Serial.print("Got response"); Serial.print(got_time);
+    Serial.print("Got response"); Serial.print(got_time);
     //Serial.print(", round-trip delay: "); Serial.println(millis() - got_time);
   }
 

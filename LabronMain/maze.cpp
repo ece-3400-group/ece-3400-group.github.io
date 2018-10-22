@@ -115,7 +115,7 @@ byte updateDirection(byte decidedRoute){ // decidedRoute is output of decidedRou
   int left = bitRead(decidedRoute,6);
   int behind = bitRead (decidedRoute,7); // how will it detect a wall behind it?
   if (forward+right+left+behind != 1){
-    Serial.println("Multiple directions specified. Check logic");
+    //Serial.println("Multiple directions specified. Check logic");
   }
 
   if (right == 1){
@@ -124,7 +124,7 @@ byte updateDirection(byte decidedRoute){ // decidedRoute is output of decidedRou
     else if (direction = 0b10) direction = 0b00;
     else if (direction = 0b11) direction = 0b10;
     else{
-      Serial.println ("Error at direction update logic");
+      //Serial.println ("Error at direction update logic");
     }
   }
 
@@ -134,7 +134,7 @@ byte updateDirection(byte decidedRoute){ // decidedRoute is output of decidedRou
     else if (direction = 0b10) direction = 0b11;
     else if (direction = 0b11) direction = 0b01;
     else{
-      Serial.println ("Error at direction update logic");
+      //Serial.println ("Error at direction update logic");
     }
   }
   else if (behind == 1){
@@ -146,30 +146,30 @@ byte updateDirection(byte decidedRoute){ // decidedRoute is output of decidedRou
   }
   // TODO: update current position based on direction
   if (direction == 0b00){
-    Serial.println("incrementingn y");
+  //  Serial.println("incrementingn y");
     currentX = currentX;
     currentY = currentY + 1;
   }
   else if (direction == 0b11){
-        Serial.println("decrentitng y");
+        //Serial.println("decrentitng y");
 
     currentX = currentX;
     currentY = currentY - 1;
   }
   else if (direction == 0b01){
-        Serial.println("incrementingn x");
+        //Serial.println("incrementingn x");
 
     currentX = currentX + 1;
     currentY = currentY;
   }
   else if (direction == 0b10){
-        Serial.println("decremtnting x");
+        //Serial.println("decremtnting x");
 
     currentX = currentX - 1;
     currentY = currentY;
   }
   else{
-        Serial.println("no nchange");
+       // Serial.println("no nchange");
 
     // Don't change position
     currentX = currentX;

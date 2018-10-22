@@ -3,7 +3,7 @@
 #include <Arduino.h>
 
 /******************* [ Threshold Values ] **************************/
-#define wallThreshold 300
+#define wallThreshold 250
 #define wallDetectedDelay 30
 #define wallDetectedAverage 5
 

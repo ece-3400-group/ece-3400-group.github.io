@@ -1,6 +1,6 @@
-#include "FFTs.h"
-#include <FFT.h> // include the library
+#include "ffts.h"
 #include "servo.h"
+#include <FFT.h> // include the library
 
 byte result; byte fftBefore;
 
@@ -52,7 +52,7 @@ byte waitForStart() {
   stop();
   byte fftReading = readFFT();
   if (fftReading & AUDIO_MASK) {
-    Serial.println(F("------------------------------------------------------ started------"));
+    //Serial.println(F("------------------------------------------------------ started------"));
     return 0b0000;
   }
   delay(200);
@@ -66,7 +66,7 @@ byte isFFTPeak() {
   for (int i=binWhistle-1;i<binWhistle+1;i++){    // search in range of plus and minus 2
       if (fft_log_out[i]>audioThreshold) {
         result |= AUDIO_MASK;
-        Serial.println(F("DETECTEDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD"));
+        //Serial.println(F("DETECTEDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD"));
       }
   }
 
@@ -100,22 +100,22 @@ void debugFFT(){
     }
     for (int i=binWhistle-1;i<binWhistle+1;i++){    // search in range of plus and minus 2
       if (fft_log_out[i]>audioThreshold){
-        Serial.print(F("Whistle detected!"));
-        Serial.println(fft_log_out[i]);
+        //Serial.print(F("Whistle detected!"));
+       // Serial.println(fft_log_out[i]);
       }
     }
 
     for (int i=binIRHat-2;i<binIRHat+2;i++){       // search in range of plus and minus 2
       if (fft_log_out[i]>hatThreshold){
-        Serial.print(F("IR Hat detected!"));
-        Serial.println(fft_log_out[i]);
-        Serial.print(F("turning around"));        
+      //  Serial.print(F("IR Hat detected!"));
+       // Serial.println(fft_log_out[i]);
+       // Serial.print(F("turning around"));        
       }
     }
 
     for (int i=binIRDecoy-2;i<binIRDecoy+2;i++){    // search in range of plus and minus 2
       if (fft_log_out[i]>decoyThreshold){
-        Serial.print("IR Decoy detected!");
+        //Serial.print("IR Decoy detected!");
         //Serial.println(fft_log_out[i]);
         
       }
