@@ -115,6 +115,11 @@
 											</header>
 											<p>
 													The next step after enabling radio communication was to
+													link the received Serial communication packets with the GUI provided
+													using provided APIs. First, to test the GUI functionality, we hard-coded
+													a maze, meaning we created an array and defined wall locations that could be fed as
+													a packet to be decoded and rendered by the GUI. This relied on the encoding scheme Group 2
+													defined (see below), and ended up being successful.
 											</p>
 											<ul class="actions">
 												<li><a href="generic.html" class="button">Learn more</a></li>
@@ -165,6 +170,36 @@
 							</section>
 
 					</div>
+					<!-- Four -->
+						<section id="four">
+							<div class="inner">
+								<header class="major">
+									<h2>Conclusion</h2>
+								</header>
+								<p>
+							This was LABron's most challenging lab to date. After full integration from Milestone 2, including
+							beginning at the start whistle and adding radio
+							capabilities for wireless transmission, LABron had to begin
+							navigating the maze and storing not only his
+							own state but also all information he had about the maze, and
+							transmitting this remotely. Some of the challenges
+							faced in this lab included getting the radio communication to
+							work as intended, as radios were easily prone to
+							damage from mistakes in power supplied or previous usage.
+							Furthermore, integrating the full array of sensors and
+							program logic required more careful consideration of data types and data structures
+							used. Two future plans for improving LABron are the incorporation of interrupt-driven
+							logical decisions as well and the writing of more memory-efficient code/algorithms,
+							as current implementations require over 90% of system memory.
+							</p>
+								<ul class="actions">
+									<li><a href="generic.html" class="button next">Get Started</a></li>
+								</ul>
+							</div>
+						</section>
+
+				</div>
+
 
 				<!-- Contact
 					<section id="contact">
