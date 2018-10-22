@@ -4,7 +4,7 @@
 
 
 void updateMaze(int x, int y, byte metaPacket){
-  maze[x][y] = metaPacket;
+  maze[x][y] = metaPacket;j
 }
 
 byte getMazeInfo(int x, int y){
@@ -23,7 +23,7 @@ byte updateDirection(byte decidedRoute){ // decidedRoute is output of decidedRou
   int wallForward = bitRead(decidedRoute,4);
   int wallRight = bitRead(decidedRoute,5);
   int wallLeft = bitRead(decidedRoute,6);
-  int wallSouth     = bitRead (decidedRoute,7); 
+  int wallSouth    = bitRead (decidedRoute,7); 
   if (direction == 0b01){ // facing EAST
     if (wallForward == 1){
       // North wall at x,y

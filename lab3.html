@@ -111,9 +111,11 @@
 									<div class="content">
 										<div class="inner">
 											<header class="major">
-												<h3>Sed nunc ligula</h3>
+												<h3>Group 1: Having a GUI Interface </h3>
 											</header>
-											<p>Nullam et orci eu lorem consequat tincidunt vivamus et sagittis magna sed nunc rhoncus condimentum sem. In efficitur ligula tate urna. Maecenas massa sed magna lacinia magna pellentesque lorem ipsum dolor. Nullam et orci eu lorem consequat tincidunt. Vivamus et sagittis tempus.</p>
+											<p>
+													The next step after enabling radio communication was to
+											</p>
 											<ul class="actions">
 												<li><a href="generic.html" class="button">Learn more</a></li>
 											</ul>
@@ -126,9 +128,36 @@
 							<section id="three">
 								<div class="inner">
 									<header class="major">
-										<h2>Massa libero</h2>
+										<h2>Group 2: Mapping the Maze</h2>
 									</header>
-									<p>Nullam et orci eu lorem consequat tincidunt vivamus et sagittis libero. Mauris aliquet magna magna sed nunc rhoncus pharetra. Pellentesque condimentum sem. In efficitur ligula tate urna. Maecenas laoreet massa vel lacinia pellentesque lorem ipsum dolor. Nullam et orci eu lorem consequat tincidunt. Vivamus et sagittis libero. Mauris aliquet magna magna sed nunc rhoncus amet pharetra et feugiat tempus.</p>
+									<p>
+									One of the challenges of the lab was maintaining information about
+									a 9 x 9 map of intersections. To maintain this information, we created a 9 x 9 byte array
+									where each entry contained a byte with encoded information about the
+									walls and treasures near that intersection. Specifically, the 8 bit "metapackets" were encoded
+									as follows:
+
+									Bit 0: Wall West
+									Bit 1: Wall North
+									Bit 2: Wall East
+									Bit 3: Wall South
+									Bit 4: Treasure Shape
+									Bit 5: Treasure Shape
+									Bit 6: Treasure Color
+									Bit 7: Treasure Color
+
+									Note that these directions are all absolute. These metadata incorporating packets
+									were intended to use absolute directions so that some logic was written to track
+									LABron's absolute direction on the map and translate motion when direction changes were made
+									to the cardinal directions, which occurred at intersections (the desired functionality
+									for IR hat detection was to stop). Furthermore, two global state variables representing LABron's
+									current coordinate were created and updated at each intersection. Then, at each intersection,
+									one packets of size two bytes was sent from the onboard radio to the base station: the first byte was
+									 the (x,y) coordinate	where x and y were each encoded as 4 bits, and the last 8 bits contained the
+									 8 bit "metapacket" that was contained in the local map at that (x,y) intersection.
+
+
+								</p>
 									<ul class="actions">
 										<li><a href="generic.html" class="button next">Get Started</a></li>
 									</ul>
