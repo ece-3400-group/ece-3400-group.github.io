@@ -41,8 +41,8 @@ byte wallDetected(){
    * 
    */
 
-  int averageLeft = averageDistanceIRReading(wallDetectedDelay, IRRIGHT_PIN, wallDetectedAverage);
-  bool left = averageLeft > wallThreshold;
+//  int averageLeft = averageDistanceIRReading(wallDetectedDelay, IRRIGHT_PIN, wallDetectedAverage);
+//  bool left = averageLeft > wallThreshold;
 
   /*
    * digitalWrite(MUX_PIN, LOW);  // Now we've gone back to checking the right wall for future use
@@ -59,13 +59,13 @@ byte wallDetected(){
     Serial.println(F("Front"));
     directionPacket |= FRONT;
   }
-  if (left) {
-    Serial.println(F("LEFT"));
-    directionPacket |= LEFT;
-  }
+//  if (left) {
+//    Serial.println(F("LEFT"));
+//    directionPacket |= LEFT;
+//  }
   else {
-        Serial.println(F("nothing"));
-
-    return NOWALL;
+    Serial.println(F("nothing"));
+    directionPacket |= NOWALL;
   }
+  return directionPacket;
 }

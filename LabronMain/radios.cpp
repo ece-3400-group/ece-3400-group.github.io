@@ -31,7 +31,7 @@ role_e role = role_pong_back;
 void setupRadios(void)
 {
   pinMode(RADIO_DEBUG_LED, OUTPUT);
-  printf_begin();
+  //printf_begin();
   Serial.println("\n\rRF24/examples/GettingStarted/\n\r");
   Serial.print("ROLE: "); Serial.println(role_friendly_name[role]);
   Serial.println("*** PRESS 'T' to begin transmitting to the other node\n\r");
@@ -75,8 +75,8 @@ void packetTransmission(int positionPacket, byte DEBUG=1)
   radio.stopListening();
 
   // Take the time, and send it.  This will block until complete
-  unsigned long startTime = millis();
-  Serial.print("Now sending %lu..."); Serial.println(startTime);
+  //unsigned long startTime = millis();
+  Serial.print("Now sending %lu..."); 
   bool ok1 = radio.write( &positionPacket, sizeof(positionPacket));
  // bool ok2 = radio.write( &metaPacket, sizeof(metaPacket));
 

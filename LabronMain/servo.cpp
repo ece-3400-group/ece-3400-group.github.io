@@ -122,31 +122,34 @@ byte decideRoute() {
   {
     stop();
   	direction = wallDetected();
-  	if (direction == 0b10000000 || direction == 0b00000000){
+  Serial.println("==================================");
+  Serial.println(direction);
+  Serial.println("==================================");
+  	if (direction == FRONT || direction == NOWALL){
   	  // No wall detected to right, so turn right
       direction = direction | 0b000001000;
   	  turnRight();
       digitalWrite(RIGHTWALL_PIN, LOW);
       digitalWrite(FORWARDWALL_PIN, LOW);
-     // Serial.println("TURNING RIGHT");
+      Serial.println("No Wall");
   	}
-  	else if (direction == 0b11000000){
+  	else if ((direction & FRONT) && (direction & RIGHT)){
   	  // Wall detected to right AND in front, so turn left
       digitalWrite(RIGHTWALL_PIN, HIGH);
       digitalWrite(FORWARDWALL_PIN, HIGH);
       direction = direction | 0b00000010;
   	  turnLeft();
-     //Serial.println("TURN LEFT");
+     Serial.println("Wall to RIght and FRONT");
       digitalWrite(RIGHTWALL_PIN, LOW);
       digitalWrite(FORWARDWALL_PIN, LOW);
   	}
-  	else if (direction == 0b01000000){
+  	else if (direction == RIGHT){
   	  // Wall detected to right, but NOT in front, so move forward
   	  digitalWrite(RIGHTWALL_PIN, HIGH);
       digitalWrite(FORWARDWALL_PIN, LOW);
       direction = direction | 0b00001000;
       goStraight();
-     // Serial.println("MOVING FORWARD");
+      Serial.println("Wall to Right");
       while(vals[0] < LINE_THRESHOLD || vals[2] < LINE_THRESHOLD){
         checkSensors();
       }
