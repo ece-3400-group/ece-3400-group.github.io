@@ -1,0 +1,237 @@
+<!DOCTYPE HTML>
+<!--
+	Forty by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Lab 3</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async>
+		</script>
+		<script type="text/javascript" src="http://latex.codecogs.com/latexit.js"></script>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+				<!-- Note: The "styleN" class below should match that of the banner element. -->
+					<header id="header" class="alt style2">
+						<a href="index.html" class="logo"><strong>ECE 3400</strong></a>
+						<nav>
+							<a href="#menu">Menu</a>
+						</nav>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<ul class="links">
+							<li><a href="index.html">Home</a></li>
+							<li><a href="team_contract.html">Team Contract</a></li>
+						</ul>
+					</nav>
+
+				<!-- Banner -->
+				<!-- Note: The "styleN" class below should match that of the header element. -->
+					<section id="banner" class="style2">
+						<div class="inner">
+							<span class="image">
+								<img src="images/pic07.jpg" alt="" />
+							</span>
+							<header class="major">
+								<h1>Lab 3</h1>
+							</header>
+							<div class="content">
+								<p>Calling an audible, making a pass, and a buzzerbeater</p>
+							</div>
+						</div>
+					</section>
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- One -->
+							<section id="one">
+								<div class="inner">
+									<header class="major">
+										<h2>Introduction</h2>
+									</header>
+									<p>This lab we again split into 2 groups. Group 1 worked on radio and GUI implementation whie Group 2 integrated more functionality into LABron's maze exploring skills, including starting on a 660 Hz sound and encoding LABron's surroundings. Group 1 was Shubhom and David. Group 2 was Rohan and Ho-Jung. Below is a summary of the steps needed to advance LABron through yet another preliminary challenge before he enters the arena at Nationals (held in December).</p>
+								</div>
+							</section>
+
+						<!-- Two -->
+							<section id="two" class="spotlights">
+								<section>
+									<img src="images/Lab3/radio.jpg" width=400 style="padding-left: 2em;">
+									<div class="content">
+										<div class="inner">
+											<header class="major">
+												<h3>Group 1: Setting Up Radios</h3>
+											</header>
+											<p>The radios we used for this part of lab were the <a href="https://www.nordicsemi.com/eng/Products/2.4GHz-RF/nRF24L01P">Nordic nRF24L01+ transceivers</a>. We need 2 of these radios to setup on LABron (to communicate information about the maze) and on a second Arduino Uno which will be setting up our base-station and receiving information from LABron. Communication between the two radios is relatively straight-forward, requiring us to only setup our identifier channel (70 and 71 for Team 23) and modifying existing sketches for inter-radio communication. Integrating this into LABron, we decided that the radio communcation should only happen at intersections (when new information was present), and should contain various information about position/walls/treasures. The decision for encoding this information was left up to Group 2 while Group 1 forged ahead to work with the GUI.</p>
+										</div>
+									</div>
+								</section>
+								<section>
+									<iframe width="560" height="315" src="https://www.youtube.com/embed/XUpCcQ-UMgA" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="padding-right:2em;"></iframe>
+									<div class="content">
+										<div class="inner">
+											<header class="major">
+
+											<h3>Setting up a GUI Interface </h3>
+											</header>
+											<p>
+													The next step after enabling radio communication was to
+													link the base-station's serial communication packets with the provided GUI 
+													using provided APIs. First, to test the GUI functionality, we hard-coded
+													a maze, meaning we created an array and defined wall locations that could be fed as
+													a packet to be decoded and rendered by the GUI. This relied on the encoding scheme Group 2
+													defined (see below), and ended up being successful (pictured right).
+											</p>
+											<ul class="actions">
+												<li><a href="generic.html" class="button">Learn more</a></li>
+											</ul>
+										</div>
+									</div>
+								</section>
+							</section>
+
+						<!-- Three -->
+							<section id="three">
+								<div class="inner">
+									<header class="major">
+										<h2>Group 2: Mapping the Maze</h2>
+									</header>
+									<p>
+									One of the challenges of the lab was maintaining information about
+									a 9 x 9 map of intersections. To maintain this information, we created a 9 x 9 byte array where each entry contained a byte with encoded information about the
+									walls and treasures near that intersection. Specifically, the 8 bit "metapackets" were encoded
+									as follows: <br><br>
+
+									Bit 0: Wall West<br>
+									Bit 1: Wall North<br>
+									Bit 2: Wall East<br>
+									Bit 3: Wall South<br>
+									Bit 4: Treasure Shape<br>
+									Bit 5: Treasure Shape<br>
+									Bit 6: Treasure Color<br>
+									Bit 7: Treasure Color<br><br>
+
+									Note that these directions are all absolute. These metadata incorporating packets
+									were intended to use absolute directions so that some logic was written to track
+									LABron's absolute direction on the map and translate motion when direction changes were made
+									to the cardinal directions, which occurred at intersections (the desired functionality
+									for IR hat detection was to stop). Furthermore, two global state variables representing LABron's
+									current coordinate were created and updated at each intersection. Then, at each intersection,
+									one packets of size two bytes was sent from the onboard radio to the base station: the first byte was
+									 the (x,y) coordinate	where x and y were each encoded as 4 bits, and the last 8 bits contained the
+									 8 bit "metapacket" that was contained in the local map at that (x,y) intersection.
+								</p>
+								</div>
+							</section>
+							<section id="two" class="spotlights">
+								<section>
+									<iframe width="560" height="315" src="https://www.youtube.com/embed/txyjPHuVzHM" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="padding-left:2em;"></iframe>
+									<div class="content">
+										<div class="inner">
+											<header class="major">
+												<h3>LABron Listens for a Whistle</h3>
+											</header>
+											<p>Once we'd taken care of the bulk of the new material due for this lab, we went back and began working on integrating already functioning components into the behavior of our robot. The first item for consideration was using a 660Hz signal to have our robot begin the maze (pictured left).</p>
+										</div>
+									</div>
+								</section>
+								<section>
+									<iframe width="560" height="315" src="https://www.youtube.com/embed/6b_TJTWafX4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="padding-right:2em;"></iframe>
+									<div class="content">
+										<div class="inner">
+											<header class="major">
+												<h3>LABron Stops for IR Hat</h3>
+											</header>
+											<p>Similar to starting on a whistle, we now programmed LABron to stop when he detects the IR hat of another robot (pictured right).</p>
+										</div>
+									</div>
+								</section>
+								<section>
+									<iframe width="560" height="315" src="https://www.youtube.com/embed/6dXjiNuZVas" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="padding-left:2em;"></iframe>
+									<div class="content">
+										<div class="inner">
+											<header class="major">
+												<h3>LABron Ignores Decoys</h3>
+											</header>
+											<p>Finally, we make sure that LABron still ignores the saturating signal of the Decoy hardware. If LABron confused this signal for the IR hat, he would exhibit the stopping behavior which all the robots are required to display during this lab.</p>
+										</div>
+									</div>
+								</section>
+							</section>
+					</div>
+
+					<!-- Four -->
+						<section id="four">
+							<div class="inner">
+								<header class="major">
+									<h2>Conclusion</h2>
+								</header>
+								<p>
+							This was LABron's most challenging lab to date. After full integration from Milestone 2, including
+							beginning at the start whistle and adding radio
+							capabilities for wireless transmission, LABron had to begin
+							navigating the maze and storing not only his
+							own state but also all information he had about the maze, and
+							transmitting this remotely. Some of the challenges
+							faced in this lab included getting the radio communication to
+							work as intended, as radios were easily prone to
+							damage from mistakes in power supplied or previous usage.
+							Furthermore, integrating the full array of sensors and
+							program logic required more careful consideration of data types and data structures
+							used. Two future plans for improving LABron are the incorporation of interrupt-driven
+							logical decisions as well and the writing of more memory-efficient code/algorithms,
+							as current implementations require over 90% of system memory.
+							</p>
+								<ul class="actions">
+									<li><a href="ece-3400-group.github.io/LabronMain/LabronMain.ino" class="button" download>Download Our Code</a></li> <br>
+									<li><a href="index.html" class="button next">Back To Home</a></li>
+								</ul>
+							</div>
+						</section>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<div class="inner">
+							<ul class="icons">
+								<li><a href="https://twitter.com/KingJames?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor" class="icon alt fa-twitter"><span class="label">Twitter</span></a></li>
+								<li><a href="https://www.facebook.com/LeBron/" class="icon alt fa-facebook"><span class="label">Facebook</span></a></li>
+								<li><a href="https://www.instagram.com/kingjames/?hl=en" class="icon alt fa-instagram"><span class="label">Instagram</span></a></li>
+								<li><a href="https://github.com/ece-3400-group/" class="icon alt fa-github"><span class="label">GitHub</span></a></li>
+								<li><a href="https://www.linkedin.com/in/shubhom/" class="icon alt fa-linkedin"><span class="label">LinkedIn</span></a></li>
+							</ul>
+							<ul class="copyright">
+								<li>&copy; Cornell University</li>
+								<li>Design Credits: <a href="https://html5up.net">HTML5 UP</a></li>
+								<li>Mathematics Display Engine: <a href="https://www.mathjax.org/">MathJax</a></li>
+								<li>Electronics Design: <a href="http://fritzing.org/home/">Fritzing</a></li>
+							</ul>
+						</div>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

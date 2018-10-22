@@ -4,7 +4,7 @@
 #include "sensors.h"
 #include "FFTs.h"
 #include "radios.h"
-byte fftResult
+byte fftResult;
 
 void setup() {
   Serial.begin(57600); // radios want this

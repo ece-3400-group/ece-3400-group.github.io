@@ -14,6 +14,7 @@ void populateMazeStart() {
   }
 }
 
+
 void updateMaze(int x, int y, byte metaPacket){
   maze[x][y] = metaPacket;
 }

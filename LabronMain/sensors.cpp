@@ -31,24 +31,37 @@ byte wallDetected(){
   // decide if a wall is there.
   // return the correct byte describing the walls around the robot
   int averageForward = averageDistanceIRReading(wallDetectedDelay, IRFRONT_PIN, wallDetectedAverage); // take an average to be less sensitive to noise
-  int averageRight = averageDistanceIRReading(wallDetectedDelay, IRRIGHT_PIN, wallDetectedAverage);
-
-  bool right = averageRight > wallThreshold;
   bool front = averageForward > wallThreshold;
+
+  int averageRight = averageDistanceIRReading(wallDetectedDelay, IRRIGHT_PIN, wallDetectedAverage);
+  bool right = averageRight > wallThreshold;
+
+  /*
+   * digitalWrite(MUX_PIN, HIGH);  // Now we've switched to checking the left wall
+   * 
+   */
+
+  int averageLeft = averageDistanceIRReading(wallDetectedDelay, IRRIGHT_PIN, wallDetectedAverage);
+  bool left = averageLeft > wallThreshold;
+
+  /*
+   * digitalWrite(MUX_PIN, LOW);  // Now we've gone back to checking the right wall for future use
+   */
 
   // returning encoded wall packet
   // encoding goes (F, R, B[ehind], L, nullx4 so for example if wall was in front then first bit is high all others are 0
-  if (right && front) {
-    Serial.println(F("Right and Front"));
-    return ( FRONT | RIGHT );
-  }
-  else if (right && !front) {
+  byte directionPacket = 0b00000000;
+  if (right) {
     Serial.println(F("Right"));
-    return RIGHT;
+    directionPacket |= RIGHT;
   }
-  else if (!right and front) {
+  if (front) {
     Serial.println(F("Front"));
-    return FRONT;
+    directionPacket |= FRONT;
+  }
+  if (left) {
+    Serial.println(F("LEFT"));
+    directionPacket |= LEFT;
   }
   else {
         Serial.println(F("nothing"));

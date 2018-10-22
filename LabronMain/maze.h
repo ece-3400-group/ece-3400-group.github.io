@@ -7,7 +7,6 @@ extern byte direction;  // global current absolute cardinal direction 00 = North
 extern int currentX; // current X coordinate
 extern int currentY; // current Y coordinate
 extern byte maze [9][9];  // global maze stored with metadata
-
 void populateMazeStart();
 void updateMaze(int x, int y, byte metaPacket); // store metaPacket in 2D array coordinate location x,y
 byte updateDirection(byte decidedRoute);
