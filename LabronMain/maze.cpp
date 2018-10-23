@@ -32,10 +32,12 @@ byte updateDirection(byte decidedRoute){ // decidedRoute is output of decidedRou
   byte metaPacket = maze[currentX][currentY]; // current value at (currentX, currentY)
 
   // First using the current position and direction, define walls at the intersection
+
   int wallForward = bitRead(decidedRoute,7);
   int wallRight = bitRead(decidedRoute,6);
   int wallLeft = bitRead(decidedRoute,4);
   int wallBehind = bitRead (decidedRoute,5);
+
   if (direction == 0b01){ // facing EAST
     if (wallForward == 1){
       // East wall at x,y
