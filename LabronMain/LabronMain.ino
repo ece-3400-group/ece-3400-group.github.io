@@ -3,6 +3,7 @@
 #include "servo.h"
 #include "radios.h"
 #include "sensors.h"
+
 byte fftResult;
 
 void setup() {
@@ -22,6 +23,10 @@ void loop() {
   byte routeInfo = decideRoute();  // routeInfo organized [F,R,B,L; forward, right, left, turnaround]
   if (routeInfo != 0) {
     // now have new information to update with
+    Serial.println(currentX);
+    Serial.println(currentY);
+    //Serial.println(direction);
+    Serial.println(routeInfo);
     updateDirection(routeInfo); 
     unsigned int positionPacket = ((currentX<<4) | (currentY));
     // Posn Packet as [XXXX-YYYY] 

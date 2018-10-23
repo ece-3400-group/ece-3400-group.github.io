@@ -30,6 +30,7 @@ void updateDirection(byte decidedRoute){ // decidedRoute is output of decidedRou
   // We need to define walls and other info for the global map with absolute cardinal directions.
 
   byte metaPacket = 0b00000000;//maze[currentX][currentY]; // current value at (currentX, currentY)
+  // In the future have metaPacket take on value of maze[currentX][currentY] if maze[currentX][currentY] does not equal 0b111111111 (otherwise, metaPacket = 0b0)
 
   // First using the current position and direction, define walls at the intersection
   int wallForward = bitRead(decidedRoute,7);
@@ -119,20 +120,21 @@ void updateDirection(byte decidedRoute){ // decidedRoute is output of decidedRou
   }
 
   if (right == 1){
-    if (direction = 0b00) direction = 0b01;
-    else if (direction = 0b01) direction = 0b11;
-    else if (direction = 0b10) direction = 0b00;
-    else if (direction = 0b11) direction = 0b10;
+    if (direction == 0b00) direction = 0b01;
+    else if (direction == 0b01) direction = 0b11;
+    else if (direction == 0b10) direction = 0b00;
+    else if (direction == 0b11) direction = 0b10;
     else{
       //Serial.println ("Error at direction update logic");
     }
+    Serial.print(F("direction: "));Serial.println(direction);
   }
 
   else if (left == 1){
-    if (direction = 0b00) direction = 0b10;
-    else if (direction = 0b01) direction = 0b00;
-    else if (direction = 0b10) direction = 0b11;
-    else if (direction = 0b11) direction = 0b01;
+    if (direction == 0b00) direction = 0b10;
+    else if (direction == 0b01) direction = 0b00;
+    else if (direction == 0b10) direction = 0b11;
+    else if (direction == 0b11) direction = 0b01;
     else{
       //Serial.println ("Error at direction update logic");
     }
