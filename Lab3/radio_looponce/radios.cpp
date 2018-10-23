@@ -125,7 +125,7 @@ void setupRadios(void)
   radio.printDetails();
 }
 
-byte packetTransmission(byte positionPacket,byte metaPacket)
+unsigned long packetTransmission(byte positionPacket,byte metaPacket)
 {
 
   unsigned long result;
