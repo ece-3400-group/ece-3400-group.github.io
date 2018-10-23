@@ -136,7 +136,7 @@ byte decideRoute() {
       digitalWrite(FORWARDWALL_PIN, HIGH);
       direction = direction | 0b00000001;
       turnLeft();
-     Serial.println("Wall to RIght and FRONT");
+     Serial.println("Wall to Right and FRONT");
       digitalWrite(RIGHTWALL_PIN, LOW);
       digitalWrite(FORWARDWALL_PIN, LOW);
     }

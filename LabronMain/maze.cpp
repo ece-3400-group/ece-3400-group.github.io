@@ -32,10 +32,10 @@ byte updateDirection(byte decidedRoute){ // decidedRoute is output of decidedRou
   byte metaPacket = maze[currentX][currentY]; // current value at (currentX, currentY)
 
   // First using the current position and direction, define walls at the intersection
-  int wallForward = bitRead(decidedRoute,4);
-  int wallRight = bitRead(decidedRoute,5);
-  int wallLeft = bitRead(decidedRoute,6);
-  int wallSouth = bitRead (decidedRoute,7);
+  int wallForward = bitRead(decidedRoute,7);
+  int wallRight = bitRead(decidedRoute,6);
+  int wallLeft = bitRead(decidedRoute,4);
+  int wallBehind = bitRead (decidedRoute,5);
   if (direction == 0b01){ // facing EAST
     if (wallForward == 1){
       // East wall at x,y
@@ -43,11 +43,11 @@ byte updateDirection(byte decidedRoute){ // decidedRoute is output of decidedRou
     }
     if (wallRight == 1){
       // North wall at x,y
-      metaPacket |= 0b01000000;
+      metaPacket |= 0b00010000;
     }
     if (wallLeft == 1){
       // South wall at x,y
-      metaPacket |= 0b00010000;
+      metaPacket |= 0b01000000;
     }
     if (wallBehind ==1){
       // West wall at x,y
@@ -110,10 +110,10 @@ byte updateDirection(byte decidedRoute){ // decidedRoute is output of decidedRou
   }
   updateMaze(currentX, currentY, metaPacket);
   // Now update the global direction using the last four bits
-  int forward = bitRead(decidedRoute,4);
-  int right = bitRead(decidedRoute,5);
-  int left = bitRead(decidedRoute,6);
-  int behind = bitRead (decidedRoute,7); // how will it detect a wall behind it?
+  int forward = bitRead(decidedRoute,3);
+  int right = bitRead(decidedRoute,2);
+  int left = bitRead(decidedRoute,0);
+  int behind = bitRead (decidedRoute,1); // how will it detect a wall behind it?
   if (forward+right+left+behind != 1){
     //Serial.println("Multiple directions specified. Check logic");
   }
