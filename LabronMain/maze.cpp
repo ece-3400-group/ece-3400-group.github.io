@@ -23,7 +23,7 @@ byte getMazeInfo(int x, int y){
   return maze[x][y];
 }
 
-byte updateDirection(byte decidedRoute){ // decidedRoute is output of decidedRoute
+void updateDirection(byte decidedRoute){ // decidedRoute is output of decidedRoute
   // bits 4-7 = wall F(orward)R(ight)B(ehind)L(eft) 1 hot-encoded
   // bits 0-3 = which direction to go [F|R|B|L] like above
   // The packet returned by decidedRoute is relative to LABron's current direction.

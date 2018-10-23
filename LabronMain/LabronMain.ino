@@ -21,12 +21,12 @@ int count = 0;
 void loop() {
   byte routeInfo = decideRoute();  // routeInfo organized [F,R,B,L; forward, right, left, turnaround]
   if (routeInfo != 0) {
-    Serial.println(currentX);
-    Serial.println(currentY);
     // now have new information to update with
+    updateDirection(routeInfo); 
     unsigned int positionPacket = ((currentX<<4) | (currentY));
-    positionPacket = (positionPacket<<8) | (updateDirection(routeInfo));
-    while (packetTransmission(positionPacket) == 0) packetTransmission(positionPacket);
+    // Posn Packet as [XXXX-YYYY] 
+    byte transmittedPacket = (positionPacket<<8) | (maze[currentX][currentY]);
+    while (packetTransmission(positionPacket) == 0) packetTransmission(transmittedPacket);
     //delay(300);
     Serial.println("=======================================");
      Serial.println(positionPacket);
