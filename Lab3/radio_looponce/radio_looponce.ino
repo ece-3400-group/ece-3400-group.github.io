@@ -103,9 +103,14 @@ byte metaPacketEncode(byte wallDirection, byte shape, byte color){
 }
 
 void metaPacketDecode_Position(byte metaPacket){
-  byte rows = getBit(metaPacket, 0, 4);  // extract bin 1 
-  byte cols = getBit(metaPacket, 4, 8);  // extract bin 1 
-  
+  byte prows = getBit(metaPacket, 4, 8);  // extract bin 1 
+  byte pcols = getBit(metaPacket, 0, 4);  // extract bin 1 
+  if (prows == 15){
+   rows = 1; 
+  }else{
+    rows = prows;
+  }
+  cols = pcols;
 }
 
 void metaPacketDecode_Treasure(byte metaPacket){
@@ -215,18 +220,19 @@ void outputGUI(){
   Serial.print(",");
   Serial.print("south=");
   Serial.print(South);
-  Serial.print(",");
-  Serial.print("tshape=");
-  Serial.print(TShape);
-  Serial.print(",");
-  Serial.print("tcolor=");
-  Serial.println(TColor);
+//  Serial.print(",");
+//  Serial.print("tshape=");
+//  Serial.print(TShape);
+//  Serial.print(",");
+//  Serial.print("tcolor=");
+//  Serial.println(TColor);
+  Serial.println("");
 
 }
-
+int p =0;
 
 void loop(){
-  _receive = packetTransmission(_pos, _meta);
+  //_receive = packetTransmission(_pos, _meta);
   //  Serial.println("send pos&meta package");
   //  Serial.print("receiving package ");
   //Serial.println(_receive);
@@ -234,13 +240,17 @@ void loop(){
   //PrintByte(_receive>>8);
   //Serial.print("Printing second byte  :");
   //PrintByte(getBit(_receive, 0, 9));
-  metaPacketDecode_Position(_receive>>8);
+  int  package[6] = {28672, 37104, 49393, 12289, 24578, 53490};
+  
+  metaPacketDecode_Position(getBit(package[p], 0, 8));
 //  Serial.println(_receive);
-  metaPacketDecode_Treasure(getBit(_receive, 0, 9));
+  metaPacketDecode_Treasure(package[p]>>8);
   //Serial.println("test");
   outputGUI();
+  p++;
+  if(p==6) p = 0 ;
   //outputGUI();
   //Serial.println("========================End of the loop==============================");
-  delay(500);
+  delay(1000);
 }
 
