@@ -5,7 +5,7 @@
 
 byte _pos = 0b11111111;
 byte _meta = 0b11000000;
-byte _receive = 0b00000000;
+unsigned long  _receive = 0b0000000000000000;
 
 // we do not need two packets 
 byte maze [9][9] ; // local map of the 9x9 maze, (0,0) is top left corner
@@ -111,6 +111,33 @@ void metaPacketDecode_Position(byte metaPacket){
     rows = prows;
   }
   cols = pcols;
+}
+
+void wrongDecoder_Position(){
+  if( (rows == 0) && (cols == 0)){
+    rows = 2;
+    cols = 1;
+  }
+  if( (rows == 1) && (cols == 0)){
+    rows = 2;
+    cols = 0;
+  }
+  if( (rows == 1) && (cols == 1)){
+    rows = 1;
+    cols = 0;
+  }
+  if( (rows == 0) && (cols == 1)){
+    rows = 1;
+    cols = 1;
+  }
+  if( (rows == 0) && (cols == 2)){
+    rows = 0;
+    cols = 1;
+  }
+  if( (rows == 1) && (cols == 2)){
+    rows = 0;
+    cols = 0;
+  }
 }
 
 void metaPacketDecode_Treasure(byte metaPacket){
@@ -232,25 +259,32 @@ void outputGUI(){
 int p =0;
 
 void loop(){
-  //_receive = packetTransmission(_pos, _meta);
+  _receive = packetTransmission(_pos, _meta);
   //  Serial.println("send pos&meta package");
   //  Serial.print("receiving package ");
   //Serial.println(_receive);
-  //Serial.print("Printing first byte  :");
-  //PrintByte(_receive>>8);
-  //Serial.print("Printing second byte  :");
-  //PrintByte(getBit(_receive, 0, 9));
-  int  package[6] = {28672, 37104, 49393, 12289, 24578, 53490};
+//   Serial.print("Printing first byte  :");
+   PrintByte(_receive>>8);
+//   Serial.print("Printing second byte  :");
+   PrintByte(getBit(_receive, 0, 8));
+  //int  package[6] = {208, 352, 4400, 4288, 8336, 8560 };    // testing GUI binary
   
-  metaPacketDecode_Position(getBit(package[p], 0, 8));
+  metaPacketDecode_Position(_receive>>8);  
 //  Serial.println(_receive);
-  metaPacketDecode_Treasure(package[p]>>8);
+  metaPacketDecode_Treasure(getBit(_receive, 0, 8));
   //Serial.println("test");
-  outputGUI();
-  p++;
-  if(p==6) p = 0 ;
+  //wrongDecoder_Position();
+  if (_receive != 0){
+    outputGUI();
+  }
+//  p++;
+//  if(p==6) {
+//    p = 0;
+//    delay(500);
+//    Serial.println("reset");
+//  }
   //outputGUI();
   //Serial.println("========================End of the loop==============================");
-  delay(1000);
+  delay(500);
 }
 
