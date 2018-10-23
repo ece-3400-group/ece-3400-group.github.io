@@ -124,7 +124,7 @@ byte decideRoute() {
     direction = wallDetected();
     if (direction == FRONT || direction == NOWALL){
       // No wall detected to right, so turn right
-      direction = direction | 0b000001000;
+      direction = direction | 0b000000100;
       turnRight();
       digitalWrite(RIGHTWALL_PIN, LOW);
       digitalWrite(FORWARDWALL_PIN, LOW);
@@ -134,7 +134,7 @@ byte decideRoute() {
       // Wall detected to right AND in front, so turn left
       digitalWrite(RIGHTWALL_PIN, HIGH);
       digitalWrite(FORWARDWALL_PIN, HIGH);
-      direction = direction | 0b00000010;
+      direction = direction | 0b00000001;
       turnLeft();
      Serial.println("Wall to RIght and FRONT");
       digitalWrite(RIGHTWALL_PIN, LOW);
