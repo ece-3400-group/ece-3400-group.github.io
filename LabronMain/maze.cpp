@@ -9,7 +9,7 @@ byte maze[9][9];
 void populateMazeStart() {
   for (int i = 0; i < 9; i++) {
     for (int j = 0; j < 9; j++ ) {
-      maze[i][j] = 1;
+      maze[i][j] = 0b11111111;
     }
   }
 }
@@ -29,7 +29,7 @@ byte updateDirection(byte decidedRoute){ // decidedRoute is output of decidedRou
   // The packet returned by decidedRoute is relative to LABron's current direction.
   // We need to define walls and other info for the global map with absolute cardinal directions.
 
-  byte metaPacket = maze[currentX][currentY]; // current value at (currentX, currentY)
+  byte metaPacket = 0b00000000;//maze[currentX][currentY]; // current value at (currentX, currentY)
 
   // First using the current position and direction, define walls at the intersection
   int wallForward = bitRead(decidedRoute,7);
@@ -144,6 +144,7 @@ byte updateDirection(byte decidedRoute){ // decidedRoute is output of decidedRou
     // Forward and do nothing to direction
     direction = direction; // redundant, included for clarity
   }
+  
   // TODO: update current position based on direction
   if (direction == 0b00){
     // Going North (negative X direction)
