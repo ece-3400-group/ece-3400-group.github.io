@@ -9,6 +9,6 @@
 #define RADIO_DEBUG_LED 2
 
 void setupRadios();
-void packetTransmission(int positionPacket, byte DEBUG=1);
+byte packetTransmission(int positionPacket, byte DEBUG=1);
 
 #endif // RADIOS_H

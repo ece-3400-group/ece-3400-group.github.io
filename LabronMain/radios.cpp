@@ -65,12 +65,12 @@ void setupRadios(void)
 
 }
 
-void packetTransmission(int positionPacket, byte DEBUG=1)
+byte packetTransmission(int positionPacket, byte DEBUG=1)
 {
   //
   // Ping out role.  Repeatedly send the current time
   //
-  
+  byte success = 0;
   // First, stop listening so we can talk.
   //Serial.println("IN PACKET TRANSMISSION");
   radio.stopListening();
@@ -111,11 +111,12 @@ void packetTransmission(int positionPacket, byte DEBUG=1)
 
     // Spew it
     if (DEBUG)
+    success = 1;
     digitalWrite(RADIO_DEBUG_LED, !digitalRead(RADIO_DEBUG_LED));
     Serial.print("Got response"); Serial.print(got_time);
     //Serial.print(", round-trip delay: "); Serial.println(millis() - got_time);
   }
-
+  return success;
   // Try again 100ms later
   //delay(100);
 }

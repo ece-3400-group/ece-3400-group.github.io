@@ -24,7 +24,7 @@ void loop() {
     // now have new information to update with
     unsigned int positionPacket = ((currentX<<4) | (currentY));
     positionPacket = (positionPacket<<8) | (updateDirection(routeInfo));
-    packetTransmission(positionPacket);
+    while (packetTransmission(positionPacket) == 0) packetTransmission(positionPacket);
     //delay(300);
     Serial.println("=======================================");
      Serial.println(positionPacket);
