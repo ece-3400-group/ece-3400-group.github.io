@@ -25,7 +25,7 @@ void loop() {
     updateDirection(routeInfo); 
     unsigned int positionPacket = ((currentX<<4) | (currentY));
     // Posn Packet as [XXXX-YYYY] 
-    byte transmittedPacket = (positionPacket<<8) | (maze[currentX][currentY]);
+    unsigned int transmittedPacket = (positionPacket<<8) | (maze[currentX][currentY]);
     while (packetTransmission(positionPacket) == 0) packetTransmission(transmittedPacket);
     //delay(300);
     Serial.println("=======================================");
