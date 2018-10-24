@@ -197,8 +197,10 @@ unsigned long packetTransmission(byte positionPacket,byte metaPacket)
         done = radio.read( &got_time, sizeof(unsigned long) );
 
         // Spew it
-        printf("Got payload %lu...",got_time);
-        result = got_time;
+        if(got_time > 16){
+          printf("Got payload %lu...",got_time);
+          result = got_time;
+        }
 
         // Delay just a little bit to let the other unit
         // make the transition to receiver
