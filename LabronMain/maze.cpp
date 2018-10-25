@@ -6,6 +6,8 @@ int currentY = 0;
 byte direction = 0b01; // east
 byte maze[9][9];
 
+// DIRECTIONS
+// 0b01 = EAST, 0b00 = NORTH, 0b10 = WEST, 0b11 = SOUTH
 void populateMazeStart() {
   for (int i = 0; i < 9; i++) {
     for (int j = 0; j < 9; j++ ) {
@@ -146,30 +148,29 @@ void updateDirection(byte decidedRoute){ // decidedRoute is output of decidedRou
     // Forward and do nothing to direction
     direction = direction; // redundant, included for clarity
   }
-  
+
   // TODO: update current position based on direction
   if (direction == 0b00){
-    // Going North (negative X direction)
-    currentX = currentX - 1;
-    currentY = currentY;
-  }
-  else if (direction == 0b11){
-    // Going South (positive X direction)
-    currentX = currentX + 1;
-    currentY = currentY;
-  }
-  else if (direction == 0b01){
-    // Going East (positive Y direction)
+    // Going North (positive Y direction)
     currentX = currentX;
     currentY = currentY + 1;
   }
-  else if (direction == 0b10){
-    // Going East (negative Y direction)
+  else if (direction == 0b11){
+    // Going South (negative Y direction)
     currentX = currentX;
     currentY = currentY - 1;
   }
+  else if (direction == 0b01){
+    // Going East (positive X direction)
+    currentX = currentX + 1;
+    currentY = currentY;
+  }
+  else if (direction == 0b10){
+    // Going West (negative X direction)
+    currentX = currentX - 1;
+    currentY = currentY;
+  }
   else{
-
     // Don't change position
     currentX = currentX;
     currentY = currentY;
