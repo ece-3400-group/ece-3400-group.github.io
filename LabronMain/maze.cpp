@@ -2,7 +2,7 @@
 
 #include "maze.h"
 int currentX = 0;
-int currentY = 0;
+int currentY = 2;
 byte direction = 0b01; // east
 byte maze[9][9];
 
@@ -119,6 +119,33 @@ void updateDirection(byte decidedRoute){ // decidedRoute is output of decidedRou
     //Serial.println("Multiple directions specified. Check logic");
   }
 
+  // TODO: update current position based on direction
+  if (direction == 0b00){
+    // Going North (positive Y direction)
+    currentX = currentX;
+    currentY = currentY + 1;
+  }
+  else if (direction == 0b11){
+    // Going South (negative Y direction)
+    currentX = currentX;
+    currentY = currentY - 1;
+  }
+  else if (direction == 0b01){
+    // Going East (positive X direction)
+    currentX = currentX + 1;
+    currentY = currentY;
+  }
+  else if (direction == 0b10){
+    // Going West (negative X direction)
+    currentX = currentX - 1;
+    currentY = currentY;
+  }
+  else{
+    // Don't change position
+    currentX = currentX;
+    currentY = currentY;
+  }
+
   if (right == 1){
     if (direction == 0b00) direction = 0b01;
     else if (direction == 0b01) direction = 0b11;
@@ -147,31 +174,4 @@ void updateDirection(byte decidedRoute){ // decidedRoute is output of decidedRou
     direction = direction; // redundant, included for clarity
   }
   
-  // TODO: update current position based on direction
-  if (direction == 0b00){
-    // Going North (negative X direction)
-    currentX = currentX - 1;
-    currentY = currentY;
-  }
-  else if (direction == 0b11){
-    // Going South (positive X direction)
-    currentX = currentX + 1;
-    currentY = currentY;
-  }
-  else if (direction == 0b01){
-    // Going East (positive Y direction)
-    currentX = currentX;
-    currentY = currentY + 1;
-  }
-  else if (direction == 0b10){
-    // Going East (negative Y direction)
-    currentX = currentX;
-    currentY = currentY - 1;
-  }
-  else{
-
-    // Don't change position
-    currentX = currentX;
-    currentY = currentY;
-  }
 }

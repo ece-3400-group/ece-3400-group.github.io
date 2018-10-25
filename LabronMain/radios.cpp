@@ -78,7 +78,7 @@ byte packetTransmission(int positionPacket, byte DEBUG=1)
 
   // Take the time, and send it.  This will block until complete
   unsigned long startTime = millis();
-  Serial.print("Now sending %lu..."); 
+  Serial.print("Now sending "); Serial.print(positionPacket); Serial.println("..."); 
   bool ok1 = radio.write( &positionPacket, sizeof(int));
  // bool ok2 = radio.write( &metaPacket, sizeof(metaPacket));
   Serial.println("Written");

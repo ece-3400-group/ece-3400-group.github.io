@@ -198,7 +198,7 @@ unsigned long packetTransmission(byte positionPacket,byte metaPacket)
 
         // Spew it
         if(got_time > 16){
-          printf("Got payload %lu...",got_time);
+          printf("Got payload %lu...\n",got_time);
           result = got_time;
         }
 
@@ -251,4 +251,3 @@ unsigned long packetTransmission(byte positionPacket,byte metaPacket)
   return result;
 }
 // vim:cin:ai:sts=2 sw=2 ft=cpp
-

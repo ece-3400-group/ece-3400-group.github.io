@@ -21,17 +21,23 @@ void setup() {
 int count = 0;
 void loop() {
   byte routeInfo = decideRoute();  // routeInfo organized [F,R,B,L; forward, right, left, turnaround]
+  //routeInfo = 1;
   if (routeInfo != 0) {
     // now have new information to update with
-    Serial.println(currentX);
-    Serial.println(currentY);
     //Serial.println(direction);
-    Serial.println(routeInfo);
-    updateDirection(routeInfo); 
-    unsigned int positionPacket = ((currentX<<4) | (currentY));
+    //Serial.println(routeInfo);
+    updateDirection(routeInfo);
+
+    unsigned int positionPacket = ((currentX<<4) | (currentY)) & (0x0011);
     // Posn Packet as [XXXX-YYYY] 
-    unsigned int transmittedPacket = (positionPacket<<8) | (maze[currentX][currentY]);
-    while (packetTransmission(positionPacket) == 0) packetTransmission(transmittedPacket);
+    Serial.print("D = "); Serial.println(direction);
+    Serial.print("X = "); Serial.println(currentX);
+    Serial.print("Y = "); Serial.println(currentY);
+    positionPacket = (positionPacket<<8) | ((maze[currentX][currentY]) & 0x0011);
+    while (packetTransmission(positionPacket) == 0) {
+      packetTransmission(positionPacket);
+      //delay(300);
+    }
     //delay(300);
     Serial.println("=======================================");
      Serial.println(positionPacket);
