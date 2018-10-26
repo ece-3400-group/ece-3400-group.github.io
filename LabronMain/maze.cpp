@@ -120,6 +120,8 @@ void updateDirection(byte decidedRoute){ // decidedRoute is output of decidedRou
     //Serial.println("Multiple directions specified. Check logic");
   }
 
+    updateMaze(currentX, currentY, metaPacket);
+
   // TODO: update current position based on direction
   if (direction == 0b00){
     // Going North (positive Y direction)
@@ -146,7 +148,7 @@ void updateDirection(byte decidedRoute){ // decidedRoute is output of decidedRou
     currentX = currentX;
     currentY = currentY;
   }
-  updateMaze(currentX, currentY, metaPacket);
+
 
   if (right == 1){
     if (direction == 0b00) direction = 0b01;

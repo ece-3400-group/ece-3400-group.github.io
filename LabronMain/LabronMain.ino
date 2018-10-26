@@ -42,15 +42,17 @@ void loop() {
   if (routeInfo != 0) {
     // now have new information to update with
     //Serial.println(direction);
+    byte prevX = currentX;
+    byte prevY = currentY;
     PrintByte(routeInfo);
     updateDirection(routeInfo);
 
-    unsigned int positionPacket = ((currentX<<4) | (currentY)) & (0x0011);
+    unsigned int positionPacket = ((prevX<<4) | (prevY));
     // Posn Packet as [XXXX-YYYY] 
     Serial.print("D = "); Serial.println(direction);
     Serial.print("X = "); Serial.println(currentX);
     Serial.print("Y = "); Serial.println(currentY);
-    positionPacket = (positionPacket<<8) | (maze[currentX][currentY]) ;
+    positionPacket = (positionPacket<<8) | (maze[prevX][prevY]) ;
     while (packetTransmission(positionPacket) == 0) {
       packetTransmission(positionPacket);
       //delay(300);
