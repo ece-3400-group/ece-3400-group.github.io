@@ -17,29 +17,6 @@ byte metaPacket; // bits 0-3 NSEW wall ,bits 4-7 encode treasure information (se
 // Assume we begin at (0,0) facing NORTH
 // Define a bunch of vectors that can be shifted and  ORd together to create encoding
 
-byte metaPacketNorthEast;
-// In the local map, each coordinate from positionPacket is used
-// to refer to a 1 byte metaPacket
-// bit 0 = NorthEast identifier
-// bit 1 = 0 if North, 1 if East
-// bit 2 = 1 if wall detected here
-// bit 3 = 1 if  other robot detected
-// bit 4 = 1 if visited before
-// bit 5-6 = treasure shape (00 NONE, 01 TRIANGLE, 10 CIRCLE, 11 SQUARE)
-// bit 7-8 = treasure color (00 NONE, 01 RED, 10 BLUE, 11 GREEN)
-
-byte metaPacketSouthWest;
-
-// In the local map, each coordinate from positionPacket is used
-// to refer to a 1 byte metaPacket
-// bit 1 =SouthWest identifier
-// bit 1 = 0 if South, 1 if West
-// bit 2 = 1 if wall detected here
-// bit 3 = 1 if other robot detected
-// bit 4 = 1 if visited before
-// bit 5-6 = treasure shape (00 NONE, 01 TRIANGLE, 10 CIRCLE, 11 SQUARE)
-// bit 7-8 = treasure color (00 NONE, 01 RED, 10 BLUE, 11 GREEN)
-
 // Positional macros
 #define UNKNOWN 0b0000
 
@@ -240,7 +217,7 @@ void outputGUI(){
   Serial.print(West);
   Serial.print(",");
   Serial.print("north=");
-  Serial.print(North);      //chaged
+  Serial.print(North);
   Serial.print(",");
   Serial.print("east=");
   Serial.print(East);

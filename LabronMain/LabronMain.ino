@@ -18,6 +18,23 @@ void setup() {
   while( waitForStart() );
 }
 
+int getBit(int n, int s, int f){
+  // extract binary bins from a byte. n=Binary Byte; s=Start Bin; f=Final Bin;
+  int result = 0;
+  for(int k=0; k<(f-s); k++){
+    int t = (n & (1<<(k+s)))!=0;
+    result |= t<<k;
+  }
+  return result;
+}
+
+void PrintByte(byte obj){
+ for(int i = 7; i>-1; --i){
+   Serial.print(getBit(obj, i,i+1));
+ } 
+ Serial.println();
+}
+
 int count = 0;
 void loop() {
   byte routeInfo = decideRoute();  // routeInfo organized [F,R,B,L; forward, right, left, turnaround]
@@ -25,7 +42,7 @@ void loop() {
   if (routeInfo != 0) {
     // now have new information to update with
     //Serial.println(direction);
-    //Serial.println(routeInfo);
+    PrintByte(routeInfo);
     updateDirection(routeInfo);
 
     unsigned int positionPacket = ((currentX<<4) | (currentY)) & (0x0011);
@@ -33,7 +50,7 @@ void loop() {
     Serial.print("D = "); Serial.println(direction);
     Serial.print("X = "); Serial.println(currentX);
     Serial.print("Y = "); Serial.println(currentY);
-    positionPacket = (positionPacket<<8) | ((maze[currentX][currentY]) & 0x0011);
+    positionPacket = (positionPacket<<8) | (maze[currentX][currentY]) ;
     while (packetTransmission(positionPacket) == 0) {
       packetTransmission(positionPacket);
       //delay(300);

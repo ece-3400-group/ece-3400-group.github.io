@@ -121,30 +121,30 @@ byte decideRoute() {
   else if (vals[0] < LINE_THRESHOLD && vals[1] < LINE_THRESHOLD && vals[2] < LINE_THRESHOLD)  //intersection initiate turn
   {
     stop();
-    direction = wallDetected();
-    if (direction == FRONT || direction == NOWALL){
+    byte walldir = wallDetected();
+    if (walldir == FRONT || walldir == NOWALL){
       // No wall detected to right, so turn right
-      direction = direction | 0b000000100;
+      walldir = walldir | 0b000000100;
       turnRight();
       digitalWrite(RIGHTWALL_PIN, LOW);
       digitalWrite(FORWARDWALL_PIN, LOW);
       Serial.println("No Wall");
     }
-    else if ((direction & FRONT) && (direction & RIGHT)){
+    else if ((walldir & FRONT) && (walldir & RIGHT)){
       // Wall detected to right AND in front, so turn left
       digitalWrite(RIGHTWALL_PIN, HIGH);
       digitalWrite(FORWARDWALL_PIN, HIGH);
-      direction = direction | 0b00000001;
+      walldir = walldir | 0b00000001;
       turnLeft();
      Serial.println("Wall to Right and FRONT");
       digitalWrite(RIGHTWALL_PIN, LOW);
       digitalWrite(FORWARDWALL_PIN, LOW);
     }
-    else if (direction == RIGHT){
+    else if (walldir == RIGHT){
       // Wall detected to right, but NOT in front, so move forward
       digitalWrite(RIGHTWALL_PIN, HIGH);
       digitalWrite(FORWARDWALL_PIN, LOW);
-      direction = direction | 0b00001000;
+      walldir = walldir | 0b00001000;
       goStraight();
       Serial.println("Wall to Right");
       while(vals[0] < LINE_THRESHOLD || vals[2] < LINE_THRESHOLD){
@@ -156,7 +156,7 @@ byte decideRoute() {
       Serial.println(F("Sorry something really weird happened :^("));
       stop();
     }
-   return direction;   
+   return walldir;   
   }
 
   // Adjust the robot a bit if it's off the line

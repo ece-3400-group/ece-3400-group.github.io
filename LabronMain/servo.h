@@ -15,7 +15,7 @@
 #define LINE_THRESHOLD 200
 
 /*==================== [ Bit Masks ] ===============================*/
- // direction now contains wall information in its first 4 bits, and new direction information in its last 4 bits
+ // walldir now contains wall information in its first 4 bits, and new direction information in its last 4 bits
  // first four bits organized [F, R, B[ehind], L] and are raised high when a wall is present
  // next four bits organized {forward, right, left, turnaround} to be interpreted in main loop
 

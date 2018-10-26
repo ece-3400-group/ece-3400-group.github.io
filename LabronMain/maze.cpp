@@ -111,7 +111,6 @@ void updateDirection(byte decidedRoute){ // decidedRoute is output of decidedRou
       metaPacket |= 0b00010000;
     }
   }
-  updateMaze(currentX, currentY, metaPacket);
   // Now update the global direction using the last four bits
   int forward = bitRead(decidedRoute,3);
   int right = bitRead(decidedRoute,2);
@@ -147,6 +146,7 @@ void updateDirection(byte decidedRoute){ // decidedRoute is output of decidedRou
     currentX = currentX;
     currentY = currentY;
   }
+  updateMaze(currentX, currentY, metaPacket);
 
   if (right == 1){
     if (direction == 0b00) direction = 0b01;
