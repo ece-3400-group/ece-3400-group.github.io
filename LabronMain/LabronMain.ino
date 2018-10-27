@@ -18,14 +18,6 @@ void setup() {
   while( waitForStart() );
 }
 
-void PrintByte(byte obj){
- for(int i = 7; i>-1; --i){
-    byte t = (obj & (1<<(i)))!=0;
-    Serial.print(t);
- } 
- Serial.println();
-}
-
 int count = 0;
 void loop() {
   byte routeInfo = decideRoute();  // routeInfo organized [F,R,B,L; forward, right, left, turnaround]
@@ -33,17 +25,21 @@ void loop() {
   if (routeInfo != 0) {
     // now have new information to update with
     //Serial.println(direction);
-    byte prevX = currentX;
-    byte prevY = currentY;
-    PrintByte(routeInfo);
+    //Serial.println(routeInfo);
     updateDirection(routeInfo);
-
-    unsigned int positionPacket = ((prevX<<4) | (prevY));
+ 
+    unsigned int positionPacket = ((currentX<<4) | (currentY)) & (0x00FF);
     // Posn Packet as [XXXX-YYYY] 
     Serial.print("D = "); Serial.println(direction);
     Serial.print("X = "); Serial.println(currentX);
     Serial.print("Y = "); Serial.println(currentY);
-    positionPacket = (positionPacket<<8) | (maze[prevX][prevY]) ;
+    for (int i = 0; i < 9; i++ ) {
+      for (int j = 0; j < 9; j++ ){ //SENW
+          Serial.print(maze[i][j], BIN); Serial.print(" ");
+      }
+      Serial.println("");
+    }
+    positionPacket = (positionPacket<<8) | ((maze[currentX][currentY]) & 0x00FF);
     while (packetTransmission(positionPacket) == 0) {
       packetTransmission(positionPacket);
       //delay(300);

@@ -1,7 +1,7 @@
 /* File to keep track of internal maze state and direction */
 
 #include "maze.h"
-int currentX = 0;
+int currentX = -1;
 int currentY = 2;
 byte direction = 0b01; // east
 byte maze[9][9];
@@ -11,13 +11,15 @@ byte maze[9][9];
 void populateMazeStart() {
   for (int i = 0; i < 9; i++) {
     for (int j = 0; j < 9; j++ ) {
-      maze[i][j] = 0b11111111;
+      //maze[i][j] = 0b11111111;
+      maze[i][j] = 0b00000000;
     }
   }
 }
 
 
 void updateMaze(int x, int y, byte metaPacket){
+  
   maze[x][y] = metaPacket;
 }
 
@@ -111,6 +113,7 @@ void updateDirection(byte decidedRoute){ // decidedRoute is output of decidedRou
       metaPacket |= 0b00010000;
     }
   }
+  
   // Now update the global direction using the last four bits
   int forward = bitRead(decidedRoute,3);
   int right = bitRead(decidedRoute,2);
@@ -119,8 +122,6 @@ void updateDirection(byte decidedRoute){ // decidedRoute is output of decidedRou
   if (forward+right+left+behind != 1){
     //Serial.println("Multiple directions specified. Check logic");
   }
-
-    updateMaze(currentX, currentY, metaPacket);
 
   // TODO: update current position based on direction
   if (direction == 0b00){
@@ -149,7 +150,6 @@ void updateDirection(byte decidedRoute){ // decidedRoute is output of decidedRou
     currentY = currentY;
   }
 
-
   if (right == 1){
     if (direction == 0b00) direction = 0b01;
     else if (direction == 0b01) direction = 0b11;
@@ -177,5 +177,5 @@ void updateDirection(byte decidedRoute){ // decidedRoute is output of decidedRou
     // Forward and do nothing to direction
     direction = direction; // redundant, included for clarity
   }
-
+  updateMaze(currentX, currentY, metaPacket);
 }

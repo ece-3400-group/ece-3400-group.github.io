@@ -5,7 +5,7 @@
 
 byte _pos = 0b11111111;
 byte _meta = 0b11000000;
-unsigned long  _receive = 0b0000000000000000;
+int _receive = 0b0000000000000000;
 
 // we do not need two packets 
 byte maze [9][9] ; // local map of the 9x9 maze, (0,0) is top left corner
@@ -119,12 +119,16 @@ void wrongDecoder_Position(){
 
 void metaPacketDecode_Treasure(byte metaPacket){
   // With a known wallDdirection,shape, and color, output a metaPacket encoding  
-  byte wallWest = getBit(metaPacket, 7, 8);  // extract bin 1 
-  byte wallNorth = getBit(metaPacket, 6, 7);  // extract bin 2
-  byte wallEast = getBit(metaPacket, 5, 6);  // extract bin 3
-  byte wallSouth = getBit(metaPacket, 4, 5);  // extract bin 4
+//  byte wallWest = getBit(metaPacket, 7, 8);  // extract bin 1 
+//  byte wallNorth = getBit(metaPacket, 6, 7);  // extract bin 2
+//  byte wallEast = getBit(metaPacket, 5, 6);  // extract bin 3
+//  byte wallSouth = getBit(metaPacket, 4, 5);  // extract bin 4
   byte shape = getBit(metaPacket, 2, 4);                // extract bin 5 to 6
   byte color = getBit(metaPacket, 0, 2);                 // extract bin 7 to 8
+  byte wallWest = bitRead(metaPacket, 4);
+  byte wallNorth = bitRead(metaPacket, 7);
+  byte wallEast = bitRead(metaPacket, 6);
+  byte wallSouth = bitRead(metaPacket, 5);
 //  Serial.print("Decoder_Treasuer : ");
 //  Serial.print(wallWest);
 //  Serial.print(wallNorth);
@@ -212,46 +216,48 @@ void outputGUI(){
   Serial.print(rows);
   Serial.print(",");
   Serial.print(cols);
-  Serial.print(",");
-  Serial.print("west=");
-  Serial.print(West);
-  Serial.print(",");
-  Serial.print("north=");
-  Serial.print(North);
-  Serial.print(",");
-  Serial.print("east=");
-  Serial.print(East);
-  Serial.print(",");
-  Serial.print("south=");
-  Serial.print(South);
+  if (West == "true") {
+    Serial.print(",west=true");
+  }
+  if (North == "true") {
+    Serial.print(",north=true");
+  }
+  if (East == "true") {
+    Serial.print(",east=true");
+  }
+  if (South == "true") {
+    Serial.print(",south=true");
+  }
 //  Serial.print(",");
 //  Serial.print("tshape=");
 //  Serial.print(TShape);
 //  Serial.print(",");
 //  Serial.print("tcolor=");
 //  Serial.println(TColor);
-  Serial.println("");
+  Serial.print("\n");
 
 }
 int p =0;
 
 void loop(){
   _receive = packetTransmission(_pos, _meta);
-  //  Serial.println("send pos&meta package");
-  //  Serial.print("receiving package ");
-  //Serial.println(_receive);
-//   Serial.print("Printing first byte  :");
-   PrintByte(_receive>>8);
-//   Serial.print("Printing second byte  :");
-   PrintByte(getBit(_receive, 0, 8));
-  //int  package[6] = {208, 352, 4400, 4288, 8336, 8560 };    // testing GUI binary
   
+//  //  Serial.println("send pos&meta package");
+//  //  Serial.print("receiving package ");
+//  //Serial.println(_receive);
+////   Serial.print("Printing first byte  :");
+////   PrintByte(_receive>>8);
+//////   Serial.print("Printing second byte  :");
+////   PrintByte(getBit(_receive, 0, 8));
+  Serial.print(_receive>>8, BIN); Serial.print(" "); Serial.println(_receive & 0x00FF, BIN);
+//  //int  package[6] = {208, 352, 4400, 4288, 8336, 8560 };    // testing GUI binary
+//  
   metaPacketDecode_Position(_receive>>8);  
-//  Serial.println(_receive);
+////  Serial.println(_receive);
   metaPacketDecode_Treasure(getBit(_receive, 0, 8));
-  //Serial.println("test");
-  //wrongDecoder_Position();
-  if (_receive != 0){
+//  //Serial.println("test");
+//  //wrongDecoder_Position();
+  if (_receive){
     outputGUI();
   }
 //  p++;
@@ -260,7 +266,10 @@ void loop(){
 //    delay(500);
 //    Serial.println("reset");
 //  }
+   
   //outputGUI();
+  //Serial.println("1,1,west=true,north=false,east=true");
+ // Serial.print("0,0,west=false,north=false,south=false,east=false"); Serial.print("\n");
   //Serial.println("========================End of the loop==============================");
   delay(500);
 }
