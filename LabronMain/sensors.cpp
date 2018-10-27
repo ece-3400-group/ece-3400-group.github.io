@@ -16,9 +16,9 @@ int averageDistanceIRReading(int delayTime, const int IRPin, int n){
   int readings [n] = {};
   for (int i=0; i<n; i++){
     readings[i] = analogRead(IRPin);
-    delay(delayTime);      
+    delay(delayTime);
   }
-  int average = 0; 
+  int average = 0;
   for (int i=0; i<n; i++){
     average += readings[i];
   }
@@ -36,17 +36,17 @@ byte wallDetected(){
   int averageRight = averageDistanceIRReading(wallDetectedDelay, IRRIGHT_PIN, wallDetectedAverage);
   bool right = averageRight > wallThreshold;
 
-  /*
-   * digitalWrite(MUX_PIN, HIGH);  // Now we've switched to checking the left wall
-   * 
-   */
 
-//  int averageLeft = averageDistanceIRReading(wallDetectedDelay, IRRIGHT_PIN, wallDetectedAverage);
-//  bool left = averageLeft > wallThreshold;
+  digitalWrite(MUX_PIN, HIGH);  // Now we've switched to checking the left wall
 
-  /*
-   * digitalWrite(MUX_PIN, LOW);  // Now we've gone back to checking the right wall for future use
-   */
+
+
+  int averageLeft = averageDistanceIRReading(wallDetectedDelay, IRRIGHT_PIN, wallDetectedAverage);
+  bool left = averageLeft > wallThreshold;
+
+
+  digitalWrite(MUX_PIN, LOW);  // Now we've gone back to checking the right wall for future use
+
 
   // returning encoded wall packet
   // encoding goes (F, R, B[ehind], L, nullx4 so for example if wall was in front then first bit is high all others are 0
@@ -59,10 +59,10 @@ byte wallDetected(){
     Serial.println(F("Front"));
     directionPacket |= FRONT;
   }
-//  if (left) {
-//    Serial.println(F("LEFT"));
-//    directionPacket |= LEFT;
-//  }
+ if (left) {
+   Serial.println(F("LEFT"));
+   directionPacket |= LEFT;
+ }
   else {
     Serial.println(F("nothing"));
     directionPacket |= NOWALL;

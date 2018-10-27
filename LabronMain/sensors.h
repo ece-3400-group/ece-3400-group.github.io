@@ -8,7 +8,7 @@
 #define wallDetectedAverage 5
 
 /******************* [ Pin Definitions ] **************************/
-#define IRFRONT_PIN     A3 
+#define IRFRONT_PIN     A3
 #define IRRIGHT_PIN     A4
 #define RIGHTWALL_PIN   3
 #define FORWARDWALL_PIN 4

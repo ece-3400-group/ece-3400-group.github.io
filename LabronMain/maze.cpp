@@ -19,7 +19,7 @@ void populateMazeStart() {
 
 
 void updateMaze(int x, int y, byte metaPacket){
-  
+
   maze[x][y] = metaPacket;
 }
 
@@ -113,12 +113,12 @@ void updateDirection(byte decidedRoute){ // decidedRoute is output of decidedRou
       metaPacket |= 0b00010000;
     }
   }
-  
+
   // Now update the global direction using the last four bits
   int forward = bitRead(decidedRoute,3);
   int right = bitRead(decidedRoute,2);
   int left = bitRead(decidedRoute,0);
-  int behind = bitRead (decidedRoute,1); // how will it detect a wall behind it?
+  int flip = bitRead (decidedRoute,1); // turn around
   if (forward+right+left+behind != 1){
     //Serial.println("Multiple directions specified. Check logic");
   }
@@ -129,7 +129,7 @@ void updateDirection(byte decidedRoute){ // decidedRoute is output of decidedRou
     currentX = currentX;
     currentY = currentY + 1;
   }
-  else if (direction == 0b11){
+  if (direction == 0b11){
     // Going South (negative Y direction)
     currentX = currentX;
     currentY = currentY - 1;
@@ -170,7 +170,7 @@ void updateDirection(byte decidedRoute){ // decidedRoute is output of decidedRou
       //Serial.println ("Error at direction update logic");
     }
   }
-  else if (behind == 1){
+  else if (flip == 1){
     direction = ~direction;
   }
   else{
