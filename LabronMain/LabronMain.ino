@@ -18,19 +18,10 @@ void setup() {
   while( waitForStart() );
 }
 
-int getBit(int n, int s, int f){
-  // extract binary bins from a byte. n=Binary Byte; s=Start Bin; f=Final Bin;
-  int result = 0;
-  for(int k=0; k<(f-s); k++){
-    int t = (n & (1<<(k+s)))!=0;
-    result |= t<<k;
-  }
-  return result;
-}
-
 void PrintByte(byte obj){
  for(int i = 7; i>-1; --i){
-   Serial.print(getBit(obj, i,i+1));
+    byte t = (obj & (1<<(i)))!=0;
+    Serial.print(t);
  } 
  Serial.println();
 }
