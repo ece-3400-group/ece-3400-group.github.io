@@ -1,20 +1,33 @@
 #include <Wire.h>
 
-#define OV7670_I2C_ADDRESS /*TODO: write this in hex (eg. 0xAB) */
+// These are register address definitions from the manual and Lab 4 prelab
+#define OV7670_I2C_ADDRESS 0x42 << 1;  /*write this in hex (eg. 0xAB) 42 and 43 decimal  = 0100|0010 */ 
+int RESETREG = 0x12; 
+int SCALINGREG = 0x3E; 
+int CLKREG = 0x11; 
+int RESOLREG = 0x12; // same as RESETREG with different important bits for control
+int XCOLBARREG = 0x70;
+int YCOLBARREG = 0x71; 
 
-
+int KEY_REGISTERS [] = {RESETREG, SCALINGREG, CLKREG, RESOLREG, XCOLBARREG, YCOLBARREG}; 
+int read_vals [6]; 
+int KEY_REGISTERS_LENGTH = sizeof(KEY_REGISTERS)/sizeof(KEY_REGISTERS[0]); // lol i am no0b
 ///////// Main Program //////////////
 void setup() {
   Wire.begin();
   Serial.begin(9600);
   
   // TODO: READ KEY REGISTERS
+  int regAddress = 0; 
+  byte readVal = read_register_value(regAddress);
   
   delay(100);
-  
+  byte data = 0; 
   // TODO: WRITE KEY REGISTERS
+  OV7670_write_register(regAddress, data); 
   
   read_key_registers();
+  set_color_matrix();
 }
 
 void loop(){
@@ -24,6 +37,13 @@ void loop(){
 ///////// Function Definition //////////////
 void read_key_registers(){
   /*TODO: DEFINE THIS FUNCTION*/
+  // Update global read_vals array corresponding to defined important registers' values
+  byte readVal; 
+  
+  for (i=0; i<KEY_REGISTERS_LENGTH; i++){
+    readVal = read_register(KEY_REGISTERS[i]); 
+    read_vals[i] = readVal; 
+  }
 }
 
 byte read_register_value(int register_address){
