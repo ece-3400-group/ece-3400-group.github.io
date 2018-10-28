@@ -19,6 +19,7 @@ void setup() {
 }
 
 int count = 0;
+
 void loop() {
   byte routeInfo = decideRoute();  // routeInfo organized [F,R,B,L; forward, right, left, turnaround]
   //routeInfo = 1;
@@ -49,6 +50,10 @@ void loop() {
      Serial.println(positionPacket);
    Serial.println("=======================================");
 
+  }
+  while ((routeInfo & FRONT) && (routeInfo & RIGHT) && (routeInfo & LEFT)) {
+    Serial.println("COMPLETE STOP");
+    stop();
   }
   if (count == 0){
    // debugFFT();

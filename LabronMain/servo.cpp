@@ -124,13 +124,14 @@ byte decideRoute() {
     byte walldir = wallDetected();
     // bits [7-4] are wall directions based on sensors, bits [3-0] are the directions we choose to go
     // bit[3] forward, bit[2]  right, bit[1] turn aroudn, bit[0] left, all 0 do nothing
-    if (walldir == FRONT || walldir == NOWALL){
+    if (walldir == FRONT || walldir == NOWALL || walldir == (FRONT | LEFT)){
       // No wall detected to right, so turn right
+            Serial.println("No Wall");
       walldir = walldir | 0b000000100;
       turnRight();
       digitalWrite(RIGHTWALL_PIN, LOW);
       digitalWrite(FORWARDWALL_PIN, LOW);
-      Serial.println("No Wall");
+
     }
     else if ((walldir & FRONT) && (walldir & RIGHT) && (walldir & LEFT)){
       // Wall detected to right, front,and left so turn around
@@ -139,7 +140,8 @@ byte decideRoute() {
       digitalWrite(FORWARDWALL_PIN, HIGH);
       // digitalWrite(LEFTWALL_PIN, HIGH); // not sure if this LED exists
       walldir = walldir | 0b00000010; // bit 1 corresponds to flipping direction
-      turnAround();
+      //turnAround();
+      stop();
      Serial.println("Wall to FRONT and RIGHT and LEFT");
       digitalWrite(RIGHTWALL_PIN, LOW);
       digitalWrite(FORWARDWALL_PIN, LOW);
@@ -154,7 +156,7 @@ byte decideRoute() {
       digitalWrite(RIGHTWALL_PIN, LOW);
       digitalWrite(FORWARDWALL_PIN, LOW);
     }
-    else if (walldir == RIGHT){
+    else if (walldir & RIGHT){
       // Wall detected to right, but NOT in front, so move forward
       digitalWrite(RIGHTWALL_PIN, HIGH);
       digitalWrite(FORWARDWALL_PIN, LOW);

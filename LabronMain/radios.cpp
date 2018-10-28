@@ -32,8 +32,8 @@ void setupRadios(void)
 {
   pinMode(RADIO_DEBUG_LED, OUTPUT);
   printf_begin();
-  printf("\nRF24/examples/GettingStarted/\n");
-  printf("ROLE: "); printf(role_friendly_name[role]);
+  Serial.println("\nRF24/examples/GettingStarted/\n");
+  Serial.print("ROLE: "); Serial.println(role_friendly_name[role]);
   //
   // Setup and configure rf radio
   //

@@ -119,7 +119,7 @@ void updateDirection(byte decidedRoute){ // decidedRoute is output of decidedRou
   int right = bitRead(decidedRoute,2);
   int left = bitRead(decidedRoute,0);
   int flip = bitRead (decidedRoute,1); // turn around
-  if (forward+right+left+behind != 1){
+  if (forward+right+left+flip != 1){
     //Serial.println("Multiple directions specified. Check logic");
   }
 

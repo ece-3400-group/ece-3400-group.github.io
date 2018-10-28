@@ -8,7 +8,8 @@ void setupWallDetection() {
 
 void setupIR() {
   pinMode(IRFRONT_PIN, INPUT);
-  pinMode(IRRIGHT_PIN, INPUT);
+  pinMode(IRMUX_PIN, OUTPUT);
+  pinMode(IRLEFTRIGHT_PIN, INPUT);
 }
 
 int averageDistanceIRReading(int delayTime, const int IRPin, int n){
@@ -30,33 +31,27 @@ byte wallDetected(){
   // Using an average measurement for a period of timesteps
   // decide if a wall is there.
   // return the correct byte describing the walls around the robot
+
   int averageForward = averageDistanceIRReading(wallDetectedDelay, IRFRONT_PIN, wallDetectedAverage); // take an average to be less sensitive to noise
   bool front = averageForward > wallThreshold;
 
-  int averageRight = averageDistanceIRReading(wallDetectedDelay, IRRIGHT_PIN, wallDetectedAverage);
+  digitalWrite(IRMUX_PIN, IRRIGHT);  // Now we've switched to checking the left wall
+  int averageRight = averageDistanceIRReading(wallDetectedDelay, IRLEFTRIGHT_PIN, wallDetectedAverage);
   bool right = averageRight > wallThreshold;
 
-
-  digitalWrite(MUX_PIN, HIGH);  // Now we've switched to checking the left wall
-
-
-
-  int averageLeft = averageDistanceIRReading(wallDetectedDelay, IRRIGHT_PIN, wallDetectedAverage);
+  digitalWrite(IRMUX_PIN, IRLEFT);  // Now we've gone back to checking the right wall for future use
+  int averageLeft = averageDistanceIRReading(wallDetectedDelay, IRLEFTRIGHT_PIN, wallDetectedAverage);
   bool left = averageLeft > wallThreshold;
-
-
-  digitalWrite(MUX_PIN, LOW);  // Now we've gone back to checking the right wall for future use
-
 
   // returning encoded wall packet
   // encoding goes (F, R, B[ehind], L, nullx4 so for example if wall was in front then first bit is high all others are 0
   byte directionPacket = 0b00000000;
   if (right) {
-    Serial.println(F("Right"));
+    Serial.println(F("RIGHT"));
     directionPacket |= RIGHT;
   }
   if (front) {
-    Serial.println(F("Front"));
+    Serial.println(F("FRONT"));
     directionPacket |= FRONT;
   }
  if (left) {

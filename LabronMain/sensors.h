@@ -9,7 +9,10 @@
 
 /******************* [ Pin Definitions ] **************************/
 #define IRFRONT_PIN     A3
-#define IRRIGHT_PIN     A4
+#define IRLEFTRIGHT_PIN A4
+#define IRMUX_PIN       8
+#define IRLEFT          0
+#define IRRIGHT         1
 #define RIGHTWALL_PIN   3
 #define FORWARDWALL_PIN 4
 
