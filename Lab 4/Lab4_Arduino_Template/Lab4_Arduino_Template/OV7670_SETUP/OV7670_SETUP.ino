@@ -12,6 +12,12 @@ int YCOLBARREG = 0x71;
 int KEY_REGISTERS [] = {RESETREG, SCALINGREG, CLKREG, RESOLREG, XCOLBARREG, YCOLBARREG}; 
 int read_vals [6]; 
 int KEY_REGISTERS_LENGTH = sizeof(KEY_REGISTERS)/sizeof(KEY_REGISTERS[0]); // lol i am no0b
+
+// Things about UART
+// RX 0 TX 1: Do not use pins 0 and 1
+
+
+
 ///////// Main Program //////////////
 void setup() {
   Wire.begin();
@@ -31,7 +37,14 @@ void setup() {
 }
 
 void loop(){
+  
  }
+
+
+void setupUART(int baud){
+  Serial.begin(baud);
+}
+
 
 
 ///////// Function Definition //////////////
@@ -44,7 +57,9 @@ void read_key_registers(){
     readVal = read_register(KEY_REGISTERS[i]); 
     read_vals[i] = readVal; 
   }
+  
 }
+
 
 byte read_register_value(int register_address){
   byte data = 0;
@@ -56,6 +71,7 @@ byte read_register_value(int register_address){
   data = Wire.read();
   return data;
 }
+
 
 String OV7670_write(int start, const byte *pData, int size){
     int n,error;
@@ -75,9 +91,11 @@ String OV7670_write(int start, const byte *pData, int size){
     return "no errors :)";
  }
 
+
 String OV7670_write_register(int reg_address, byte data){
   return OV7670_write(reg_address, &data, 1);
  }
+ 
 
 void set_color_matrix(){
     OV7670_write_register(0x4f, 0x80);
