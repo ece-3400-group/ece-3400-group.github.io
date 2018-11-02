@@ -34,6 +34,22 @@ void updateDirection(byte decidedRoute){ // decidedRoute is output of decidedRou
   // We need to define walls and other info for the global map with absolute cardinal directions.
 
   byte metaPacket = 0b00000000;//maze[currentX][currentY]; // current value at (currentX, currentY)
+  /*
+  Description of metaPacket:
+    [7] - Wall in Front
+    [6] - Wall to Right
+    [5] - Wall Behind
+    [4] - Wall to Left
+    [3:0] - Encoding of Treasures and Colors!
+          0000 - No Treasure
+          0001 - Red Circle
+          0010 - Red Triangle
+          0011 - Red Square
+          1001 - Blue Circle
+          1010 - Blue Triangle
+          1011 - Blue Square
+  */
+
   // In the future have metaPacket take on value of maze[currentX][currentY] if maze[currentX][currentY] does not equal 0b111111111 (otherwise, metaPacket = 0b0)
 
   // First using the current position and direction, define walls at the intersection

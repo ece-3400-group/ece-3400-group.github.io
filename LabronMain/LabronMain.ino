@@ -30,7 +30,7 @@ void loop() {
     updateDirection(routeInfo);
  
     unsigned int positionPacket = ((currentX<<4) | (currentY)) & (0x00FF);
-    // Posn Packet as [XXXX-YYYY] 
+    // Position Packet as [XXXX-YYYY] 
     Serial.print("D = "); Serial.println(direction);
     Serial.print("X = "); Serial.println(currentX);
     Serial.print("Y = "); Serial.println(currentY);

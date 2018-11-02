@@ -20,10 +20,15 @@ int KEY_REGISTERS_LENGTH = sizeof(KEY_REGISTERS)/sizeof(KEY_REGISTERS[0]); // lo
 
 ///////// Main Program //////////////
 void setup() {
-  Wire.begin();
-  Serial.begin(9600);
   
+  Serial.begin(9600);
+  setupCamera();
+  
+}
+
+void setupCamera(){
   // TODO: READ KEY REGISTERS
+  Wire.begin();
   int regAddress = 0; 
   byte readVal = read_register_value(regAddress);
   
