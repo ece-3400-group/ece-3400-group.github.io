@@ -29,17 +29,31 @@ void setup() {
 void setupCamera(){
   // TODO: READ KEY REGISTERS
   Wire.begin();
-  int regAddress = 0; 
+  int regAddress = 0b00010010; 
   byte readVal = read_register_value(regAddress);
   
-  delay(100);
-  byte data = 0; 
-  // TODO: WRITE KEY REGISTERS
-  OV7670_write_register(regAddress, data); 
+  // sets up camera to output in the format we're using
+  rgbSetup();
+  555setup();
   
   read_key_registers();
   set_color_matrix();
 }
+
+void rgbSetup() {
+	int regAddress = 0b00010010; 
+	delay(100);
+  	byte data = 0b00000101; 
+  	OV7670_write_register(regAddress, data);
+}
+
+void 555setup() {
+	int regAddress = 0b01000000; 
+	delay(100);
+  	byte data = 0b00110000; 
+  	OV7670_write_register(regAddress, data);
+}
+
 
 void loop(){
   
