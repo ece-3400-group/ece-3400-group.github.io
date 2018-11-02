@@ -133,6 +133,9 @@ assign D4 = GPIO_1_D[24];
 assign D5 = GPIO_1_D[25];
 assign D6 = GPIO_1_D[26];
 assign D7 = GPIO_1_D[27];
+assign PCLK = GPIO_1_D[30];
+assign HREF = GPIO_1_D[31];
+assign VSYNC = GPIO_1_D[32];
 
 always @ (VGA_PIXEL_X, VGA_PIXEL_Y) begin
 		READ_ADDRESS = (VGA_PIXEL_X + VGA_PIXEL_Y*`SCREEN_WIDTH);
@@ -142,9 +145,7 @@ always @ (VGA_PIXEL_X, VGA_PIXEL_Y) begin
 		else begin
 				W_EN = 1'b1;
 		end
-		X_ADDR = VGA_PIXEL_X;
-      Y_ADDR = VGA_PIXEL_Y;
-		pixel_data_RGB332 = color;
+		
 //		
 //		if (VGA_PIXEL_X < 10'd14) begin
 //		    red = 0;
@@ -213,7 +214,16 @@ always @ (VGA_PIXEL_X, VGA_PIXEL_Y) begin
 end
 
 reg flag = 1'b0;
-always @ (posedge c0_sig) begin
+reg is_image_started = 1'b0;
+reg is_new_row = 1'b0;
+always @ (posedge PCLK) begin
+    if (VSYNC == 1'b1 && is_image_started == 1'b0) begin // Image TX on falling edge started
+        X_ADDR = 15'd0;
+	Y_ADDR = 15'd0;
+	is_image_started = VSYNC;
+    end
+	else if (VSYNC == 1'b0 &&
+    pixel_data_RGB332 = color;
     if (flag == 1'b0) begin
         red = {D7, D6, D5};
 	     green = {D2, D1, D0};
