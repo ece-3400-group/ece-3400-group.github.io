@@ -86,7 +86,7 @@ Dual_Port_RAM_M9K mem(
 VGA_DRIVER driver (
 	.RESET(VGA_RESET),
 	.CLOCK(c1_sig),
-	.PIXEL_COLOR_IN(MEM_OUTPUT),
+	.PIXEL_COLOR_IN(VGA_READ_MEM_EN ? MEM_OUTPUT : BLUE),
 	.PIXEL_X(VGA_PIXEL_X),
 	.PIXEL_Y(VGA_PIXEL_Y),
 	.PIXEL_COLOR_OUT({GPIO_0_D[9],GPIO_0_D[11],GPIO_0_D[13],GPIO_0_D[15],GPIO_0_D[17],GPIO_0_D[19],GPIO_0_D[21],GPIO_0_D[23]}),
@@ -118,7 +118,7 @@ IMAGE_PROCESSOR proc(
 
 reg [2:0] red;
 reg [2:0] green;
-reg [2:0] blue;
+reg [1:0] blue;
 wire [7:0] color;
 assign color[7:5] = red;
 assign color[4:2] = green;
@@ -140,11 +140,13 @@ assign VSYNC = GPIO_1_D[32];
 always @ (VGA_PIXEL_X, VGA_PIXEL_Y) begin
 		READ_ADDRESS = (VGA_PIXEL_X + VGA_PIXEL_Y*`SCREEN_WIDTH);
 		if(VGA_PIXEL_X>(`SCREEN_WIDTH-1) || VGA_PIXEL_Y>(`SCREEN_HEIGHT-1))begin
-				W_EN = 1'b0;
+				VGA_READ_MEM_EN = 1'b0;
 		end
 		else begin
-				W_EN = 1'b1;
+				VGA_READ_MEM_EN = 1'b1;
 		end
+end
+
 		
 //		
 //		if (VGA_PIXEL_X < 10'd14) begin
@@ -214,16 +216,33 @@ always @ (VGA_PIXEL_X, VGA_PIXEL_Y) begin
 end
 
 reg flag = 1'b0;
-reg is_image_started = 1'b0;
+reg is_image_started = 1'b1;
 reg is_new_row = 1'b0;
 always @ (posedge PCLK) begin
-    if (VSYNC == 1'b1 && is_image_started == 1'b0) begin // Image TX on falling edge started
+   // Handling when an image frame starts or ends
+   if (VSYNC == 1'b0 && is_image_started == 1'b1) begin // Image TX on falling edge started
+	     W_EN = 1'b1;
         X_ADDR = 15'd0;
-	Y_ADDR = 15'd0;
-	is_image_started = VSYNC;
-    end
-	else if (VSYNC == 1'b0 &&
-    pixel_data_RGB332 = color;
+	     Y_ADDR = 15'd0;
+	     is_image_started = VSYNC;
+   end
+	else if (VSYNC == 1'b1 && is_image_started == 1'b0) begin // Image TX ends on rising edge
+	     is_image_started = 1'b0;
+		  W_EN = 1'b0;
+	end
+	
+	// Handle when Camera sends a new row of images
+	if (HREF == 1'b1 && is_new_row == 1'b0) begin // new row TX on rising edge
+	     is_new_row = 1'b1;
+		  X_ADDR = X_ADDR + 15'd1;
+	end
+	if (HREF = 1'b0 && is_new_row == 1'b1) begin // row TX ends on falling edge, must be a new row
+	     is_new_row = 1'b0;
+		  X_ADDR = 15'd0;
+		  Y_ADDR = Y_ADDR + 15d'1;
+	end
+	
+    // Gather the color data (D0-D7) from camera
     if (flag == 1'b0) begin
         red = {D7, D6, D5};
 	     green = {D2, D1, D0};
@@ -236,6 +255,9 @@ always @ (posedge PCLK) begin
 		  blue = {D5, D4};
 		  flag = 1'b1;
 	 end 
+	 
+	 // Now write the color to memory (since write address has been setup)
+	 pixel_data_RGB332 = color;
 end
 	
 endmodule 
