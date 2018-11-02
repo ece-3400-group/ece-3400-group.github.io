@@ -38,31 +38,6 @@ reg [14:0] Y_ADDR;
 wire [14:0] WRITE_ADDRESS;
 reg [14:0] READ_ADDRESS; 
 
-/*=========================Team Alpha========================*/
-wire LED [3:0];
-
-//2-by-2 array of bits
-reg grid_array [1:0][1:0]; //[rows][columns]
-wire [1:0] grid_coord_x; //Index x into the array
-wire [1:0] grid_coord_y; //Index y into the array
-// current highlighted square
-wire highlighted_x;
-wire highlighted_y;	 
-//Switch input through GPIO pins
-//assign highlighted_x = GPIO[33];
-//assign highlighted_y = GPIO[31];
- 
-assign LED[0] = grid_array[0][0];
-assign LED[1] = grid_array[0][1];
-assign LED[2] = grid_array[1][0];
-assign LED[3] = grid_array[1][1];
-
-assign BLK_COLOR = 8'b000_000_00; //black
-assign RED_COLOR = 8'b111_000_00; //red
-//assign PIXEL_COLOR = 8'b000_111_00 //green
-//assign PIXEL_COLOR = 8'b000_000_11 //blue
- /*=========================Team Alpha========================*/
-
 assign WRITE_ADDRESS = X_ADDR + Y_ADDR*(`SCREEN_WIDTH);
 
 ///// VGA INPUTS/OUTPUTS /////
@@ -74,6 +49,7 @@ wire [7:0]	MEM_OUTPUT;
 wire			VGA_VSYNC_NEG;
 wire			VGA_HSYNC_NEG;
 reg			VGA_READ_MEM_EN;
+reg  [7:0]  PIXEL_COLOR;
 
 assign GPIO_0_D[5] = VGA_VSYNC_NEG;
 assign VGA_RESET = ~KEY[0];
@@ -87,29 +63,30 @@ reg W_EN;
 ///////* CREATE ANY LOCAL WIRES YOU NEED FOR YOUR PLL *///////
 
 ///////* INSTANTIATE YOUR PLL HERE *///////
+///////* INSTANTIATE YOUR PLL HERE *///////
 sweetPLL	sweetPLL_inst (
-	.inclk0 ( inclk0_sig ),
+	.inclk0 ( CLOCK_50 ),
 	.c0 ( c0_sig ), // 24 MHz
 	.c1 ( c1_sig ), // 25 MHz
 	.c2 ( c2_sig ) // 50 MHz
 	);
 
-///////* M9K Module *///////hikk
+///////* M9K Module *///////
 Dual_Port_RAM_M9K mem(
 	.input_data(pixel_data_RGB332),
 	.w_addr(WRITE_ADDRESS),
 	.r_addr(READ_ADDRESS),
 	.w_en(W_EN),
 	.clk_W(CLOCK_50),
-	.clk_R(sweetPLL_inst[c1] /* REPLACE THIS THE 25MHZ SIGNAL FROM YOUR PLL */ ),// DO WE NEED TO READ SLOWER THAN WRITE??
+	.clk_R(c1_sig),
 	.output_data(MEM_OUTPUT)
 );
 
 ///////* VGA Module *///////
 VGA_DRIVER driver (
 	.RESET(VGA_RESET),
-	.CLOCK(sweetPLL_inst[c1] /*REPLACE THIS THE 25MHZ SIGNAL FROM YOUR PLL*/),
-	.PIXEL_COLOR_IN(VGA_READ_MEM_EN ? MEM_OUTPUT : BLUE),
+	.CLOCK(c1_sig),
+	.PIXEL_COLOR_IN(MEM_OUTPUT),
 	.PIXEL_X(VGA_PIXEL_X),
 	.PIXEL_Y(VGA_PIXEL_Y),
 	.PIXEL_COLOR_OUT({GPIO_0_D[9],GPIO_0_D[11],GPIO_0_D[13],GPIO_0_D[15],GPIO_0_D[17],GPIO_0_D[19],GPIO_0_D[21],GPIO_0_D[23]}),
@@ -120,7 +97,7 @@ VGA_DRIVER driver (
 ///////* Image Processor *///////
 IMAGE_PROCESSOR proc(
 	.PIXEL_IN(MEM_OUTPUT),
-	.CLK(sweetPLL_inst[c1] /*REPLACE THIS THE 25MHZ SIGNAL FROM YOUR PLL*/),
+	.CLK(c1_sig),
 	.VGA_PIXEL_X(VGA_PIXEL_X),
 	.VGA_PIXEL_Y(VGA_PIXEL_Y),
 	.VGA_VSYNC_NEG(VGA_VSYNC_NEG),
@@ -129,15 +106,126 @@ IMAGE_PROCESSOR proc(
 
 
 ///////* Update Read Address *///////
+//always @ (VGA_PIXEL_X, VGA_PIXEL_Y) begin
+//		READ_ADDRESS = (VGA_PIXEL_X + VGA_PIXEL_Y*`SCREEN_WIDTH);
+//		if(VGA_PIXEL_X>(`SCREEN_WIDTH-1) || VGA_PIXEL_Y>(`SCREEN_HEIGHT-1))begin
+//				PIXEL_COLOR = BLUE;
+//		end
+//		else begin
+//				PIXEL_COLOR = RED;
+//		end
+//end
+
+reg [2:0] red;
+reg [2:0] green;
+reg [2:0] blue;
+wire [7:0] color;
+assign color[7:5] = red;
+assign color[4:2] = green;
+assign color[1:0] = blue;
+
+// Downsampling variables
+assign D0 = GPIO_1_D[20];
+assign D1 = GPIO_1_D[21];
+assign D2 = GPIO_1_D[22];
+assign D3 = GPIO_1_D[23];
+assign D4 = GPIO_1_D[24];
+assign D5 = GPIO_1_D[25];
+assign D6 = GPIO_1_D[26];
+assign D7 = GPIO_1_D[27];
+
 always @ (VGA_PIXEL_X, VGA_PIXEL_Y) begin
 		READ_ADDRESS = (VGA_PIXEL_X + VGA_PIXEL_Y*`SCREEN_WIDTH);
 		if(VGA_PIXEL_X>(`SCREEN_WIDTH-1) || VGA_PIXEL_Y>(`SCREEN_HEIGHT-1))begin
-				VGA_READ_MEM_EN = RED_COLOR;
+				W_EN = 1'b0;
 		end
 		else begin
-				VGA_READ_MEM_EN = RED_COLOR;
+				W_EN = 1'b1;
 		end
+		X_ADDR = VGA_PIXEL_X;
+      Y_ADDR = VGA_PIXEL_Y;
+		pixel_data_RGB332 = color;
+//		
+//		if (VGA_PIXEL_X < 10'd14) begin
+//		    red = 0;
+//			 blue = 0;
+//			 green = 0;
+//	   end	
+//		// RED
+//		else if (VGA_PIXEL_X < 10'd28) begin
+//		    red = 2;
+//			 blue = 0;
+//			 green = 0;
+//		end
+//		else if ( VGA_PIXEL_X < 10'd42) begin
+//		    red = 4;
+//			 blue = 0;
+//			 green = 0;
+//		end
+//		else if (VGA_PIXEL_X < 10'd56) begin
+//		    red = 6;
+//			 blue = 0;
+//			 green = 0;
+//		end
+//		//GREEN
+//		else if (VGA_PIXEL_X < 10'd70) begin
+//		    red = 7;
+//			 blue = 7;
+//			 green = 3;
+//	   end	
+//		else if (VGA_PIXEL_X < 10'd84) begin
+//		    red = 0;
+//			 blue = 0;
+//			 green = 2;
+//		end
+//		else if ( VGA_PIXEL_X < 10'd96) begin
+//		    red = 0;
+//			 blue = 0;
+//			 green = 4;
+//		end
+//		else if (VGA_PIXEL_X < 10'd108) begin
+//		    red = 0;
+//			 blue = 0;
+//			 green = 6;
+//		end
+//		// BLUE
+//		else if (VGA_PIXEL_X < 10'd120) begin
+//		    red = 7;
+//			 blue = 7;
+//			 green = 3;
+//	   end	
+//		else if (VGA_PIXEL_X < 10'd134) begin
+//		    red = 0;
+//			 blue = 2;
+//			 green = 0;
+//		end
+//		else if (VGA_PIXEL_X < 10'd143) begin
+//		    red = 0;
+//			 blue = 3;
+//			 green = 0;
+//		end
+//		else begin
+//		    red = 0;
+//			 blue = 0;
+//			 green = 0;
+//		end
+	
 end
 
+reg flag = 1'b0;
+always @ (posedge c0_sig) begin
+    if (flag == 1'b0) begin
+        red = {D7, D6, D5};
+	     green = {D2, D1, D0};
+	     blue = blue;
+		  flag = 1'b0;
+    end
+	 else begin
+	     red = red;
+		  green = green;
+		  blue = {D5, D4};
+		  flag = 1'b1;
+	 end 
+end
 	
 endmodule 
