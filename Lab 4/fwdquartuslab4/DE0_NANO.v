@@ -116,26 +116,29 @@ IMAGE_PROCESSOR proc(
 //		end
 //end
 
-reg [2:0] red;
-reg [2:0] green;
-reg [1:0] blue;
+reg [2:0] red;   // 3 bits
+reg [1:0] green; // 2 bits
+reg [2:0] blue;  // 3 bits
 wire [7:0] color;
 assign color[7:5] = red;
-assign color[4:2] = green;
-assign color[1:0] = blue;
+assign color[4:3] = green;
+assign color[2:0] = blue;
 
 // Downsampling variables
-assign D0 = GPIO_1_D[20];
-assign D1 = GPIO_1_D[21];
-assign D2 = GPIO_1_D[22];
-assign D3 = GPIO_1_D[23];
-assign D4 = GPIO_1_D[24];
-assign D5 = GPIO_1_D[25];
-assign D6 = GPIO_1_D[26];
-assign D7 = GPIO_1_D[27];
+assign D0 = GPIO_1_D[22];
+assign D1 = GPIO_1_D[23];
+assign D2 = GPIO_1_D[24];
+assign D3 = GPIO_1_D[25];
+assign D4 = GPIO_1_D[26];
+assign D5 = GPIO_1_D[27];
+assign D6 = GPIO_1_D[28];
+assign D7 = GPIO_1_D[29];
 assign PCLK = GPIO_1_D[30];
 assign HREF = GPIO_1_D[31];
 assign VSYNC = GPIO_1_D[32];
+
+assign GPIO_0_D[0] = c0_sig;
+
 
 always @ (VGA_PIXEL_X, VGA_PIXEL_Y) begin
 		READ_ADDRESS = (VGA_PIXEL_X + VGA_PIXEL_Y*`SCREEN_WIDTH);
@@ -147,78 +150,21 @@ always @ (VGA_PIXEL_X, VGA_PIXEL_Y) begin
 		end
 end
 
-		
-//		
-//		if (VGA_PIXEL_X < 10'd14) begin
-//		    red = 0;
-//			 blue = 0;
-//			 green = 0;
-//	   end	
-//		// RED
-//		else if (VGA_PIXEL_X < 10'd28) begin
-//		    red = 2;
-//			 blue = 0;
-//			 green = 0;
-//		end
-//		else if ( VGA_PIXEL_X < 10'd42) begin
-//		    red = 4;
-//			 blue = 0;
-//			 green = 0;
-//		end
-//		else if (VGA_PIXEL_X < 10'd56) begin
-//		    red = 6;
-//			 blue = 0;
-//			 green = 0;
-//		end
-//		//GREEN
-//		else if (VGA_PIXEL_X < 10'd70) begin
-//		    red = 7;
-//			 blue = 7;
-//			 green = 3;
-//	   end	
-//		else if (VGA_PIXEL_X < 10'd84) begin
-//		    red = 0;
-//			 blue = 0;
-//			 green = 2;
-//		end
-//		else if ( VGA_PIXEL_X < 10'd96) begin
-//		    red = 0;
-//			 blue = 0;
-//			 green = 4;
-//		end
-//		else if (VGA_PIXEL_X < 10'd108) begin
-//		    red = 0;
-//			 blue = 0;
-//			 green = 6;
-//		end
-//		// BLUE
-//		else if (VGA_PIXEL_X < 10'd120) begin
-//		    red = 7;
-//			 blue = 7;
-//			 green = 3;
-//	   end	
-//		else if (VGA_PIXEL_X < 10'd134) begin
-//		    red = 0;
-//			 blue = 2;
-//			 green = 0;
-//		end
-//		else if (VGA_PIXEL_X < 10'd143) begin
-//		    red = 0;
-//			 blue = 3;
-//			 green = 0;
-//		end
-//		else begin
-//		    red = 0;
-//			 blue = 0;
-//			 green = 0;
-//		end
-	
-end
-
 reg flag = 1'b0;
 reg is_image_started = 1'b1;
 reg is_new_row = 1'b0;
-always @ (posedge PCLK) begin
+reg is_new_byte = 1'b1;
+always @ (negedge PCLK) begin
+     W_EN = 1'b1;
+    
+	if (PCLK == 1'b1 && is_new_byte == 1'b0) begin // datasheet says TX on falling edge
+	     is_new_byte = 1'b1;
+		  X_ADDR = X_ADDR + 15'd1;
+	end
+	else if (PCLK == 1'b0) begin 
+	     is_new_byte = 1'b1;
+	end
+	
    // Handling when an image frame starts or ends
    if (VSYNC == 1'b0 && is_image_started == 1'b1) begin // Image TX on falling edge started
 	     W_EN = 1'b1;
@@ -234,25 +180,28 @@ always @ (posedge PCLK) begin
 	// Handle when Camera sends a new row of images
 	if (HREF == 1'b1 && is_new_row == 1'b0) begin // new row TX on rising edge
 	     is_new_row = 1'b1;
-		  X_ADDR = X_ADDR + 15'd1;
 	end
-	if (HREF = 1'b0 && is_new_row == 1'b1) begin // row TX ends on falling edge, must be a new row
+	if (HREF == 1'b0 && is_new_row == 1'b1) begin // row TX ends on falling edge, must be a new row
 	     is_new_row = 1'b0;
 		  X_ADDR = 15'd0;
-		  Y_ADDR = Y_ADDR + 15d'1;
+		  Y_ADDR = Y_ADDR + 15'd1;
 	end
+
+	  if (Y_ADDR >= 15'd144) begin
+	  W_EN = 1'b0;
+	  end
 	
     // Gather the color data (D0-D7) from camera
     if (flag == 1'b0) begin
-        red = {D7, D6, D5};
-	     green = {D2, D1, D0};
+        red = {D6, D5, D4};
+	     green = {D1, D0};
 	     blue = blue;
 		  flag = 1'b0;
     end
 	 else begin
 	     red = red;
 		  green = green;
-		  blue = {D5, D4};
+		  blue = {D5, D4, D3};
 		  flag = 1'b1;
 	 end 
 	 
@@ -261,3 +210,68 @@ always @ (posedge PCLK) begin
 end
 	
 endmodule 
+
+// Pattern in test image
+//		if (X_ADDR < 10'd14) begin
+//		    red = 7;
+//			 blue = 0;
+//			 green = 0;
+//	   end	
+//		// RED
+//		else if (X_ADDR < 10'd28) begin
+//		    red = 2;
+//			 blue = 0;
+//			 green = 0;
+//		end
+//		else if ( X_ADDR < 10'd42) begin
+//		    red = 4;
+//			 blue = 0;
+//			 green = 0;
+//		end
+//		else if (X_ADDR < 10'd56) begin
+//		    red = 6;
+//			 blue = 0;
+//			 green = 0;
+//		end
+//		//GREEN
+//		else if (X_ADDR < 10'd70) begin
+//		    red = 7;
+//			 blue = 7;
+//			 green = 3;
+//	   end	
+//		else if (X_ADDR < 10'd84) begin
+//		    red = 0;
+//			 blue = 0;
+//			 green = 2;
+//		end
+//		else if ( X_ADDR < 10'd96) begin
+//		    red = 0;
+//			 blue = 0;
+//			 green = 4;
+//		end
+//		else if (X_ADDR < 10'd108) begin
+//		    red = 0;
+//			 blue = 0;
+//			 green = 6;
+//		end
+//		// BLUE
+//		else if (X_ADDR < 10'd120) begin
+//		    red = 7;
+//			 blue = 7;
+//			 green = 3;
+//	   end	
+//		else if (X_ADDR < 10'd134) begin
+//		    red = 0;
+//			 blue = 2;
+//			 green = 0;
+//		end
+//		else if (X_ADDR < 10'd143) begin
+//		    red = 0;
+//			 blue = 3;
+//			 green = 0;
+//		end
+//		else begin
+//		    red = 0;
+//			 blue = 0;
+//			 green = 0;
+//		end
