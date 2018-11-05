@@ -30,7 +30,7 @@ input 		    [33:20]		GPIO_1_D;
 input 		     [1:0]		KEY;
 
 ///// PIXEL DATA /////
-reg [7:0]	pixel_data_RGB332 = 8'd0;
+reg [7:0]	pixel_data_RGB332 = 8'b111_111_11;
 
 ///// READ/WRITE ADDRESS /////
 reg [14:0] X_ADDR;
@@ -86,6 +86,7 @@ Dual_Port_RAM_M9K mem(
 VGA_DRIVER driver (
 	.RESET(VGA_RESET),
 	.CLOCK(c1_sig),
+	//.PIXEL_COLOR_IN(COLOR),
 	.PIXEL_COLOR_IN(VGA_READ_MEM_EN ? MEM_OUTPUT : BLUE),
 	.PIXEL_X(VGA_PIXEL_X),
 	.PIXEL_Y(VGA_PIXEL_Y),
@@ -125,22 +126,27 @@ assign color[4:3] = green;
 assign color[2:0] = blue;
 
 // Downsampling variables
-assign D0 = GPIO_1_D[22];
-assign D1 = GPIO_1_D[23];
-assign D2 = GPIO_1_D[24];
-assign D3 = GPIO_1_D[25];
-assign D4 = GPIO_1_D[26];
-assign D5 = GPIO_1_D[27];
-assign D6 = GPIO_1_D[28];
-assign D7 = GPIO_1_D[29];
-assign PCLK = GPIO_1_D[30];
-assign HREF = GPIO_1_D[31];
-assign VSYNC = GPIO_1_D[32];
+assign D0 = GPIO_1_D[20];
+assign D1 = GPIO_1_D[21];
+//assign D0 = 1'b1;
+//assign D1 = 1'b1;
+assign D2 = GPIO_1_D[22];
+assign D3 = GPIO_1_D[23];
+assign D4 = GPIO_1_D[24];
+assign D5 = GPIO_1_D[25];
+assign D6 = GPIO_1_D[26];
+//assign D4 = 1'b1;
+//assign D5 = 1'b1;
+//assign D6 = 1'b1;
+assign D7 = GPIO_1_D[27];
+assign PCLK = GPIO_1_D[28];
+assign HREF = GPIO_1_D[29];
+assign VSYNC = GPIO_1_D[30];
 
 assign GPIO_0_D[0] = c0_sig;
 
 
-always @ (VGA_PIXEL_X, VGA_PIXEL_Y) begin
+always @ (VGA_PIXEL_Y, VGA_PIXEL_X) begin
 		READ_ADDRESS = (VGA_PIXEL_X + VGA_PIXEL_Y*`SCREEN_WIDTH);
 		if(VGA_PIXEL_X>(`SCREEN_WIDTH-1) || VGA_PIXEL_Y>(`SCREEN_HEIGHT-1))begin
 				VGA_READ_MEM_EN = 1'b0;
@@ -154,59 +160,88 @@ reg flag = 1'b0;
 reg is_image_started = 1'b1;
 reg is_new_row = 1'b0;
 reg is_new_byte = 1'b1;
-always @ (negedge PCLK) begin
-     W_EN = 1'b1;
-    
-	if (PCLK == 1'b1 && is_new_byte == 1'b0) begin // datasheet says TX on falling edge
-	     is_new_byte = 1'b1;
-		  X_ADDR = X_ADDR + 15'd1;
-	end
-	else if (PCLK == 1'b0) begin 
-	     is_new_byte = 1'b1;
-	end
-	
+reg [7:0] COLOR = BLUE;
+
+reg prev_href = 1'b0;
+
+always @ (posedge PCLK) begin
+     //W_EN = 1'b0;
+//	  X_ADDR = X_ADDR + 15'd1;
+//	  if (X_ADDR == 15'd176) begin
+//	  Y_ADDR = Y_ADDR + 1'b1;
+//	  end
+//	  W_EN = 1'b1;
+//	  COLOR = RED;
+//	  pixel_data_RGB332 = COLOR;
+
    // Handling when an image frame starts or ends
-   if (VSYNC == 1'b0 && is_image_started == 1'b1) begin // Image TX on falling edge started
-	     W_EN = 1'b1;
-        X_ADDR = 15'd0;
-	     Y_ADDR = 15'd0;
-	     is_image_started = VSYNC;
-   end
-	else if (VSYNC == 1'b1 && is_image_started == 1'b0) begin // Image TX ends on rising edge
-	     is_image_started = 1'b0;
-		  W_EN = 1'b0;
+   if (VSYNC == 1'b1 && HREF == 1'b0 && prev_href == 1'b0) begin // Image TX on falling edge started
+		  W_EN <= 1'b0;
+		  X_ADDR <= 15'd0;
+	     Y_ADDR <= 15'd0;
+		  flag <= 1'b0; //reset flag
+
+//	  X_ADDR = X_ADDR + 15'd1;
+//	  if (X_ADDR == 15'd176) begin
+//	  Y_ADDR = Y_ADDR + 1'b1;
+//	  end
+//	  W_EN = 1'b1;
+//	  COLOR = BLUE;
+//	  pixel_data_RGB332 = COLOR;
+		  
 	end
 	
 	// Handle when Camera sends a new row of images
-	if (HREF == 1'b1 && is_new_row == 1'b0) begin // new row TX on rising edge
-	     is_new_row = 1'b1;
-	end
-	if (HREF == 1'b0 && is_new_row == 1'b1) begin // row TX ends on falling edge, must be a new row
-	     is_new_row = 1'b0;
-		  X_ADDR = 15'd0;
-		  Y_ADDR = Y_ADDR + 15'd1;
-	end
+	else begin
+	   if (Y_ADDR >= 15'd144) begin
+	   	W_EN <= 1'b0;
+	   end
+		
+   	else if (HREF == 1'b1 && prev_href == 1'b0) begin // row TX ends on falling edge, must be a new row (HREF == 1'b0)
+		     X_ADDR <= 15'd0;
+		     Y_ADDR <= Y_ADDR + 15'd1; 
+	   end
+	   else begin // new row TX on rising edge
+			 // Gather the color data (D0-D7) from camera
+			 if (flag == 1'b0) begin
+				  red = {D6, D5, D4};
+				  green = {D1, D0};
+				  blue = 0;
+				  flag = 1'b1;
+				  W_EN = 1'b0;
+				   X_ADDR = X_ADDR;
+				  Y_ADDR =Y_ADDR;
+				  pixel_data_RGB332 = color;
+//	 X_ADDR = X_ADDR + 15'd1;
+//	  if (X_ADDR == 15'd176) begin
+//	  Y_ADDR = Y_ADDR + 1'b1;
+//	  end
+//	  	W_EN = 1'b1;
+//	  COLOR = RED;
+//	  pixel_data_RGB332 = COLOR;
+			 end
+			 else begin
+				  red = red;
+				  green = green;
+				  blue = {D4, D3, D2};
+				  flag = 1'b0;
+				  pixel_data_RGB332 = color; // Now write the color to memory (since write address has been setup)
 
-	  if (Y_ADDR >= 15'd144) begin
-	  W_EN = 1'b0;
-	  end
+				  X_ADDR = X_ADDR + 15'd1;
+				  Y_ADDR =Y_ADDR;
+				   W_EN = 1'b1;
+ //X_ADDR = X_ADDR + 15'd1;
+//	  if (X_ADDR == 15'd176) begin
+//	  Y_ADDR = Y_ADDR + 1'b1;
+//	  end
+//	  	W_EN = 1'b1;
+//	  COLOR = GREEN;
+//	  pixel_data_RGB332 = COLOR;
+			 end 
+		end
 	
-    // Gather the color data (D0-D7) from camera
-    if (flag == 1'b0) begin
-        red = {D6, D5, D4};
-	     green = {D1, D0};
-	     blue = blue;
-		  flag = 1'b0;
-    end
-	 else begin
-	     red = red;
-		  green = green;
-		  blue = {D5, D4, D3};
-		  flag = 1'b1;
-	 end 
-	 
-	 // Now write the color to memory (since write address has been setup)
-	 pixel_data_RGB332 = color;
+		prev_href = HREF;
+	end
 end
 	
 endmodule 
