@@ -38,9 +38,12 @@ void setup() {
   OV7670_write_register(COM3 , 0X08);
   OV7670_write_register(COM7 , 0x0C);
   OV7670_write_register(COM15 , 0XF0);
-  OV7670_write_register(COM17 , 0b00000000);
+ //OV7670_write_register(COM17 , 0b00001000);
+   OV7670_write_register(COM17 , 0x0C);
+   Serial.println("Written!");
   
   read_key_registers();
+  Serial.println("rEAD!");
 }
 
 void loop(){
@@ -124,6 +127,7 @@ void write_key_registers(){
 }
 void read_key_registers(){  
   Serial.print("RESET_COM7 = ");  Serial.print(COM7, HEX); Serial.print(" ");Serial.println( read_register_value(COM7), HEX);
+  Serial.println("reset done");
   Serial.print("SCALING_COM3 = "); Serial.print(COM3, HEX); Serial.print(" "); Serial.println(read_register_value(COM3), HEX);
   Serial.print("NOISE_COM9 = ");  Serial.print(COM9, HEX); Serial.print(" ");Serial.println(read_register_value(COM9), HEX);
   Serial.print("OUTPUTRANGE_COM15 = ");  Serial.print(COM15, HEX); Serial.print(" ");Serial.println(read_register_value(COM15), HEX);
