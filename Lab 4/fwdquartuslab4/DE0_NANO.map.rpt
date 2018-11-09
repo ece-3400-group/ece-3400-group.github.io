@@ -1,5 +1,5 @@
 Analysis & Synthesis report for DE0_NANO
-Mon Nov 05 22:30:04 2018
+Thu Nov 08 22:29:05 2018
 Quartus Prime Version 17.0.0 Build 595 04/25/2017 SJ Lite Edition
 
 
@@ -30,11 +30,10 @@ Quartus Prime Version 17.0.0 Build 595 04/25/2017 SJ Lite Edition
  22. altsyncram Parameter Settings by Entity Instance
  23. lpm_mult Parameter Settings by Entity Instance
  24. Port Connectivity Checks: "IMAGE_PROCESSOR:proc"
- 25. Port Connectivity Checks: "sweetPLL:sweetPLL_inst"
- 26. Post-Synthesis Netlist Statistics for Top Partition
- 27. Elapsed Time Per Partition
- 28. Analysis & Synthesis Messages
- 29. Analysis & Synthesis Suppressed Messages
+ 25. Post-Synthesis Netlist Statistics for Top Partition
+ 26. Elapsed Time Per Partition
+ 27. Analysis & Synthesis Messages
+ 28. Analysis & Synthesis Suppressed Messages
 
 
 
@@ -61,13 +60,13 @@ agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                     ;
 +------------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Mon Nov 05 22:30:04 2018       ;
+; Analysis & Synthesis Status        ; Successful - Thu Nov 08 22:29:05 2018       ;
 ; Quartus Prime Version              ; 17.0.0 Build 595 04/25/2017 SJ Lite Edition ;
 ; Revision Name                      ; DE0_NANO                                    ;
 ; Top-level Entity Name              ; DE0_NANO                                    ;
 ; Family                             ; Cyclone IV E                                ;
-; Total logic elements               ; 200                                         ;
-;     Total combinational functions  ; 194                                         ;
+; Total logic elements               ; 219                                         ;
+;     Total combinational functions  ; 210                                         ;
 ;     Dedicated logic registers      ; 67                                          ;
 ; Total registers                    ; 67                                          ;
 ; Total pins                         ; 51                                          ;
@@ -177,7 +176,8 @@ agreement for further details.
 ;                            ;             ;
 ; Usage by Processor         ; % Time Used ;
 ;     Processor 1            ; 100.0%      ;
-;     Processors 2-4         ;   0.0%      ;
+;     Processor 2            ;   0.0%      ;
+;     Processors 3-4         ;   0.0%      ;
 +----------------------------+-------------+
 
 
@@ -239,16 +239,16 @@ agreement for further details.
 +---------------------------------------------+------------------------------------------------------------------------------------------------+
 ; Resource                                    ; Usage                                                                                          ;
 +---------------------------------------------+------------------------------------------------------------------------------------------------+
-; Estimated Total logic elements              ; 200                                                                                            ;
+; Estimated Total logic elements              ; 219                                                                                            ;
 ;                                             ;                                                                                                ;
-; Total combinational functions               ; 194                                                                                            ;
+; Total combinational functions               ; 210                                                                                            ;
 ; Logic element usage by number of LUT inputs ;                                                                                                ;
-;     -- 4 input functions                    ; 52                                                                                             ;
-;     -- 3 input functions                    ; 49                                                                                             ;
-;     -- <=2 input functions                  ; 93                                                                                             ;
+;     -- 4 input functions                    ; 50                                                                                             ;
+;     -- 3 input functions                    ; 81                                                                                             ;
+;     -- <=2 input functions                  ; 79                                                                                             ;
 ;                                             ;                                                                                                ;
 ; Logic elements by mode                      ;                                                                                                ;
-;     -- normal mode                          ; 116                                                                                            ;
+;     -- normal mode                          ; 132                                                                                            ;
 ;     -- arithmetic mode                      ; 78                                                                                             ;
 ;                                             ;                                                                                                ;
 ; Total registers                             ; 67                                                                                             ;
@@ -265,8 +265,8 @@ agreement for further details.
 ;                                             ;                                                                                                ;
 ; Maximum fan-out node                        ; sweetPLL:sweetPLL_inst|altpll:altpll_component|sweetPLL_altpll:auto_generated|wire_pll1_clk[0] ;
 ; Maximum fan-out                             ; 56                                                                                             ;
-; Total fan-out                               ; 1744                                                                                           ;
-; Average fan-out                             ; 4.40                                                                                           ;
+; Total fan-out                               ; 1805                                                                                           ;
+; Average fan-out                             ; 4.38                                                                                           ;
 +---------------------------------------------+------------------------------------------------------------------------------------------------+
 
 
@@ -275,7 +275,7 @@ agreement for further details.
 +------------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+----------------------------------------------------------------------------------------------------------------------------------+-------------------+--------------+
 ; Compilation Hierarchy Node                     ; Combinational ALUTs ; Dedicated Logic Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                              ; Entity Name       ; Library Name ;
 +------------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+----------------------------------------------------------------------------------------------------------------------------------+-------------------+--------------+
-; |DE0_NANO                                      ; 194 (75)            ; 67 (45)                   ; 202752      ; 0            ; 0       ; 0         ; 51   ; 0            ; |DE0_NANO                                                                                                                        ; DE0_NANO          ; work         ;
+; |DE0_NANO                                      ; 210 (91)            ; 67 (45)                   ; 202752      ; 0            ; 0       ; 0         ; 51   ; 0            ; |DE0_NANO                                                                                                                        ; DE0_NANO          ; work         ;
 ;    |Dual_Port_RAM_M9K:mem|                     ; 8 (0)               ; 2 (0)                     ; 202752      ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE0_NANO|Dual_Port_RAM_M9K:mem                                                                                                  ; Dual_Port_RAM_M9K ; work         ;
 ;       |altsyncram:mem_rtl_0|                   ; 8 (0)               ; 2 (0)                     ; 202752      ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE0_NANO|Dual_Port_RAM_M9K:mem|altsyncram:mem_rtl_0                                                                             ; altsyncram        ; work         ;
 ;          |altsyncram_j5f1:auto_generated|      ; 8 (0)               ; 2 (2)                     ; 202752      ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE0_NANO|Dual_Port_RAM_M9K:mem|altsyncram:mem_rtl_0|altsyncram_j5f1:auto_generated                                              ; altsyncram_j5f1   ; work         ;
@@ -348,11 +348,11 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
 ; Total registers                              ; 67    ;
-; Number of registers using Synchronous Clear  ; 46    ;
-; Number of registers using Synchronous Load   ; 0     ;
+; Number of registers using Synchronous Clear  ; 31    ;
+; Number of registers using Synchronous Load   ; 15    ;
 ; Number of registers using Asynchronous Clear ; 0     ;
 ; Number of registers using Asynchronous Load  ; 0     ;
-; Number of registers using Clock Enable       ; 38    ;
+; Number of registers using Clock Enable       ; 54    ;
 ; Number of registers using Preset             ; 0     ;
 +----------------------------------------------+-------+
 
@@ -388,12 +388,12 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 +--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------------------------+
 ; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                     ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------------------------+
-; 3:1                ; 10 bits   ; 20 LEs        ; 10 LEs               ; 10 LEs                 ; Yes        ; |DE0_NANO|VGA_DRIVER:driver|pixel_count[0]     ;
-; 3:1                ; 15 bits   ; 30 LEs        ; 15 LEs               ; 15 LEs                 ; Yes        ; |DE0_NANO|X_ADDR[1]                            ;
-; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |DE0_NANO|flag                                 ;
-; 3:1                ; 15 bits   ; 30 LEs        ; 15 LEs               ; 15 LEs                 ; Yes        ; |DE0_NANO|Y_ADDR[5]                            ;
-; 4:1                ; 10 bits   ; 20 LEs        ; 10 LEs               ; 10 LEs                 ; Yes        ; |DE0_NANO|VGA_DRIVER:driver|line_count[0]      ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; No         ; |DE0_NANO|VGA_DRIVER:driver|PIXEL_COLOR_OUT[6] ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |DE0_NANO|W_EN                                 ;
+; 3:1                ; 10 bits   ; 20 LEs        ; 10 LEs               ; 10 LEs                 ; Yes        ; |DE0_NANO|VGA_DRIVER:driver|pixel_count[2]     ;
+; 4:1                ; 15 bits   ; 30 LEs        ; 30 LEs               ; 0 LEs                  ; Yes        ; |DE0_NANO|X_ADDR[0]                            ;
+; 3:1                ; 15 bits   ; 30 LEs        ; 15 LEs               ; 15 LEs                 ; Yes        ; |DE0_NANO|Y_ADDR[6]                            ;
+; 4:1                ; 10 bits   ; 20 LEs        ; 10 LEs               ; 10 LEs                 ; Yes        ; |DE0_NANO|VGA_DRIVER:driver|line_count[5]      ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; No         ; |DE0_NANO|VGA_DRIVER:driver|PIXEL_COLOR_OUT[5] ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------------------------+
 
 
@@ -988,15 +988,6 @@ Note: In order to hide this table in the UI and the text report file, please set
 +--------+--------+----------+-------------------------------------------------------------------------------------+
 
 
-+----------------------------------------------------------------------------------------------------------------+
-; Port Connectivity Checks: "sweetPLL:sweetPLL_inst"                                                             ;
-+------+--------+----------+-------------------------------------------------------------------------------------+
-; Port ; Type   ; Severity ; Details                                                                             ;
-+------+--------+----------+-------------------------------------------------------------------------------------+
-; c2   ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
-+------+--------+----------+-------------------------------------------------------------------------------------+
-
-
 +-----------------------------------------------------+
 ; Post-Synthesis Netlist Statistics for Top Partition ;
 +-----------------------+-----------------------------+
@@ -1004,20 +995,21 @@ Note: In order to hide this table in the UI and the text report file, please set
 +-----------------------+-----------------------------+
 ; boundary_port         ; 51                          ;
 ; cycloneiii_ff         ; 67                          ;
-;     ENA               ; 17                          ;
+;     ENA               ; 18                          ;
 ;     ENA SCLR          ; 21                          ;
-;     SCLR              ; 25                          ;
-;     plain             ; 4                           ;
-; cycloneiii_lcell_comb ; 195                         ;
+;     ENA SLD           ; 15                          ;
+;     SCLR              ; 10                          ;
+;     plain             ; 3                           ;
+; cycloneiii_lcell_comb ; 211                         ;
 ;     arith             ; 78                          ;
-;         2 data inputs ; 49                          ;
-;         3 data inputs ; 29                          ;
-;     normal            ; 117                         ;
+;         2 data inputs ; 36                          ;
+;         3 data inputs ; 42                          ;
+;     normal            ; 133                         ;
 ;         0 data inputs ; 1                           ;
-;         1 data inputs ; 23                          ;
+;         1 data inputs ; 22                          ;
 ;         2 data inputs ; 21                          ;
-;         3 data inputs ; 20                          ;
-;         4 data inputs ; 52                          ;
+;         3 data inputs ; 39                          ;
+;         4 data inputs ; 50                          ;
 ; cycloneiii_pll        ; 1                           ;
 ; cycloneiii_ram_block  ; 32                          ;
 ;                       ;                             ;
@@ -1041,7 +1033,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 17.0.0 Build 595 04/25/2017 SJ Lite Edition
-    Info: Processing started: Mon Nov 05 22:29:53 2018
+    Info: Processing started: Thu Nov 08 22:28:53 2018
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off DE0_NANO -c DE0_NANO
 Warning (125092): Tcl Script File DE_NANO_SOPC.qip not found
     Info (125063): set_global_assignment -name QIP_FILE DE_NANO_SOPC.qip
@@ -1074,10 +1066,12 @@ Warning (10236): Verilog HDL Implicit Net warning at DE0_NANO.v(142): created im
 Warning (10236): Verilog HDL Implicit Net warning at DE0_NANO.v(143): created implicit net for "HREF" File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 143
 Warning (10236): Verilog HDL Implicit Net warning at DE0_NANO.v(144): created implicit net for "VSYNC" File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 144
 Info (12127): Elaborating entity "DE0_NANO" for the top level hierarchy
-Warning (10036): Verilog HDL or VHDL warning at DE0_NANO.v(160): object "is_image_started" assigned a value but never read File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 160
-Warning (10036): Verilog HDL or VHDL warning at DE0_NANO.v(161): object "is_new_row" assigned a value but never read File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 161
-Warning (10036): Verilog HDL or VHDL warning at DE0_NANO.v(162): object "is_new_byte" assigned a value but never read File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 162
-Warning (10036): Verilog HDL or VHDL warning at DE0_NANO.v(163): object "COLOR" assigned a value but never read File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 163
+Warning (10036): Verilog HDL or VHDL warning at DE0_NANO.v(133): object "D2" assigned a value but never read File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 133
+Warning (10036): Verilog HDL or VHDL warning at DE0_NANO.v(162): object "is_image_started" assigned a value but never read File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 162
+Warning (10036): Verilog HDL or VHDL warning at DE0_NANO.v(163): object "is_new_row" assigned a value but never read File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 163
+Warning (10036): Verilog HDL or VHDL warning at DE0_NANO.v(164): object "is_new_byte" assigned a value but never read File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 164
+Warning (10036): Verilog HDL or VHDL warning at DE0_NANO.v(165): object "COLOR" assigned a value but never read File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 165
+Warning (10036): Verilog HDL or VHDL warning at DE0_NANO.v(168): object "prev_vsync" assigned a value but never read File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 168
 Warning (10230): Verilog HDL assignment warning at DE0_NANO.v(41): truncated value with size 32 to match size of target (15) File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 41
 Warning (10230): Verilog HDL assignment warning at DE0_NANO.v(150): truncated value with size 32 to match size of target (15) File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 150
 Warning (10034): Output port "GPIO_0_D[33..24]" at DE0_NANO.v(27) has no driver File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
@@ -1090,7 +1084,7 @@ Warning (10034): Output port "GPIO_0_D[12]" at DE0_NANO.v(27) has no driver File
 Warning (10034): Output port "GPIO_0_D[10]" at DE0_NANO.v(27) has no driver File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
 Warning (10034): Output port "GPIO_0_D[8]" at DE0_NANO.v(27) has no driver File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
 Warning (10034): Output port "GPIO_0_D[6]" at DE0_NANO.v(27) has no driver File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
-Warning (10034): Output port "GPIO_0_D[4..1]" at DE0_NANO.v(27) has no driver File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
+Warning (10034): Output port "GPIO_0_D[4..2]" at DE0_NANO.v(27) has no driver File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
 Info (12128): Elaborating entity "sweetPLL" for hierarchy "sweetPLL:sweetPLL_inst" File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 72
 Info (12128): Elaborating entity "altpll" for hierarchy "sweetPLL:sweetPLL_inst|altpll:altpll_component" File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/sweetPLL.v Line: 99
 Info (12130): Elaborated megafunction instantiation "sweetPLL:sweetPLL_inst|altpll:altpll_component" File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/sweetPLL.v Line: 99
@@ -1252,7 +1246,6 @@ Info (12131): Elaborated megafunction instantiation "lpm_mult:Mult1|multcore:mul
 Info (12131): Elaborated megafunction instantiation "lpm_mult:Mult1|multcore:mult_core|mpar_add:padder|mpar_add:sub_par_add|lpm_add_sub:adder[0]", which is child of megafunction instantiation "lpm_mult:Mult1" File: c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/mpar_add.tdf Line: 78
 Info (12131): Elaborated megafunction instantiation "lpm_mult:Mult1|altshift:external_latency_ffs", which is child of megafunction instantiation "lpm_mult:Mult1" File: c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/lpm_mult.tdf Line: 352
 Warning (13024): Output pins are stuck at VCC or GND
-    Warning (13410): Pin "GPIO_0_D[1]" is stuck at GND File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
     Warning (13410): Pin "GPIO_0_D[2]" is stuck at GND File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
     Warning (13410): Pin "GPIO_0_D[3]" is stuck at GND File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
     Warning (13410): Pin "GPIO_0_D[4]" is stuck at GND File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
@@ -1280,22 +1273,22 @@ Info (17049): 4 registers lost all their fanouts during netlist optimizations.
 Info (144001): Generated suppressed messages file C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.map.smsg
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 1 node(s), including 0 DDIO, 1 PLL, 0 transceiver and 0 LCELL
-Warning (15899): PLL "sweetPLL:sweetPLL_inst|altpll:altpll_component|sweetPLL_altpll:auto_generated|pll1" has parameters clk2_multiply_by and clk2_divide_by specified but port CLK[2] is not connected File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/db/sweetpll_altpll.v Line: 44
-Warning (21074): Design contains 4 input pin(s) that do not drive logic
+Warning (21074): Design contains 5 input pin(s) that do not drive logic
+    Warning (15610): No output dependent on input pin "GPIO_1_D[22]" File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 29
     Warning (15610): No output dependent on input pin "GPIO_1_D[31]" File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 29
     Warning (15610): No output dependent on input pin "GPIO_1_D[32]" File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 29
     Warning (15610): No output dependent on input pin "GPIO_1_D[33]" File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 29
     Warning (15610): No output dependent on input pin "KEY[1]" File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 30
-Info (21057): Implemented 286 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 305 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 17 input pins
     Info (21059): Implemented 34 output pins
-    Info (21061): Implemented 202 logic cells
+    Info (21061): Implemented 221 logic cells
     Info (21064): Implemented 32 RAM segments
     Info (21065): Implemented 1 PLLs
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 69 warnings
-    Info: Peak virtual memory: 677 megabytes
-    Info: Processing ended: Mon Nov 05 22:30:04 2018
-    Info: Elapsed time: 00:00:11
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 70 warnings
+    Info: Peak virtual memory: 691 megabytes
+    Info: Processing ended: Thu Nov 08 22:29:05 2018
+    Info: Elapsed time: 00:00:12
     Info: Total CPU time (on all processors): 00:00:25
 
 

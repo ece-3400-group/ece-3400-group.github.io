@@ -1,4 +1,3 @@
-Warning (10268): Verilog HDL information at DE0_NANO.v(167): always construct contains both blocking and non-blocking assignments File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 167
 Info (10281): Verilog HDL Declaration information at DE0_NANO.v(15): object "RED" differs only in case from object "red" in the same scope File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 15
 Info (10281): Verilog HDL Declaration information at DE0_NANO.v(16): object "GREEN" differs only in case from object "green" in the same scope File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 16
 Info (10281): Verilog HDL Declaration information at DE0_NANO.v(17): object "BLUE" differs only in case from object "blue" in the same scope File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 17
