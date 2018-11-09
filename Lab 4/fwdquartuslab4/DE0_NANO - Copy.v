@@ -77,7 +77,7 @@ Dual_Port_RAM_M9K mem(
 	.w_addr(WRITE_ADDRESS),
 	.r_addr(READ_ADDRESS),
 	.w_en(W_EN),
-	.clk_W(c2_sig),
+	.clk_W(CLOCK_50),
 	.clk_R(c1_sig),
 	.output_data(MEM_OUTPUT)
 );
@@ -157,15 +157,12 @@ always @ (VGA_PIXEL_Y, VGA_PIXEL_X) begin
 end
 
 reg flag = 0;
-reg reach2btye = 0;
-assign GPIO_0_D[1] = flag;
 reg is_image_started = 1'b1;
 reg is_new_row = 1'b0;
 reg is_new_byte = 1'b1;
 reg [7:0] COLOR = BLUE;
 
 reg prev_href = 1'b0;
-reg prev_vsync = 1'b0;
 
 always @ (posedge PCLK) begin
 // // Gather the color data (D0-D7) from camera
@@ -220,10 +217,10 @@ always @ (posedge PCLK) begin
    // Handling when an image frame starts or ends
    if (VSYNC == 1'b1 && HREF == 1'b0 && prev_href == 1'b0) begin // Image TX on falling edge started
   // if (VSYNC == 1'b1) begin // Image TX on falling edge started
-	     W_EN = 1'b0;
-		  X_ADDR = 15'd0;
-	     Y_ADDR = 15'd0;
-		  flag = 1'b0; //reset flag
+	     W_EN <= 1'b0;
+		  X_ADDR <= 15'd0;
+	     Y_ADDR <= 15'd0;
+		  flag <= 1'b0; //reset flag
 
 //	  X_ADDR = X_ADDR + 15'd1;
 //	  if (X_ADDR == 15'd176) begin
@@ -241,26 +238,24 @@ always @ (posedge PCLK) begin
 //	   	W_EN <= 1'b0;
 //	   end
 		
-   	if (HREF == 1'b0 && prev_href == 1'b1) begin // row TX ends on falling edge, must be a new row (HREF == 1'b0)
-		     X_ADDR = 15'd0;
-		     Y_ADDR = Y_ADDR + 15'd1; 
+   	if (HREF == 1'b1 && prev_href == 1'b0) begin // row TX ends on falling edge, must be a new row (HREF == 1'b0)
+		     X_ADDR <= 15'd0;
+		     Y_ADDR <= Y_ADDR + 15'd1; 
 	   end
-	   if (HREF == 1'b1) begin  // new row TX on rising edge
+	   else begin // new row TX on rising edge
 			 // Gather the color data (D0-D7) from camera
 			 if (flag == 1'b0) begin
-			     W_EN = 1'b0;
-				  red = {D6, D5, D4};
-				  //red = {1'b0, 1'b0, 1'b0};
-				  green[2:1] = {D1, D0};
-				  //red[2:0] <= {1'b0, 1'b0, 1'b0}; //{D7, D6, D5};
-				  //green[2:0] <= {1'b0, 1'b0, 1'b0}; 
+				  //red = {D6, D5, D4};
+				  //green = {D1, D0};
+				  red[2:0] <= {D6, D5, D4};
+				  green[2:1] <= {D1, D0};
 				  //green[2:1] <= {1'b1, 1'b1};
-				  blue = blue;
-				  flag = ~flag;
-				  X_ADDR = X_ADDR;
-				  Y_ADDR = Y_ADDR;
-				  pixel_data_RGB332 = color;
-				  reach2btye = 0;
+				  blue <= 0;
+				  flag <= 1'b1;
+				  W_EN <= 1'b0;
+				   X_ADDR <= X_ADDR;
+				  Y_ADDR <=Y_ADDR;
+				  pixel_data_RGB332 <= color;
 //	 X_ADDR = X_ADDR + 15'd1;
 //	  if (X_ADDR == 15'd176) begin
 //	  Y_ADDR = Y_ADDR + 1'b1;
@@ -270,26 +265,17 @@ always @ (posedge PCLK) begin
 //	  pixel_data_RGB332 = COLOR;
 			 end
 			 else begin
-				  red[2:0] = red;
-				  green[0] = {D7};
-				 // green[2:0] = {1'b0, 1'b0, 1'b0};
-				  //blue[1:0] = {1'b0, 1'b0};
+				  red[2:0] <= red;
+				  green[0] <= D7;
 				  //green[0] <= 1'b1;
-				  blue = {D4, D3};
-				  //blue[1:0] <= {1'b1, 1'b1};
-				  flag = 1'b0;
-				  pixel_data_RGB332 = color; // Now write the color to memory (since write address has been setup)
-				  reach2btye = 1;
-					X_ADDR = X_ADDR;
-				  Y_ADDR = Y_ADDR;
-				   W_EN = 1'b1;
-			end 
-					
-			if (reach2btye) begin 
-				  X_ADDR = X_ADDR + 15'd1;
-				  Y_ADDR = Y_ADDR;
-			     //W_EN <= 1'b0;
-			end
+				  //blue = {D4, D3, D2};
+				  blue[1:0] <= {D3, D2};
+				  flag <= 1'b0;
+				  pixel_data_RGB332 <= color; // Now write the color to memory (since write address has been setup)
+
+				  X_ADDR <= X_ADDR + 15'd1;
+				  Y_ADDR <=Y_ADDR;
+				   W_EN <= 1'b1;
  //X_ADDR = X_ADDR + 15'd1;
 //	  if (X_ADDR == 15'd176) begin
 //	  Y_ADDR = Y_ADDR + 1'b1;
@@ -297,7 +283,8 @@ always @ (posedge PCLK) begin
 //	  	W_EN = 1'b1;
 //	  COLOR = GREEN;
 //	  pixel_data_RGB332 = COLOR;
-		 end
+			 end 
+		end
 	end
 	prev_href = HREF;
 end
