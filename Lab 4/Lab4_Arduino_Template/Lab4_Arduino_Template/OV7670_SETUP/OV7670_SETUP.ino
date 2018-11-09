@@ -54,9 +54,12 @@ void setupCamera(){
 }
 
 void rgbSetup() {
-  delay(100);
-    byte data = 0b00000110; // Output for RGB format 
+    byte data = 0b10000110; // Output for RGB format 
     OV7670_write_register(RESETREG, data);
+}
+
+void setupScaling() {
+  byte data = z
 }
 
 void setup555() {

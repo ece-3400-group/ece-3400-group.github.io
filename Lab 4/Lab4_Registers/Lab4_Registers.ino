@@ -34,16 +34,17 @@ void setup() {
   delay(100);
   set_color_matrix();
   OV7670_write_register(CLKRC , 0xC0);
-  OV7670_write_register(MVFP , 0x30);
+  OV7670_write_register(MVFP , 0x18);
   OV7670_write_register(COM3 , 0X08);
   OV7670_write_register(COM7 , 0x0C);
   OV7670_write_register(COM15 , 0XF0);
  //OV7670_write_register(COM17 , 0b00001000);
-   OV7670_write_register(COM17 , 0x0C);
+   OV7670_write_register(COM17 , 0x00);
+   OV7670_write_register(COM9 , 0x01);    // Noise COM9[0] = 1 <- Freeze AGC/AEC
    Serial.println("Written!");
   
   read_key_registers();
-  Serial.println("rEAD!");
+  Serial.println("READ!");
 }
 
 void loop(){
