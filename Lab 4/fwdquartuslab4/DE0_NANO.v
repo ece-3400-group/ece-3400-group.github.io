@@ -33,8 +33,8 @@ input 		     [1:0]		KEY;
 reg [7:0]	pixel_data_RGB332 = 8'b111_111_11;
 
 ///// READ/WRITE ADDRESS /////
-reg [14:0] X_ADDR = 15'd0;
-reg [14:0] Y_ADDR = 15'd0;
+reg [14:0] X_ADDR = 10'd0;
+reg [14:0] Y_ADDR = 10'd0;
 wire [14:0] WRITE_ADDRESS;
 reg [14:0] READ_ADDRESS; 
 
@@ -220,9 +220,8 @@ always @ (posedge PCLK) begin
    // Handling when an image frame starts or ends
    if (VSYNC == 1'b1 && HREF == 1'b0 && prev_href == 1'b0) begin // Image TX on falling edge started
   // if (VSYNC == 1'b1) begin // Image TX on falling edge started
-	     W_EN = 1'b0;
-		  X_ADDR = 15'd0;
-	     Y_ADDR = 15'd0;
+		  X_ADDR = 10'd0;
+	     Y_ADDR = 10'd0;
 		  flag = 1'b0; //reset flag
 
 //	  X_ADDR = X_ADDR + 15'd1;
@@ -234,32 +233,35 @@ always @ (posedge PCLK) begin
 //	  pixel_data_RGB332 = COLOR;
 		  
 	end
+	else if (HREF == 1'b0 & prev_href == 1'b1) begin // row TX ends on falling edge, must be a new row (HREF == 1'b0)
+		 X_ADDR = 10'd0;
+		 Y_ADDR = Y_ADDR + 10'd1; 
+		 flag = 1'b0;
+	 end
 	
 	// Handle when Camera sends a new row of images
 	else begin
 //	   if (Y_ADDR >= 15'd176) begin
 //	   	W_EN <= 1'b0;
 //	   end
-		
-   	if (HREF == 1'b0 && prev_href == 1'b1) begin // row TX ends on falling edge, must be a new row (HREF == 1'b0)
-		     X_ADDR = 15'd0;
-		     Y_ADDR = Y_ADDR + 15'd1; 
-	   end
+		Y_ADDR = Y_ADDR;
 	   if (HREF == 1'b1) begin  // new row TX on rising edge
+
 			 // Gather the color data (D0-D7) from camera
 			 if (flag == 1'b0) begin
 			     W_EN = 1'b0;
-				  red = {D6, D5, D4};
+				  red = {D7, D6, D5};
 				  //red = {1'b0, 1'b0, 1'b0};
-				  green[2:1] = {D1, D0};
+				  green[2:0] = {D2, D1, D0};
+				 // green = green;
 				  //red[2:0] <= {1'b0, 1'b0, 1'b0}; //{D7, D6, D5};
 				  //green[2:0] <= {1'b0, 1'b0, 1'b0}; 
 				  //green[2:1] <= {1'b1, 1'b1};
 				  blue = blue;
-				  flag = ~flag;
+				  flag = 1'b1;
 				  X_ADDR = X_ADDR;
-				  Y_ADDR = Y_ADDR;
-				  pixel_data_RGB332 = color;
+				//  Y_ADDR = Y_ADDR;
+				  pixel_data_RGB332= color ;
 				  reach2btye = 0;
 //	 X_ADDR = X_ADDR + 15'd1;
 //	  if (X_ADDR == 15'd176) begin
@@ -271,7 +273,8 @@ always @ (posedge PCLK) begin
 			 end
 			 else begin
 				  red[2:0] = red;
-				  green[0] = {D7};
+				  //green[0] = {D7};
+				  green = green;
 				 // green[2:0] = {1'b0, 1'b0, 1'b0};
 				  //blue[1:0] = {1'b0, 1'b0};
 				  //green[0] <= 1'b1;
@@ -280,16 +283,11 @@ always @ (posedge PCLK) begin
 				  flag = 1'b0;
 				  pixel_data_RGB332 = color; // Now write the color to memory (since write address has been setup)
 				  reach2btye = 1;
-					X_ADDR = X_ADDR;
-				  Y_ADDR = Y_ADDR;
 				   W_EN = 1'b1;
-			end 
-					
-			if (reach2btye) begin 
-				  X_ADDR = X_ADDR + 15'd1;
-				  Y_ADDR = Y_ADDR;
-			     //W_EN <= 1'b0;
-			end
+				  X_ADDR = X_ADDR + 1'b1;
+				//  Y_ADDR = Y_ADDR;
+			end 	
+			
  //X_ADDR = X_ADDR + 15'd1;
 //	  if (X_ADDR == 15'd176) begin
 //	  Y_ADDR = Y_ADDR + 1'b1;
@@ -298,9 +296,13 @@ always @ (posedge PCLK) begin
 //	  COLOR = GREEN;
 //	  pixel_data_RGB332 = COLOR;
 		 end
+
+		 else begin
+		  X_ADDR = 10'd0;
+	end
 	end
 	prev_href = HREF;
-end
+	prev_vsync = VSYNC;
 ///////* Update Read Address *///////
 //always @ (posedge PCLK) begin
 //	if(VSYNC) begin
@@ -335,6 +337,7 @@ end
 //	end
 //end
 //	
+end
 endmodule 
 
 // Pattern in test image
