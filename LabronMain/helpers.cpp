@@ -1,6 +1,8 @@
 #include "helpers.h"
 #include <Arduino.h>
 
+
+
 // Invert the number for the servo to make the 0 - 90 range logic intuitive
 int invert(int number){
   return abs(number-180);
@@ -8,4 +10,14 @@ int invert(int number){
 
 void serialBegin( int baudrate ) {
   Serial.begin( baudrate );
+}
+
+class Stack<T>{
+  private: 
+    int size; 
+  public: 
+    bool push(T item); 
+    T pop();
+    int size(); 
+    
 }

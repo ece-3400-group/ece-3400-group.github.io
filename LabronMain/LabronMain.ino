@@ -22,7 +22,7 @@ void setup() {
 int count = 0;
 /*
 void loop() {
-  byte routeInfo = decideRoute();  // routeInfo organized [F,R,B,L; forward, right, left, turnaround]
+  byte routeInfo = decideRouteDFS();  // routeInfo organized [F,R,B,L; forward, right, left, turnaround]
   //routeInfo = 1;
   if (routeInfo != 0) {
     // now have new information to update with

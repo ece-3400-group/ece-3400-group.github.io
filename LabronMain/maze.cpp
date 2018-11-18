@@ -1,16 +1,17 @@
+
 /* File to keep track of internal maze state and direction */
 
 #include "maze.h"
 int currentX = -1;
 int currentY = 2;
 byte direction = 0b01; // east
-byte maze[9][9];
+byte maze[MAZEX][MAZEY];
 
 // DIRECTIONS
 // 0b01 = EAST, 0b00 = NORTH, 0b10 = WEST, 0b11 = SOUTH
 void populateMazeStart() {
-  for (int i = 0; i < 9; i++) {
-    for (int j = 0; j < 9; j++ ) {
+  for (int i = 0; i < MAZEX; i++) {
+    for (int j = 0; j < MAZEY; j++ ) {
       //maze[i][j] = 0b11111111;
       maze[i][j] = 0b00000000;
     }
