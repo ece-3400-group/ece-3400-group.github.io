@@ -5,6 +5,7 @@
 #include "sensors.h"
 
 byte fftResult;
+byte stopped = 0;
 
 void setup() {
   Serial.begin(57600); // radios want this
@@ -15,14 +16,14 @@ void setup() {
   setupFFT();
   setupDebugFFT();
   setupRadios();
-  //while( waitForStart() );
-  //delay(2000);
+  while( waitForStart() );
+  delay(2000);
 }
 
 int count = 0;
-/*
+
 void loop() {
-  byte routeInfo = decideRouteDFS();  // routeInfo organized [F,R,B,L; forward, right, left, turnaround]
+  byte routeInfo = decideRoute();  // routeInfo organized [F,R,B,L; forward, right, left, turnaround]
   //routeInfo = 1;
   if (routeInfo != 0) {
     // now have new information to update with
@@ -54,7 +55,11 @@ void loop() {
   }
   while ((routeInfo & FRONT) && (routeInfo & RIGHT) && (routeInfo & LEFT)) {
     Serial.println("COMPLETE STOP");
-    turnAround();
+    if (stopped == 0) {
+      turnAround();
+      stopped = 1;
+    }
+    stop();
   }
   if (count == 0){
    // debugFFT();
@@ -67,10 +72,15 @@ void loop() {
   //displayLedFFT(fftResult, AUDIO_PIN, IRHAT_PIN );
   count++;
   count = count % 3;
-}*/
+}
 
+/*
 void loop() {
+  turnLeft();
+  delay(1000);
+  turnRight();
+  delay(1000);
   turnAround();
-  stop();
   delay(5000);
 }
+*/

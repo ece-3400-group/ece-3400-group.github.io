@@ -11,13 +11,3 @@ int invert(int number){
 void serialBegin( int baudrate ) {
   Serial.begin( baudrate );
 }
-
-class Stack<T>{
-  private: 
-    int size; 
-  public: 
-    bool push(T item); 
-    T pop();
-    int size(); 
-    
-}

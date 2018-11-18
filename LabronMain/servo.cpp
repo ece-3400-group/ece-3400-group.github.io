@@ -1,11 +1,10 @@
 #include "servo.h"
 #include <Arduino.h>
 #include "sensors.h"
-#include "helpers.h"
 /*==================== [ Initialize Servos ] ================in===============*/
 Servo rightServo;
 Servo leftServo;
-<stack> dfsStack;
+
 # define FORWARDDIR 0b00001000;
 # define LEFTDIR 0b00000001;
 # define RIGHTDIR 0b00000100;
@@ -54,21 +53,16 @@ void checkSensors() {
 }
 
 // Turn left
-<<<<<<< HEAD
-void turnLeft(){
-  leftServo.write(0);
-=======
 void turnLeft() {
   leftServo.write(90);
->>>>>>> 27486f1b601d966d57888f5c5fdf3f96c37d1943
   rightServo.write(0);
-  delay(600);
+  delay(500);
   checkSensors();
   while (vals[1] > LINE_THRESHOLD)
   {
     checkSensors();
   }
-  rightServo.write(90);
+  stop();
 }
 
 // Turn slightly left
@@ -90,44 +84,34 @@ void slightRight() {
 // Turn right
 void turnRight() {
   leftServo.write(180);
-  rightServo.write(180);
+  rightServo.write(90);
   delay(500);
   checkSensors();
   while (vals[1] > LINE_THRESHOLD)
   {
     checkSensors();
   }
-  leftServo.write(90);
-  // if (direction == 0b00){
-  //   direction = 0b01;
-  // }
-  // elif (direction == 0b01){
-  //   direction = 0b11;
-  // }
-  // elif (direction == 0b11){
-  //   direction = 0b10;
-  // }
-  // else (direction == 0b10){
-  //   direction = 0b00;
-  // }d
+  stop();
 }
 
 //Turn around
-<<<<<<< HEAD
-void turnAround(){
-  turnLeft();
-  stop();
-  turnLeft();
-=======
 void turnAround() {
-  leftServo.write(180);
+  leftServo.write(0);
   rightServo.write(0);
-  delay(400);
+  delay(200);
   checkSensors();
-  while (vals[1] > LINE_THRESHOLD) {
+  while (vals[1] > LINE_THRESHOLD)
+  {
     checkSensors();
   }
->>>>>>> 27486f1b601d966d57888f5c5fdf3f96c37d1943
+  leftServo.write(0);
+  rightServo.write(0);
+  delay(200);
+  checkSensors();
+  while (vals[1] > LINE_THRESHOLD)
+  {
+    checkSensors();
+  }
   stop();
 }
 
@@ -151,8 +135,8 @@ void decodePositionByte(byte xxxxyyyy) {
 
 }
 
-
-void dfsPath(byte walldir) {
+/*
+  void dfsPath(byte walldir) {
   // use DFS and wall sensing to push to DFS stack. If there's no reachable unexplored locations push nothing
   checkSensors(); // still need old sensory check
 
@@ -222,27 +206,27 @@ void dfsPath(byte walldir) {
 
 
 
-}
-else { // TODO: Check if this is right
+  }
+  else { // TODO: Check if this is right
   stop();
-}
-// push neighboring locations to DFS Stack if there's no wall
+  }
+  // push neighboring locations to DFS Stack if there's no wall
 
-if (!wallEast && maze[currentX + 1][currentY] != 0b11111111) {
+  if (!wallEast && maze[currentX + 1][currentY] != 0b11111111) {
   dfsStack.push(byteifyCoordinate(currentX + 1, currentY));
-}
-if (!wallSouth && maze[currentX][currentY - 1] != 0b11111111) {
+  }
+  if (!wallSouth && maze[currentX][currentY - 1] != 0b11111111) {
   dfsStack.push(byteifyCoordinate(currentX, currentY - 1));
-}
-if (!wallNorth && maze[currentX][currentY + 1] != 0b11111111) {
+  }
+  if (!wallNorth && maze[currentX][currentY + 1] != 0b11111111) {
   dfsStack.push(byteifyCoordinate(currentX, currentY + 1));
-}
-if (!wallWest && maze[currentX - 1][currentY] != 0b11111111) {
+  }
+  if (!wallWest && maze[currentX - 1][currentY] != 0b11111111) {
   dfsStack.push(byteifyCoordinate(currentX - 1, currentY));
-}
+  }
 
-byte nextLocByte(int nextX, int nextY)
-{
+  byte nextLocByte(int nextX, int nextY)
+  {
   // With a known currentX, currentY, which action (right turn, left turn, forward, flip) should LABron pass
   // to get to position (nextX,nextY).
   // 0b00001000 forward
@@ -309,9 +293,9 @@ byte nextLocByte(int nextX, int nextY)
   else {
     return FLIPDIR; // turn around because you're confused
   }
-}
+  }
 
-byte decideRouteDFS() {
+  byte decideRouteDFS() {
   checkSensors(); // still need old sensory check
   Serial.println(vals[1]);  // Taking out all the print statements makes LABron act weird im leaving one in -R
   int leftSpeed;
@@ -357,9 +341,9 @@ byte decideRouteDFS() {
     return 0;
   }
 
-}
+  }
 
-bool checkMazeEmpty() {
+  bool checkMazeEmpty() {
   for (int i = 0; i < MAZEX; i++) {
     for (int j = 0; j < MAZEY; j++) {
       if (maze[i][j] == 0b11111111) { // there is an unexplored node still
@@ -368,7 +352,8 @@ bool checkMazeEmpty() {
     }
   }
   return true; // THE ENTIRE MAZE IS EXPLORED
-}
+  }
+*/
 // Logic for deciding the route for the robot
 byte decideRoute() {
   // uses right hand wall following
