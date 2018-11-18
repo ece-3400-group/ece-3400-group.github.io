@@ -12,6 +12,7 @@
 #define NUM_REGISTERS 7
 // Might not need noise one
 #define COM9   0x14 
+#define BRIGHTNESS 0x55
 
 
 
@@ -41,7 +42,8 @@ void setup() {
  //OV7670_write_register(COM17 , 0b00001000);
    OV7670_write_register(COM17 , 0x00);
    OV7670_write_register(COM9 , 0x01);    // Noise COM9[0] = 1 <- Freeze AGC/AEC
-   OV7670_write_register(RGB444 , 0x02); 
+  // OV7670_write_register(RGB444 , 0x02); 
+   OV7670_write_register(BRIGHTNESS, 0x00);
    Serial.println("Written!");
   
   read_key_registers();
@@ -137,6 +139,7 @@ void read_key_registers(){
   Serial.print("CLKRC_USEEXTCLK = "); Serial.print(CLKRC, HEX); Serial.print(" "); Serial.println(read_register_value(CLKRC), HEX);
   Serial.print("MVFP_FLIP = "); Serial.print(MVFP, HEX); Serial.print(" "); Serial.println(read_register_value(MVFP), HEX);
   Serial.print("RGB444 = "); Serial.print(RGB444, HEX); Serial.print(" "); Serial.println(read_register_value(RGB444), HEX);
+  Serial.print("BRIGHTNESS = "); Serial.print(BRIGHTNESS, HEX); Serial.print(" "); Serial.println(read_register_value(BRIGHTNESS), HEX);
 }
 
 byte read_register_value(int register_address){
