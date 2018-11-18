@@ -15,11 +15,12 @@ void setup() {
   setupFFT();
   setupDebugFFT();
   setupRadios();
-  while( waitForStart() );
+  //while( waitForStart() );
+  //delay(2000);
 }
 
 int count = 0;
-
+/*
 void loop() {
   byte routeInfo = decideRoute();  // routeInfo organized [F,R,B,L; forward, right, left, turnaround]
   //routeInfo = 1;
@@ -41,10 +42,10 @@ void loop() {
       Serial.println("");
     }
     positionPacket = (positionPacket<<8) | ((maze[currentX][currentY]) & 0x00FF);
-    while (packetTransmission(positionPacket) == 0) {
-      packetTransmission(positionPacket);
+    //while (packetTransmission(positionPacket) == 0) {
+     // packetTransmission(positionPacket);
       //delay(300);
-    }
+    //}
     //delay(300);
     Serial.println("=======================================");
      Serial.println(positionPacket);
@@ -53,7 +54,7 @@ void loop() {
   }
   while ((routeInfo & FRONT) && (routeInfo & RIGHT) && (routeInfo & LEFT)) {
     Serial.println("COMPLETE STOP");
-    stop();
+    turnAround();
   }
   if (count == 0){
    // debugFFT();
@@ -66,4 +67,10 @@ void loop() {
   //displayLedFFT(fftResult, AUDIO_PIN, IRHAT_PIN );
   count++;
   count = count % 3;
+}*/
+
+void loop() {
+  turnAround();
+  stop();
+  delay(5000);
 }

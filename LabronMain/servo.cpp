@@ -43,7 +43,7 @@ void checkSensors(){
 
 // Turn left
 void turnLeft(){
-  leftServo.write(90);
+  leftServo.write(0);
   rightServo.write(0);
   delay(600);
   checkSensors();
@@ -73,7 +73,7 @@ void slightRight(){
 // Turn right
 void turnRight(){
   leftServo.write(180);
-  rightServo.write(90);
+  rightServo.write(180);
   delay(500);
   checkSensors();
   while(vals[1] > LINE_THRESHOLD)
@@ -85,13 +85,9 @@ void turnRight(){
 
 //Turn around
 void turnAround(){
-  leftServo.write(180);
-  rightServo.write(0);
-  delay(400);
-  checkSensors();
-  while(vals[1] > LINE_THRESHOLD){
-    checkSensors();
-  }
+  turnLeft();
+  stop();
+  turnLeft();
   stop();
 }
 
