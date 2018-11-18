@@ -267,7 +267,7 @@ always @ (posedge PCLK) begin
 				  flag = 1'b1;
 				  X_ADDR = X_ADDR;
 				  Y_ADDR = Y_ADDR;
-				  pixel_data_RGB332[2:0] = {D7, D4, D3};
+				  pixel_data_RGB332[2:0] = {D4, D3, D2}; //{D7, D4, D3}
 //	 X_ADDR = X_ADDR + 15'd1;
 //	  if (X_ADDR == 15'd176) begin
 //	  Y_ADDR = Y_ADDR + 1'b1;

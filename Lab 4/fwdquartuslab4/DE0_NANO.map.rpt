@@ -1,5 +1,5 @@
 Analysis & Synthesis report for DE0_NANO
-Sat Nov 17 18:38:20 2018
+Sun Nov 18 17:10:50 2018
 Quartus Prime Version 17.0.0 Build 595 04/25/2017 SJ Lite Edition
 
 
@@ -59,12 +59,12 @@ agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                     ;
 +------------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Sat Nov 17 18:38:20 2018       ;
+; Analysis & Synthesis Status        ; Successful - Sun Nov 18 17:10:50 2018       ;
 ; Quartus Prime Version              ; 17.0.0 Build 595 04/25/2017 SJ Lite Edition ;
 ; Revision Name                      ; DE0_NANO                                    ;
 ; Top-level Entity Name              ; DE0_NANO                                    ;
 ; Family                             ; Cyclone IV E                                ;
-; Total logic elements               ; 276                                         ;
+; Total logic elements               ; 284                                         ;
 ;     Total combinational functions  ; 274                                         ;
 ;     Dedicated logic registers      ; 95                                          ;
 ; Total registers                    ; 95                                          ;
@@ -179,57 +179,57 @@ agreement for further details.
 +----------------------------+-------------+
 
 
-+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Source Files Read                                                                                                                                                        ;
-+----------------------------------+-----------------+------------------------------+-------------------------------------------------------------------------------------------------+---------+
-; File Name with User-Entered Path ; Used in Netlist ; File Type                    ; File Name with Absolute Path                                                                    ; Library ;
-+----------------------------------+-----------------+------------------------------+-------------------------------------------------------------------------------------------------+---------+
-; VGA_DRIVER.v                     ; yes             ; User Verilog HDL File        ; C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/VGA_DRIVER.v           ;         ;
-; DE0_NANO.v                       ; yes             ; User Verilog HDL File        ; C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v             ;         ;
-; Dual_Port_RAM_M9K.v              ; yes             ; User Verilog HDL File        ; C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/Dual_Port_RAM_M9K.v    ;         ;
-; IMAGE_PROCESSOR.v                ; yes             ; User Verilog HDL File        ; C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/IMAGE_PROCESSOR.v      ;         ;
-; sweetPLL.v                       ; yes             ; User Wizard-Generated File   ; C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/sweetPLL.v             ;         ;
-; altpll.tdf                       ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/altpll.tdf                               ;         ;
-; aglobal170.inc                   ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/aglobal170.inc                           ;         ;
-; stratix_pll.inc                  ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/stratix_pll.inc                          ;         ;
-; stratixii_pll.inc                ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/stratixii_pll.inc                        ;         ;
-; cycloneii_pll.inc                ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/cycloneii_pll.inc                        ;         ;
-; db/sweetpll_altpll.v             ; yes             ; Auto-Generated Megafunction  ; C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/db/sweetpll_altpll.v   ;         ;
-; altsyncram.tdf                   ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/altsyncram.tdf                           ;         ;
-; stratix_ram_block.inc            ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/stratix_ram_block.inc                    ;         ;
-; lpm_mux.inc                      ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/lpm_mux.inc                              ;         ;
-; lpm_decode.inc                   ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/lpm_decode.inc                           ;         ;
-; a_rdenreg.inc                    ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/a_rdenreg.inc                            ;         ;
-; altrom.inc                       ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/altrom.inc                               ;         ;
-; altram.inc                       ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/altram.inc                               ;         ;
-; altdpram.inc                     ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/altdpram.inc                             ;         ;
-; db/altsyncram_j5f1.tdf           ; yes             ; Auto-Generated Megafunction  ; C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/db/altsyncram_j5f1.tdf ;         ;
-; db/decode_msa.tdf                ; yes             ; Auto-Generated Megafunction  ; C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/db/decode_msa.tdf      ;         ;
-; db/decode_f8a.tdf                ; yes             ; Auto-Generated Megafunction  ; C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/db/decode_f8a.tdf      ;         ;
-; db/mux_6nb.tdf                   ; yes             ; Auto-Generated Megafunction  ; C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/db/mux_6nb.tdf         ;         ;
-; lpm_mult.tdf                     ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/lpm_mult.tdf                             ;         ;
-; lpm_add_sub.inc                  ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/lpm_add_sub.inc                          ;         ;
-; multcore.inc                     ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/multcore.inc                             ;         ;
-; bypassff.inc                     ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/bypassff.inc                             ;         ;
-; altshift.inc                     ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/altshift.inc                             ;         ;
-; multcore.tdf                     ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/multcore.tdf                             ;         ;
-; csa_add.inc                      ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/csa_add.inc                              ;         ;
-; mpar_add.inc                     ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/mpar_add.inc                             ;         ;
-; muleabz.inc                      ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/muleabz.inc                              ;         ;
-; mul_lfrg.inc                     ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/mul_lfrg.inc                             ;         ;
-; mul_boothc.inc                   ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/mul_boothc.inc                           ;         ;
-; alt_ded_mult.inc                 ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/alt_ded_mult.inc                         ;         ;
-; alt_ded_mult_y.inc               ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/alt_ded_mult_y.inc                       ;         ;
-; dffpipe.inc                      ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/dffpipe.inc                              ;         ;
-; mpar_add.tdf                     ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/mpar_add.tdf                             ;         ;
-; lpm_add_sub.tdf                  ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/lpm_add_sub.tdf                          ;         ;
-; addcore.inc                      ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/addcore.inc                              ;         ;
-; look_add.inc                     ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/look_add.inc                             ;         ;
-; alt_stratix_add_sub.inc          ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/alt_stratix_add_sub.inc                  ;         ;
-; db/add_sub_lgh.tdf               ; yes             ; Auto-Generated Megafunction  ; C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/db/add_sub_lgh.tdf     ;         ;
-; db/add_sub_pgh.tdf               ; yes             ; Auto-Generated Megafunction  ; C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/db/add_sub_pgh.tdf     ;         ;
-; altshift.tdf                     ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/altshift.tdf                             ;         ;
-+----------------------------------+-----------------+------------------------------+-------------------------------------------------------------------------------------------------+---------+
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                                                                                      ;
++----------------------------------+-----------------+------------------------------+-----------------------------------------------------------------------------------------------+---------+
+; File Name with User-Entered Path ; Used in Netlist ; File Type                    ; File Name with Absolute Path                                                                  ; Library ;
++----------------------------------+-----------------+------------------------------+-----------------------------------------------------------------------------------------------+---------+
+; VGA_DRIVER.v                     ; yes             ; User Verilog HDL File        ; C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/VGA_DRIVER.v           ;         ;
+; DE0_NANO.v                       ; yes             ; User Verilog HDL File        ; C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v             ;         ;
+; Dual_Port_RAM_M9K.v              ; yes             ; User Verilog HDL File        ; C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/Dual_Port_RAM_M9K.v    ;         ;
+; IMAGE_PROCESSOR.v                ; yes             ; User Verilog HDL File        ; C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/IMAGE_PROCESSOR.v      ;         ;
+; sweetPLL.v                       ; yes             ; User Wizard-Generated File   ; C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/sweetPLL.v             ;         ;
+; altpll.tdf                       ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/altpll.tdf                             ;         ;
+; aglobal170.inc                   ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/aglobal170.inc                         ;         ;
+; stratix_pll.inc                  ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/stratix_pll.inc                        ;         ;
+; stratixii_pll.inc                ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/stratixii_pll.inc                      ;         ;
+; cycloneii_pll.inc                ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/cycloneii_pll.inc                      ;         ;
+; db/sweetpll_altpll.v             ; yes             ; Auto-Generated Megafunction  ; C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/db/sweetpll_altpll.v   ;         ;
+; altsyncram.tdf                   ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/altsyncram.tdf                         ;         ;
+; stratix_ram_block.inc            ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/stratix_ram_block.inc                  ;         ;
+; lpm_mux.inc                      ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/lpm_mux.inc                            ;         ;
+; lpm_decode.inc                   ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/lpm_decode.inc                         ;         ;
+; a_rdenreg.inc                    ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/a_rdenreg.inc                          ;         ;
+; altrom.inc                       ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/altrom.inc                             ;         ;
+; altram.inc                       ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/altram.inc                             ;         ;
+; altdpram.inc                     ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/altdpram.inc                           ;         ;
+; db/altsyncram_j5f1.tdf           ; yes             ; Auto-Generated Megafunction  ; C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/db/altsyncram_j5f1.tdf ;         ;
+; db/decode_msa.tdf                ; yes             ; Auto-Generated Megafunction  ; C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/db/decode_msa.tdf      ;         ;
+; db/decode_f8a.tdf                ; yes             ; Auto-Generated Megafunction  ; C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/db/decode_f8a.tdf      ;         ;
+; db/mux_6nb.tdf                   ; yes             ; Auto-Generated Megafunction  ; C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/db/mux_6nb.tdf         ;         ;
+; lpm_mult.tdf                     ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/lpm_mult.tdf                           ;         ;
+; lpm_add_sub.inc                  ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/lpm_add_sub.inc                        ;         ;
+; multcore.inc                     ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/multcore.inc                           ;         ;
+; bypassff.inc                     ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/bypassff.inc                           ;         ;
+; altshift.inc                     ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/altshift.inc                           ;         ;
+; multcore.tdf                     ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/multcore.tdf                           ;         ;
+; csa_add.inc                      ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/csa_add.inc                            ;         ;
+; mpar_add.inc                     ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/mpar_add.inc                           ;         ;
+; muleabz.inc                      ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/muleabz.inc                            ;         ;
+; mul_lfrg.inc                     ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/mul_lfrg.inc                           ;         ;
+; mul_boothc.inc                   ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/mul_boothc.inc                         ;         ;
+; alt_ded_mult.inc                 ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/alt_ded_mult.inc                       ;         ;
+; alt_ded_mult_y.inc               ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/alt_ded_mult_y.inc                     ;         ;
+; dffpipe.inc                      ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/dffpipe.inc                            ;         ;
+; mpar_add.tdf                     ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/mpar_add.tdf                           ;         ;
+; lpm_add_sub.tdf                  ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/lpm_add_sub.tdf                        ;         ;
+; addcore.inc                      ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/addcore.inc                            ;         ;
+; look_add.inc                     ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/look_add.inc                           ;         ;
+; alt_stratix_add_sub.inc          ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/alt_stratix_add_sub.inc                ;         ;
+; db/add_sub_lgh.tdf               ; yes             ; Auto-Generated Megafunction  ; C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/db/add_sub_lgh.tdf     ;         ;
+; db/add_sub_pgh.tdf               ; yes             ; Auto-Generated Megafunction  ; C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/db/add_sub_pgh.tdf     ;         ;
+; altshift.tdf                     ; yes             ; Megafunction                 ; c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/altshift.tdf                           ;         ;
++----------------------------------+-----------------+------------------------------+-----------------------------------------------------------------------------------------------+---------+
 
 
 +----------------------------------------------------------------------------------------------------------------------------------------------+
@@ -237,17 +237,17 @@ agreement for further details.
 +---------------------------------------------+------------------------------------------------------------------------------------------------+
 ; Resource                                    ; Usage                                                                                          ;
 +---------------------------------------------+------------------------------------------------------------------------------------------------+
-; Estimated Total logic elements              ; 276                                                                                            ;
+; Estimated Total logic elements              ; 284                                                                                            ;
 ;                                             ;                                                                                                ;
 ; Total combinational functions               ; 274                                                                                            ;
 ; Logic element usage by number of LUT inputs ;                                                                                                ;
-;     -- 4 input functions                    ; 62                                                                                             ;
-;     -- 3 input functions                    ; 86                                                                                             ;
-;     -- <=2 input functions                  ; 126                                                                                            ;
+;     -- 4 input functions                    ; 78                                                                                             ;
+;     -- 3 input functions                    ; 96                                                                                             ;
+;     -- <=2 input functions                  ; 100                                                                                            ;
 ;                                             ;                                                                                                ;
 ; Logic elements by mode                      ;                                                                                                ;
-;     -- normal mode                          ; 166                                                                                            ;
-;     -- arithmetic mode                      ; 108                                                                                            ;
+;     -- normal mode                          ; 182                                                                                            ;
+;     -- arithmetic mode                      ; 92                                                                                             ;
 ;                                             ;                                                                                                ;
 ; Total registers                             ; 95                                                                                             ;
 ;     -- Dedicated logic registers            ; 95                                                                                             ;
@@ -263,8 +263,8 @@ agreement for further details.
 ;                                             ;                                                                                                ;
 ; Maximum fan-out node                        ; sweetPLL:sweetPLL_inst|altpll:altpll_component|sweetPLL_altpll:auto_generated|wire_pll1_clk[0] ;
 ; Maximum fan-out                             ; 92                                                                                             ;
-; Total fan-out                               ; 2025                                                                                           ;
-; Average fan-out                             ; 4.02                                                                                           ;
+; Total fan-out                               ; 2061                                                                                           ;
+; Average fan-out                             ; 4.09                                                                                           ;
 +---------------------------------------------+------------------------------------------------------------------------------------------------+
 
 
@@ -274,14 +274,14 @@ agreement for further details.
 ; Compilation Hierarchy Node                     ; Combinational ALUTs ; Dedicated Logic Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                              ; Entity Name       ; Library Name ;
 +------------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+----------------------------------------------------------------------------------------------------------------------------------+-------------------+--------------+
 ; |DE0_NANO                                      ; 274 (70)            ; 95 (37)                   ; 202752      ; 0            ; 0       ; 0         ; 51   ; 0            ; |DE0_NANO                                                                                                                        ; DE0_NANO          ; work         ;
-;    |Dual_Port_RAM_M9K:mem|                     ; 18 (0)              ; 2 (0)                     ; 202752      ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE0_NANO|Dual_Port_RAM_M9K:mem                                                                                                  ; Dual_Port_RAM_M9K ; work         ;
-;       |altsyncram:mem_rtl_0|                   ; 18 (0)              ; 2 (0)                     ; 202752      ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE0_NANO|Dual_Port_RAM_M9K:mem|altsyncram:mem_rtl_0                                                                             ; altsyncram        ; work         ;
-;          |altsyncram_j5f1:auto_generated|      ; 18 (0)              ; 2 (2)                     ; 202752      ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE0_NANO|Dual_Port_RAM_M9K:mem|altsyncram:mem_rtl_0|altsyncram_j5f1:auto_generated                                              ; altsyncram_j5f1   ; work         ;
+;    |Dual_Port_RAM_M9K:mem|                     ; 21 (0)              ; 2 (0)                     ; 202752      ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE0_NANO|Dual_Port_RAM_M9K:mem                                                                                                  ; Dual_Port_RAM_M9K ; work         ;
+;       |altsyncram:mem_rtl_0|                   ; 21 (0)              ; 2 (0)                     ; 202752      ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE0_NANO|Dual_Port_RAM_M9K:mem|altsyncram:mem_rtl_0                                                                             ; altsyncram        ; work         ;
+;          |altsyncram_j5f1:auto_generated|      ; 21 (0)              ; 2 (2)                     ; 202752      ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE0_NANO|Dual_Port_RAM_M9K:mem|altsyncram:mem_rtl_0|altsyncram_j5f1:auto_generated                                              ; altsyncram_j5f1   ; work         ;
 ;             |decode_f8a:rden_decode_b|         ; 4 (4)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE0_NANO|Dual_Port_RAM_M9K:mem|altsyncram:mem_rtl_0|altsyncram_j5f1:auto_generated|decode_f8a:rden_decode_b                     ; decode_f8a        ; work         ;
 ;             |decode_msa:decode2|               ; 4 (4)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE0_NANO|Dual_Port_RAM_M9K:mem|altsyncram:mem_rtl_0|altsyncram_j5f1:auto_generated|decode_msa:decode2                           ; decode_msa        ; work         ;
-;             |mux_6nb:mux3|                     ; 10 (10)             ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE0_NANO|Dual_Port_RAM_M9K:mem|altsyncram:mem_rtl_0|altsyncram_j5f1:auto_generated|mux_6nb:mux3                                 ; mux_6nb           ; work         ;
-;    |IMAGE_PROCESSOR:proc|                      ; 85 (85)             ; 36 (36)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE0_NANO|IMAGE_PROCESSOR:proc                                                                                                   ; IMAGE_PROCESSOR   ; work         ;
-;    |VGA_DRIVER:driver|                         ; 50 (50)             ; 20 (20)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE0_NANO|VGA_DRIVER:driver                                                                                                      ; VGA_DRIVER        ; work         ;
+;             |mux_6nb:mux3|                     ; 13 (13)             ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE0_NANO|Dual_Port_RAM_M9K:mem|altsyncram:mem_rtl_0|altsyncram_j5f1:auto_generated|mux_6nb:mux3                                 ; mux_6nb           ; work         ;
+;    |IMAGE_PROCESSOR:proc|                      ; 83 (83)             ; 36 (36)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE0_NANO|IMAGE_PROCESSOR:proc                                                                                                   ; IMAGE_PROCESSOR   ; work         ;
+;    |VGA_DRIVER:driver|                         ; 49 (49)             ; 20 (20)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE0_NANO|VGA_DRIVER:driver                                                                                                      ; VGA_DRIVER        ; work         ;
 ;    |lpm_mult:Mult0|                            ; 25 (0)              ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE0_NANO|lpm_mult:Mult0                                                                                                         ; lpm_mult          ; work         ;
 ;       |multcore:mult_core|                     ; 25 (15)             ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE0_NANO|lpm_mult:Mult0|multcore:mult_core                                                                                      ; multcore          ; work         ;
 ;          |mpar_add:padder|                     ; 10 (0)              ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE0_NANO|lpm_mult:Mult0|multcore:mult_core|mpar_add:padder                                                                      ; mpar_add          ; work         ;
@@ -353,7 +353,7 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; Number of registers using Synchronous Load   ; 0     ;
 ; Number of registers using Asynchronous Clear ; 0     ;
 ; Number of registers using Asynchronous Load  ; 0     ;
-; Number of registers using Clock Enable       ; 76    ;
+; Number of registers using Clock Enable       ; 68    ;
 ; Number of registers using Preset             ; 0     ;
 +----------------------------------------------+-------+
 
@@ -389,12 +389,11 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 +--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------------------------+
 ; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                     ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------------------------+
-; 3:1                ; 10 bits   ; 20 LEs        ; 10 LEs               ; 10 LEs                 ; Yes        ; |DE0_NANO|VGA_DRIVER:driver|pixel_count[2]     ;
-; 3:1                ; 32 bits   ; 64 LEs        ; 32 LEs               ; 32 LEs                 ; Yes        ; |DE0_NANO|IMAGE_PROCESSOR:proc|countBLUE[1]    ;
-; 4:1                ; 15 bits   ; 30 LEs        ; 15 LEs               ; 15 LEs                 ; Yes        ; |DE0_NANO|X_ADDR[5]                            ;
-; 3:1                ; 15 bits   ; 30 LEs        ; 15 LEs               ; 15 LEs                 ; Yes        ; |DE0_NANO|Y_ADDR[14]                           ;
-; 4:1                ; 10 bits   ; 20 LEs        ; 10 LEs               ; 10 LEs                 ; Yes        ; |DE0_NANO|VGA_DRIVER:driver|line_count[7]      ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; No         ; |DE0_NANO|VGA_DRIVER:driver|PIXEL_COLOR_OUT[6] ;
+; 3:1                ; 10 bits   ; 20 LEs        ; 10 LEs               ; 10 LEs                 ; Yes        ; |DE0_NANO|VGA_DRIVER:driver|pixel_count[8]     ;
+; 4:1                ; 15 bits   ; 30 LEs        ; 15 LEs               ; 15 LEs                 ; Yes        ; |DE0_NANO|X_ADDR[11]                           ;
+; 3:1                ; 15 bits   ; 30 LEs        ; 15 LEs               ; 15 LEs                 ; Yes        ; |DE0_NANO|Y_ADDR[3]                            ;
+; 4:1                ; 10 bits   ; 20 LEs        ; 10 LEs               ; 10 LEs                 ; Yes        ; |DE0_NANO|VGA_DRIVER:driver|line_count[9]      ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; No         ; |DE0_NANO|VGA_DRIVER:driver|PIXEL_COLOR_OUT[7] ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------------------------+
 
 
@@ -987,25 +986,25 @@ Note: In order to hide this table in the UI and the text report file, please set
 +-----------------------+-----------------------------+
 ; boundary_port         ; 51                          ;
 ; cycloneiii_ff         ; 95                          ;
-;     ENA               ; 40                          ;
+;     ENA               ; 32                          ;
 ;     ENA SCLR          ; 36                          ;
 ;     SCLR              ; 10                          ;
-;     plain             ; 9                           ;
+;     plain             ; 17                          ;
 ; cycloneiii_lcell_comb ; 275                         ;
-;     arith             ; 108                         ;
-;         2 data inputs ; 77                          ;
-;         3 data inputs ; 31                          ;
-;     normal            ; 167                         ;
+;     arith             ; 92                          ;
+;         2 data inputs ; 49                          ;
+;         3 data inputs ; 43                          ;
+;     normal            ; 183                         ;
 ;         0 data inputs ; 1                           ;
-;         1 data inputs ; 25                          ;
-;         2 data inputs ; 24                          ;
-;         3 data inputs ; 55                          ;
-;         4 data inputs ; 62                          ;
+;         1 data inputs ; 23                          ;
+;         2 data inputs ; 28                          ;
+;         3 data inputs ; 53                          ;
+;         4 data inputs ; 78                          ;
 ; cycloneiii_pll        ; 1                           ;
 ; cycloneiii_ram_block  ; 32                          ;
 ;                       ;                             ;
-; Max LUT depth         ; 10.30                       ;
-; Average LUT depth     ; 4.59                        ;
+; Max LUT depth         ; 9.00                        ;
+; Average LUT depth     ; 4.92                        ;
 +-----------------------+-----------------------------+
 
 
@@ -1024,7 +1023,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 17.0.0 Build 595 04/25/2017 SJ Lite Edition
-    Info: Processing started: Sat Nov 17 18:38:10 2018
+    Info: Processing started: Sun Nov 18 17:10:39 2018
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off DE0_NANO -c DE0_NANO
 Warning (125092): Tcl Script File DE_NANO_SOPC.qip not found
     Info (125063): set_global_assignment -name QIP_FILE DE_NANO_SOPC.qip
@@ -1033,62 +1032,62 @@ Warning (125092): Tcl Script File pll.qip not found
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 4 of the 4 processors detected
 Info (12021): Found 1 design units, including 1 entities, in source file vga_driver.v
-    Info (12023): Found entity 1: VGA_DRIVER File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/VGA_DRIVER.v Line: 14
+    Info (12023): Found entity 1: VGA_DRIVER File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/VGA_DRIVER.v Line: 14
 Info (12021): Found 1 design units, including 1 entities, in source file de0_nano.v
-    Info (12023): Found entity 1: DE0_NANO File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 5
+    Info (12023): Found entity 1: DE0_NANO File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 5
 Info (12021): Found 1 design units, including 1 entities, in source file dual_port_ram_m9k.v
-    Info (12023): Found entity 1: Dual_Port_RAM_M9K File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/Dual_Port_RAM_M9K.v Line: 4
+    Info (12023): Found entity 1: Dual_Port_RAM_M9K File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/Dual_Port_RAM_M9K.v Line: 4
 Info (12021): Found 1 design units, including 1 entities, in source file image_processor.v
-    Info (12023): Found entity 1: IMAGE_PROCESSOR File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/IMAGE_PROCESSOR.v Line: 6
+    Info (12023): Found entity 1: IMAGE_PROCESSOR File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/IMAGE_PROCESSOR.v Line: 6
 Info (12021): Found 1 design units, including 1 entities, in source file sweetpll.v
-    Info (12023): Found entity 1: sweetPLL File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/sweetPLL.v Line: 40
-Warning (10236): Verilog HDL Implicit Net warning at DE0_NANO.v(69): created implicit net for "c0_sig" File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 69
-Warning (10236): Verilog HDL Implicit Net warning at DE0_NANO.v(70): created implicit net for "c1_sig" File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 70
-Warning (10236): Verilog HDL Implicit Net warning at DE0_NANO.v(71): created implicit net for "c2_sig" File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 71
-Warning (10236): Verilog HDL Implicit Net warning at DE0_NANO.v(136): created implicit net for "D0" File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 136
-Warning (10236): Verilog HDL Implicit Net warning at DE0_NANO.v(137): created implicit net for "D1" File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 137
-Warning (10236): Verilog HDL Implicit Net warning at DE0_NANO.v(140): created implicit net for "D2" File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 140
-Warning (10236): Verilog HDL Implicit Net warning at DE0_NANO.v(141): created implicit net for "D3" File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 141
-Warning (10236): Verilog HDL Implicit Net warning at DE0_NANO.v(142): created implicit net for "D4" File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 142
-Warning (10236): Verilog HDL Implicit Net warning at DE0_NANO.v(143): created implicit net for "D5" File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 143
-Warning (10236): Verilog HDL Implicit Net warning at DE0_NANO.v(144): created implicit net for "D6" File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 144
-Warning (10236): Verilog HDL Implicit Net warning at DE0_NANO.v(148): created implicit net for "D7" File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 148
-Warning (10236): Verilog HDL Implicit Net warning at DE0_NANO.v(149): created implicit net for "PCLK" File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 149
-Warning (10236): Verilog HDL Implicit Net warning at DE0_NANO.v(150): created implicit net for "HREF" File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 150
-Warning (10236): Verilog HDL Implicit Net warning at DE0_NANO.v(151): created implicit net for "VSYNC" File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 151
+    Info (12023): Found entity 1: sweetPLL File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/sweetPLL.v Line: 40
+Warning (10236): Verilog HDL Implicit Net warning at DE0_NANO.v(69): created implicit net for "c0_sig" File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 69
+Warning (10236): Verilog HDL Implicit Net warning at DE0_NANO.v(70): created implicit net for "c1_sig" File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 70
+Warning (10236): Verilog HDL Implicit Net warning at DE0_NANO.v(71): created implicit net for "c2_sig" File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 71
+Warning (10236): Verilog HDL Implicit Net warning at DE0_NANO.v(136): created implicit net for "D0" File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 136
+Warning (10236): Verilog HDL Implicit Net warning at DE0_NANO.v(137): created implicit net for "D1" File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 137
+Warning (10236): Verilog HDL Implicit Net warning at DE0_NANO.v(140): created implicit net for "D2" File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 140
+Warning (10236): Verilog HDL Implicit Net warning at DE0_NANO.v(141): created implicit net for "D3" File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 141
+Warning (10236): Verilog HDL Implicit Net warning at DE0_NANO.v(142): created implicit net for "D4" File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 142
+Warning (10236): Verilog HDL Implicit Net warning at DE0_NANO.v(143): created implicit net for "D5" File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 143
+Warning (10236): Verilog HDL Implicit Net warning at DE0_NANO.v(144): created implicit net for "D6" File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 144
+Warning (10236): Verilog HDL Implicit Net warning at DE0_NANO.v(148): created implicit net for "D7" File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 148
+Warning (10236): Verilog HDL Implicit Net warning at DE0_NANO.v(149): created implicit net for "PCLK" File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 149
+Warning (10236): Verilog HDL Implicit Net warning at DE0_NANO.v(150): created implicit net for "HREF" File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 150
+Warning (10236): Verilog HDL Implicit Net warning at DE0_NANO.v(151): created implicit net for "VSYNC" File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 151
 Info (12127): Elaborating entity "DE0_NANO" for the top level hierarchy
-Warning (10036): Verilog HDL or VHDL warning at DE0_NANO.v(140): object "D2" assigned a value but never read File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 140
-Warning (10858): Verilog HDL warning at DE0_NANO.v(127): object red used but never assigned File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 127
-Warning (10858): Verilog HDL warning at DE0_NANO.v(128): object green used but never assigned File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 128
-Warning (10858): Verilog HDL warning at DE0_NANO.v(129): object blue used but never assigned File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 129
-Warning (10036): Verilog HDL or VHDL warning at DE0_NANO.v(130): object "color" assigned a value but never read File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 130
-Warning (10036): Verilog HDL or VHDL warning at DE0_NANO.v(168): object "reach2btye" assigned a value but never read File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 168
-Warning (10036): Verilog HDL or VHDL warning at DE0_NANO.v(170): object "is_image_started" assigned a value but never read File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 170
-Warning (10036): Verilog HDL or VHDL warning at DE0_NANO.v(171): object "is_new_row" assigned a value but never read File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 171
-Warning (10036): Verilog HDL or VHDL warning at DE0_NANO.v(172): object "is_new_byte" assigned a value but never read File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 172
-Warning (10036): Verilog HDL or VHDL warning at DE0_NANO.v(173): object "COLOR" assigned a value but never read File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 173
-Warning (10230): Verilog HDL assignment warning at DE0_NANO.v(41): truncated value with size 32 to match size of target (15) File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 41
-Warning (10230): Verilog HDL assignment warning at DE0_NANO.v(158): truncated value with size 32 to match size of target (15) File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 158
-Warning (10230): Verilog HDL assignment warning at DE0_NANO.v(254): truncated value with size 32 to match size of target (15) File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 254
-Warning (10230): Verilog HDL assignment warning at DE0_NANO.v(289): truncated value with size 32 to match size of target (15) File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 289
-Warning (10034): Output port "GPIO_0_D[33..30]" at DE0_NANO.v(27) has no driver File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
-Warning (10034): Output port "GPIO_0_D[28]" at DE0_NANO.v(27) has no driver File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
-Warning (10034): Output port "GPIO_0_D[26]" at DE0_NANO.v(27) has no driver File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
-Warning (10034): Output port "GPIO_0_D[24]" at DE0_NANO.v(27) has no driver File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
-Warning (10034): Output port "GPIO_0_D[22]" at DE0_NANO.v(27) has no driver File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
-Warning (10034): Output port "GPIO_0_D[20]" at DE0_NANO.v(27) has no driver File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
-Warning (10034): Output port "GPIO_0_D[18]" at DE0_NANO.v(27) has no driver File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
-Warning (10034): Output port "GPIO_0_D[16]" at DE0_NANO.v(27) has no driver File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
-Warning (10034): Output port "GPIO_0_D[14]" at DE0_NANO.v(27) has no driver File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
-Warning (10034): Output port "GPIO_0_D[12]" at DE0_NANO.v(27) has no driver File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
-Warning (10034): Output port "GPIO_0_D[10]" at DE0_NANO.v(27) has no driver File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
-Warning (10034): Output port "GPIO_0_D[8]" at DE0_NANO.v(27) has no driver File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
-Warning (10034): Output port "GPIO_0_D[6]" at DE0_NANO.v(27) has no driver File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
-Warning (10034): Output port "GPIO_0_D[4..2]" at DE0_NANO.v(27) has no driver File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
-Info (12128): Elaborating entity "sweetPLL" for hierarchy "sweetPLL:sweetPLL_inst" File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 72
-Info (12128): Elaborating entity "altpll" for hierarchy "sweetPLL:sweetPLL_inst|altpll:altpll_component" File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/sweetPLL.v Line: 99
-Info (12130): Elaborated megafunction instantiation "sweetPLL:sweetPLL_inst|altpll:altpll_component" File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/sweetPLL.v Line: 99
-Info (12133): Instantiated megafunction "sweetPLL:sweetPLL_inst|altpll:altpll_component" with the following parameter: File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/sweetPLL.v Line: 99
+Warning (10036): Verilog HDL or VHDL warning at DE0_NANO.v(148): object "D7" assigned a value but never read File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 148
+Warning (10858): Verilog HDL warning at DE0_NANO.v(127): object red used but never assigned File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 127
+Warning (10858): Verilog HDL warning at DE0_NANO.v(128): object green used but never assigned File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 128
+Warning (10858): Verilog HDL warning at DE0_NANO.v(129): object blue used but never assigned File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 129
+Warning (10036): Verilog HDL or VHDL warning at DE0_NANO.v(130): object "color" assigned a value but never read File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 130
+Warning (10036): Verilog HDL or VHDL warning at DE0_NANO.v(168): object "reach2btye" assigned a value but never read File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 168
+Warning (10036): Verilog HDL or VHDL warning at DE0_NANO.v(170): object "is_image_started" assigned a value but never read File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 170
+Warning (10036): Verilog HDL or VHDL warning at DE0_NANO.v(171): object "is_new_row" assigned a value but never read File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 171
+Warning (10036): Verilog HDL or VHDL warning at DE0_NANO.v(172): object "is_new_byte" assigned a value but never read File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 172
+Warning (10036): Verilog HDL or VHDL warning at DE0_NANO.v(173): object "COLOR" assigned a value but never read File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 173
+Warning (10230): Verilog HDL assignment warning at DE0_NANO.v(41): truncated value with size 32 to match size of target (15) File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 41
+Warning (10230): Verilog HDL assignment warning at DE0_NANO.v(158): truncated value with size 32 to match size of target (15) File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 158
+Warning (10230): Verilog HDL assignment warning at DE0_NANO.v(254): truncated value with size 32 to match size of target (15) File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 254
+Warning (10230): Verilog HDL assignment warning at DE0_NANO.v(289): truncated value with size 32 to match size of target (15) File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 289
+Warning (10034): Output port "GPIO_0_D[33..30]" at DE0_NANO.v(27) has no driver File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
+Warning (10034): Output port "GPIO_0_D[28]" at DE0_NANO.v(27) has no driver File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
+Warning (10034): Output port "GPIO_0_D[26]" at DE0_NANO.v(27) has no driver File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
+Warning (10034): Output port "GPIO_0_D[24]" at DE0_NANO.v(27) has no driver File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
+Warning (10034): Output port "GPIO_0_D[22]" at DE0_NANO.v(27) has no driver File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
+Warning (10034): Output port "GPIO_0_D[20]" at DE0_NANO.v(27) has no driver File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
+Warning (10034): Output port "GPIO_0_D[18]" at DE0_NANO.v(27) has no driver File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
+Warning (10034): Output port "GPIO_0_D[16]" at DE0_NANO.v(27) has no driver File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
+Warning (10034): Output port "GPIO_0_D[14]" at DE0_NANO.v(27) has no driver File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
+Warning (10034): Output port "GPIO_0_D[12]" at DE0_NANO.v(27) has no driver File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
+Warning (10034): Output port "GPIO_0_D[10]" at DE0_NANO.v(27) has no driver File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
+Warning (10034): Output port "GPIO_0_D[8]" at DE0_NANO.v(27) has no driver File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
+Warning (10034): Output port "GPIO_0_D[6]" at DE0_NANO.v(27) has no driver File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
+Warning (10034): Output port "GPIO_0_D[4..2]" at DE0_NANO.v(27) has no driver File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
+Info (12128): Elaborating entity "sweetPLL" for hierarchy "sweetPLL:sweetPLL_inst" File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 72
+Info (12128): Elaborating entity "altpll" for hierarchy "sweetPLL:sweetPLL_inst|altpll:altpll_component" File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/sweetPLL.v Line: 99
+Info (12130): Elaborated megafunction instantiation "sweetPLL:sweetPLL_inst|altpll:altpll_component" File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/sweetPLL.v Line: 99
+Info (12133): Instantiated megafunction "sweetPLL:sweetPLL_inst|altpll:altpll_component" with the following parameter: File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/sweetPLL.v Line: 99
     Info (12134): Parameter "bandwidth_type" = "AUTO"
     Info (12134): Parameter "clk0_divide_by" = "25"
     Info (12134): Parameter "clk0_duty_cycle" = "50"
@@ -1152,16 +1151,28 @@ Info (12133): Instantiated megafunction "sweetPLL:sweetPLL_inst|altpll:altpll_co
     Info (12134): Parameter "port_extclk3" = "PORT_UNUSED"
     Info (12134): Parameter "width_clock" = "5"
 Info (12021): Found 1 design units, including 1 entities, in source file db/sweetpll_altpll.v
-    Info (12023): Found entity 1: sweetPLL_altpll File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/db/sweetpll_altpll.v Line: 30
+    Info (12023): Found entity 1: sweetPLL_altpll File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/db/sweetpll_altpll.v Line: 30
 Info (12128): Elaborating entity "sweetPLL_altpll" for hierarchy "sweetPLL:sweetPLL_inst|altpll:altpll_component|sweetPLL_altpll:auto_generated" File: c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/altpll.tdf Line: 898
-Info (12128): Elaborating entity "Dual_Port_RAM_M9K" for hierarchy "Dual_Port_RAM_M9K:mem" File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 83
-Warning (10036): Verilog HDL or VHDL warning at Dual_Port_RAM_M9K.v(34): object "r_addr_reg" assigned a value but never read File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/Dual_Port_RAM_M9K.v Line: 34
-Info (12128): Elaborating entity "VGA_DRIVER" for hierarchy "VGA_DRIVER:driver" File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 96
-Warning (10230): Verilog HDL assignment warning at VGA_DRIVER.v(71): truncated value with size 32 to match size of target (10) File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/VGA_DRIVER.v Line: 71
-Warning (10230): Verilog HDL assignment warning at VGA_DRIVER.v(75): truncated value with size 32 to match size of target (10) File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/VGA_DRIVER.v Line: 75
-Info (12128): Elaborating entity "IMAGE_PROCESSOR" for hierarchy "IMAGE_PROCESSOR:proc" File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 106
-Warning (10036): Verilog HDL or VHDL warning at IMAGE_PROCESSOR.v(33): object "R_THRESHOLD" assigned a value but never read File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/IMAGE_PROCESSOR.v Line: 33
-Warning (10036): Verilog HDL or VHDL warning at IMAGE_PROCESSOR.v(34): object "B_THRESHOLD" assigned a value but never read File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/IMAGE_PROCESSOR.v Line: 34
+Info (12128): Elaborating entity "Dual_Port_RAM_M9K" for hierarchy "Dual_Port_RAM_M9K:mem" File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 83
+Warning (10036): Verilog HDL or VHDL warning at Dual_Port_RAM_M9K.v(34): object "r_addr_reg" assigned a value but never read File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/Dual_Port_RAM_M9K.v Line: 34
+Info (12128): Elaborating entity "VGA_DRIVER" for hierarchy "VGA_DRIVER:driver" File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 96
+Warning (10230): Verilog HDL assignment warning at VGA_DRIVER.v(71): truncated value with size 32 to match size of target (10) File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/VGA_DRIVER.v Line: 71
+Warning (10230): Verilog HDL assignment warning at VGA_DRIVER.v(75): truncated value with size 32 to match size of target (10) File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/VGA_DRIVER.v Line: 75
+Info (12128): Elaborating entity "IMAGE_PROCESSOR" for hierarchy "IMAGE_PROCESSOR:proc" File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 106
+Warning (10036): Verilog HDL or VHDL warning at IMAGE_PROCESSOR.v(33): object "R_THRESHOLD" assigned a value but never read File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/IMAGE_PROCESSOR.v Line: 33
+Warning (10036): Verilog HDL or VHDL warning at IMAGE_PROCESSOR.v(34): object "B_THRESHOLD" assigned a value but never read File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/IMAGE_PROCESSOR.v Line: 34
+Warning (10036): Verilog HDL or VHDL warning at IMAGE_PROCESSOR.v(35): object "FRAME_THRESHOLD" assigned a value but never read File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/IMAGE_PROCESSOR.v Line: 35
+Warning (10036): Verilog HDL or VHDL warning at IMAGE_PROCESSOR.v(36): object "R_CNT_THRESHOLD" assigned a value but never read File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/IMAGE_PROCESSOR.v Line: 36
+Warning (10036): Verilog HDL or VHDL warning at IMAGE_PROCESSOR.v(37): object "B_CNT_THRESHOLD" assigned a value but never read File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/IMAGE_PROCESSOR.v Line: 37
+Warning (10036): Verilog HDL or VHDL warning at IMAGE_PROCESSOR.v(45): object "BLUE_CNT_EdgePoint" assigned a value but never read File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/IMAGE_PROCESSOR.v Line: 45
+Warning (10036): Verilog HDL or VHDL warning at IMAGE_PROCESSOR.v(47): object "RED_EdgePoint_0" assigned a value but never read File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/IMAGE_PROCESSOR.v Line: 47
+Warning (10036): Verilog HDL or VHDL warning at IMAGE_PROCESSOR.v(48): object "RED_EdgePoint_1" assigned a value but never read File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/IMAGE_PROCESSOR.v Line: 48
+Warning (10036): Verilog HDL or VHDL warning at IMAGE_PROCESSOR.v(49): object "RED_EdgePoint_2" assigned a value but never read File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/IMAGE_PROCESSOR.v Line: 49
+Warning (10036): Verilog HDL or VHDL warning at IMAGE_PROCESSOR.v(50): object "RED_CNT_EdgePoint" assigned a value but never read File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/IMAGE_PROCESSOR.v Line: 50
+Warning (10230): Verilog HDL assignment warning at IMAGE_PROCESSOR.v(64): truncated value with size 10 to match size of target (8) File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/IMAGE_PROCESSOR.v Line: 64
+Warning (10230): Verilog HDL assignment warning at IMAGE_PROCESSOR.v(68): truncated value with size 10 to match size of target (8) File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/IMAGE_PROCESSOR.v Line: 68
+Warning (10230): Verilog HDL assignment warning at IMAGE_PROCESSOR.v(72): truncated value with size 10 to match size of target (8) File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/IMAGE_PROCESSOR.v Line: 72
+Warning (10230): Verilog HDL assignment warning at IMAGE_PROCESSOR.v(136): truncated value with size 10 to match size of target (8) File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/IMAGE_PROCESSOR.v Line: 136
 Warning (276027): Inferred dual-clock RAM node "Dual_Port_RAM_M9K:mem|mem_rtl_0" from synchronous design logic.  The read-during-write behavior of a dual-clock RAM is undefined and may not match the behavior of the original design.
 Info (19000): Inferred 1 megafunctions from design logic
     Info (276029): Inferred altsyncram megafunction from the following design logic: "Dual_Port_RAM_M9K:mem|mem_rtl_0" 
@@ -1181,8 +1192,8 @@ Info (19000): Inferred 1 megafunctions from design logic
         Info (286033): Parameter WRCONTROL_ACLR_A set to NONE
         Info (286033): Parameter RAM_BLOCK_TYPE set to M9K
 Info (278001): Inferred 2 megafunctions from design logic
-    Info (278003): Inferred multiplier megafunction ("lpm_mult") from the following logic: "Mult0" File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 41
-    Info (278003): Inferred multiplier megafunction ("lpm_mult") from the following logic: "Mult1" File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 158
+    Info (278003): Inferred multiplier megafunction ("lpm_mult") from the following logic: "Mult0" File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 41
+    Info (278003): Inferred multiplier megafunction ("lpm_mult") from the following logic: "Mult1" File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 158
 Info (12130): Elaborated megafunction instantiation "Dual_Port_RAM_M9K:mem|altsyncram:mem_rtl_0"
 Info (12133): Instantiated megafunction "Dual_Port_RAM_M9K:mem|altsyncram:mem_rtl_0" with the following parameter:
     Info (12134): Parameter "OPERATION_MODE" = "DUAL_PORT"
@@ -1201,15 +1212,15 @@ Info (12133): Instantiated megafunction "Dual_Port_RAM_M9K:mem|altsyncram:mem_rt
     Info (12134): Parameter "WRCONTROL_ACLR_A" = "NONE"
     Info (12134): Parameter "RAM_BLOCK_TYPE" = "M9K"
 Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_j5f1.tdf
-    Info (12023): Found entity 1: altsyncram_j5f1 File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/db/altsyncram_j5f1.tdf Line: 34
+    Info (12023): Found entity 1: altsyncram_j5f1 File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/db/altsyncram_j5f1.tdf Line: 34
 Info (12021): Found 1 design units, including 1 entities, in source file db/decode_msa.tdf
-    Info (12023): Found entity 1: decode_msa File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/db/decode_msa.tdf Line: 23
+    Info (12023): Found entity 1: decode_msa File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/db/decode_msa.tdf Line: 23
 Info (12021): Found 1 design units, including 1 entities, in source file db/decode_f8a.tdf
-    Info (12023): Found entity 1: decode_f8a File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/db/decode_f8a.tdf Line: 23
+    Info (12023): Found entity 1: decode_f8a File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/db/decode_f8a.tdf Line: 23
 Info (12021): Found 1 design units, including 1 entities, in source file db/mux_6nb.tdf
-    Info (12023): Found entity 1: mux_6nb File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/db/mux_6nb.tdf Line: 23
-Info (12130): Elaborated megafunction instantiation "lpm_mult:Mult0" File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 41
-Info (12133): Instantiated megafunction "lpm_mult:Mult0" with the following parameter: File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 41
+    Info (12023): Found entity 1: mux_6nb File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/db/mux_6nb.tdf Line: 23
+Info (12130): Elaborated megafunction instantiation "lpm_mult:Mult0" File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 41
+Info (12133): Instantiated megafunction "lpm_mult:Mult0" with the following parameter: File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 41
     Info (12134): Parameter "LPM_WIDTHA" = "15"
     Info (12134): Parameter "LPM_WIDTHB" = "8"
     Info (12134): Parameter "LPM_WIDTHP" = "23"
@@ -1223,14 +1234,14 @@ Info (12131): Elaborated megafunction instantiation "lpm_mult:Mult0|multcore:mul
 Info (12131): Elaborated megafunction instantiation "lpm_mult:Mult0|multcore:mult_core|mpar_add:padder", which is child of megafunction instantiation "lpm_mult:Mult0" File: c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/multcore.tdf Line: 229
 Info (12131): Elaborated megafunction instantiation "lpm_mult:Mult0|multcore:mult_core|mpar_add:padder|lpm_add_sub:adder[1]", which is child of megafunction instantiation "lpm_mult:Mult0" File: c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/mpar_add.tdf Line: 78
 Info (12021): Found 1 design units, including 1 entities, in source file db/add_sub_lgh.tdf
-    Info (12023): Found entity 1: add_sub_lgh File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/db/add_sub_lgh.tdf Line: 23
+    Info (12023): Found entity 1: add_sub_lgh File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/db/add_sub_lgh.tdf Line: 23
 Info (12131): Elaborated megafunction instantiation "lpm_mult:Mult0|multcore:mult_core|mpar_add:padder|mpar_add:sub_par_add", which is child of megafunction instantiation "lpm_mult:Mult0" File: c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/mpar_add.tdf Line: 138
 Info (12131): Elaborated megafunction instantiation "lpm_mult:Mult0|multcore:mult_core|mpar_add:padder|mpar_add:sub_par_add|lpm_add_sub:adder[0]", which is child of megafunction instantiation "lpm_mult:Mult0" File: c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/mpar_add.tdf Line: 78
 Info (12021): Found 1 design units, including 1 entities, in source file db/add_sub_pgh.tdf
-    Info (12023): Found entity 1: add_sub_pgh File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/db/add_sub_pgh.tdf Line: 23
+    Info (12023): Found entity 1: add_sub_pgh File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/db/add_sub_pgh.tdf Line: 23
 Info (12131): Elaborated megafunction instantiation "lpm_mult:Mult0|altshift:external_latency_ffs", which is child of megafunction instantiation "lpm_mult:Mult0" File: c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/lpm_mult.tdf Line: 352
-Info (12130): Elaborated megafunction instantiation "lpm_mult:Mult1" File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 158
-Info (12133): Instantiated megafunction "lpm_mult:Mult1" with the following parameter: File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 158
+Info (12130): Elaborated megafunction instantiation "lpm_mult:Mult1" File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 158
+Info (12133): Instantiated megafunction "lpm_mult:Mult1" with the following parameter: File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 158
     Info (12134): Parameter "LPM_WIDTHA" = "10"
     Info (12134): Parameter "LPM_WIDTHB" = "8"
     Info (12134): Parameter "LPM_WIDTHP" = "18"
@@ -1247,45 +1258,45 @@ Info (12131): Elaborated megafunction instantiation "lpm_mult:Mult1|multcore:mul
 Info (12131): Elaborated megafunction instantiation "lpm_mult:Mult1|multcore:mult_core|mpar_add:padder|mpar_add:sub_par_add|lpm_add_sub:adder[0]", which is child of megafunction instantiation "lpm_mult:Mult1" File: c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/mpar_add.tdf Line: 78
 Info (12131): Elaborated megafunction instantiation "lpm_mult:Mult1|altshift:external_latency_ffs", which is child of megafunction instantiation "lpm_mult:Mult1" File: c:/intelfpga_lite/17.0/quartus/libraries/megafunctions/lpm_mult.tdf Line: 352
 Warning (13024): Output pins are stuck at VCC or GND
-    Warning (13410): Pin "GPIO_0_D[2]" is stuck at GND File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
-    Warning (13410): Pin "GPIO_0_D[3]" is stuck at GND File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
-    Warning (13410): Pin "GPIO_0_D[4]" is stuck at GND File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
-    Warning (13410): Pin "GPIO_0_D[6]" is stuck at GND File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
-    Warning (13410): Pin "GPIO_0_D[8]" is stuck at GND File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
-    Warning (13410): Pin "GPIO_0_D[10]" is stuck at GND File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
-    Warning (13410): Pin "GPIO_0_D[12]" is stuck at GND File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
-    Warning (13410): Pin "GPIO_0_D[14]" is stuck at GND File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
-    Warning (13410): Pin "GPIO_0_D[16]" is stuck at GND File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
-    Warning (13410): Pin "GPIO_0_D[18]" is stuck at GND File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
-    Warning (13410): Pin "GPIO_0_D[20]" is stuck at GND File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
-    Warning (13410): Pin "GPIO_0_D[22]" is stuck at GND File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
-    Warning (13410): Pin "GPIO_0_D[24]" is stuck at GND File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
-    Warning (13410): Pin "GPIO_0_D[26]" is stuck at GND File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
-    Warning (13410): Pin "GPIO_0_D[28]" is stuck at GND File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
-    Warning (13410): Pin "GPIO_0_D[30]" is stuck at GND File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
-    Warning (13410): Pin "GPIO_0_D[31]" is stuck at GND File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
-    Warning (13410): Pin "GPIO_0_D[32]" is stuck at GND File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
-    Warning (13410): Pin "GPIO_0_D[33]" is stuck at GND File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
+    Warning (13410): Pin "GPIO_0_D[2]" is stuck at GND File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
+    Warning (13410): Pin "GPIO_0_D[3]" is stuck at GND File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
+    Warning (13410): Pin "GPIO_0_D[4]" is stuck at GND File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
+    Warning (13410): Pin "GPIO_0_D[6]" is stuck at GND File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
+    Warning (13410): Pin "GPIO_0_D[8]" is stuck at GND File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
+    Warning (13410): Pin "GPIO_0_D[10]" is stuck at GND File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
+    Warning (13410): Pin "GPIO_0_D[12]" is stuck at GND File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
+    Warning (13410): Pin "GPIO_0_D[14]" is stuck at GND File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
+    Warning (13410): Pin "GPIO_0_D[16]" is stuck at GND File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
+    Warning (13410): Pin "GPIO_0_D[18]" is stuck at GND File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
+    Warning (13410): Pin "GPIO_0_D[20]" is stuck at GND File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
+    Warning (13410): Pin "GPIO_0_D[22]" is stuck at GND File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
+    Warning (13410): Pin "GPIO_0_D[24]" is stuck at GND File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
+    Warning (13410): Pin "GPIO_0_D[26]" is stuck at GND File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
+    Warning (13410): Pin "GPIO_0_D[28]" is stuck at GND File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
+    Warning (13410): Pin "GPIO_0_D[30]" is stuck at GND File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
+    Warning (13410): Pin "GPIO_0_D[31]" is stuck at GND File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
+    Warning (13410): Pin "GPIO_0_D[32]" is stuck at GND File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
+    Warning (13410): Pin "GPIO_0_D[33]" is stuck at GND File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 27
 Info (286030): Timing-Driven Synthesis is running
 Info (17049): 4 registers lost all their fanouts during netlist optimizations.
-Info (144001): Generated suppressed messages file C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.map.smsg
+Info (144001): Generated suppressed messages file C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.map.smsg
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 1 node(s), including 0 DDIO, 1 PLL, 0 transceiver and 0 LCELL
 Warning (21074): Design contains 5 input pin(s) that do not drive logic
-    Warning (15610): No output dependent on input pin "GPIO_1_D[22]" File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 29
-    Warning (15610): No output dependent on input pin "GPIO_1_D[31]" File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 29
-    Warning (15610): No output dependent on input pin "GPIO_1_D[32]" File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 29
-    Warning (15610): No output dependent on input pin "GPIO_1_D[33]" File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 29
-    Warning (15610): No output dependent on input pin "KEY[1]" File: C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 30
-Info (21057): Implemented 363 device resources after synthesis - the final resource count might be different
+    Warning (15610): No output dependent on input pin "GPIO_1_D[27]" File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 29
+    Warning (15610): No output dependent on input pin "GPIO_1_D[31]" File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 29
+    Warning (15610): No output dependent on input pin "GPIO_1_D[32]" File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 29
+    Warning (15610): No output dependent on input pin "GPIO_1_D[33]" File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 29
+    Warning (15610): No output dependent on input pin "KEY[1]" File: C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.v Line: 30
+Info (21057): Implemented 395 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 17 input pins
     Info (21059): Implemented 34 output pins
-    Info (21061): Implemented 279 logic cells
+    Info (21061): Implemented 311 logic cells
     Info (21064): Implemented 32 RAM segments
     Info (21065): Implemented 1 PLLs
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 77 warnings
-    Info: Peak virtual memory: 675 megabytes
-    Info: Processing ended: Sat Nov 17 18:38:21 2018
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 89 warnings
+    Info: Peak virtual memory: 676 megabytes
+    Info: Processing ended: Sun Nov 18 17:10:50 2018
     Info: Elapsed time: 00:00:11
     Info: Total CPU time (on all processors): 00:00:23
 
@@ -1293,6 +1304,6 @@ Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 77 warnings
 +------------------------------------------+
 ; Analysis & Synthesis Suppressed Messages ;
 +------------------------------------------+
-The suppressed messages can be found in C:/Users/labuser/Downloads/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.map.smsg.
+The suppressed messages can be found in C:/Users/labuser/Desktop/ece-3400-group.github.io/Lab 4/fwdquartuslab4/DE0_NANO.map.smsg.
 
 
