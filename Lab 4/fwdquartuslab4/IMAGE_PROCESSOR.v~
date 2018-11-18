@@ -131,9 +131,6 @@ always @(posedge CLK) begin
 		countRED = 16'b0; 
 		countNULL = 16'b0; 
 		reg_result = 3'b0;
-		BLUE_EdgePoint_0 = 8'b0;
-		BLUE_EdgePoint_1 = 8'b0;
-		BLUE_EdgePoint_2 = 8'b0;
 		end 
 	lastsync = VGA_VSYNC_NEG; 
 	lastY = VGA_PIXEL_Y;
