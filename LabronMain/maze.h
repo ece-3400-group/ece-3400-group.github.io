@@ -1,5 +1,8 @@
 #ifndef MAZE
 #define MAZE
+#define MAZEY 9
+#define MAZEX 9
+
 #include <Arduino.h>
 
 // TODO: EXTERN CONSTS based on Lab3/sendMazeInfo.ino
@@ -11,5 +14,6 @@ void populateMazeStart();
 void updateMaze(int x, int y, byte metaPacket); // store metaPacket in 2D array coordinate location x,y
 void updateDirection(byte decidedRoute);
 byte getMazeInfo(int x, int y);
+bool checkMazeEmpty(); 
 
 #endif // MAZE

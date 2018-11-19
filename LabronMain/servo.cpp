@@ -1,19 +1,63 @@
 #include "servo.h"
 #include <Arduino.h>
 #include "sensors.h"
+#include "maze.h"
 #include "helpers.h"
 /*==================== [ Initialize Servos ] ================in===============*/
 Servo rightServo;
 Servo leftServo;
-<stack> dfsStack;
-# define FORWARDDIR 0b00001000;
-# define LEFTDIR 0b00000001;
-# define RIGHTDIR 0b00000100;
-# define FLIPDIR 0b00000010;
+
 // 0b00000100 right
 // 0b00000010 flip
 // 0b00000001 left
 int vals[3];         // container for sensor output
+byte pathStack[MAZEY*MAZEX];  // at most MAZEY * MAZEX positions pushed, with head at stackSize and tail at 0
+int pathStackSize =0; 
+
+void pathStackPush(byte pushed){
+  if (pathStackSize > sizeof(pathStack)/sizeof(byte)){ // stack is too big
+    Serial.println("PATHSTACK OVERFLOW >> ABORT!"); 
+  }
+  else{
+    pathStack [pathStackSize] = pushed; 
+    pathStackSize++; // increment stack size
+  }
+}
+
+byte pathStackPop(){
+  if (pathStackSize<=0){
+    Serial.println("PATH/ STACK MUST BE POPULATED"); 
+    return 0b00000000; // nullish
+  }
+  else{
+    pathStackSize--; 
+    return pathStack[pathStackSize++]; 
+  }
+}
+
+byte dfsStack[MAZEY*MAZEX];  // at most MAZEY * MAZEX positions pushed, with head at stackSize and tail at 0
+int dfsStackSize = 0; // initialize dfStackSize to 0
+
+void dfsStackPush(byte pushed){
+  if (dfsStackSize > sizeof(dfsStack)/sizeof(byte)){ // stack is too big
+    Serial.println("DFS STACK OVERFLOW >> ABORT!"); 
+  }
+  else{
+    dfsStack [dfsStackSize] = pushed; 
+    dfsStackSize++; // increment stack size
+  }
+}
+
+byte dfsStackPop(){
+  if (dfsStackSize<=0){
+    Serial.println("DFS STACK MUST BE POPULATED"); 
+    return 0b00000000; // nullish
+  }
+  else{
+    dfsStackSize--; 
+    return dfsStack[dfsStackSize+1]; 
+  }
+}
 
 void setupLineSensors() {
   pinMode(QRE1113_PIN0, INPUT); // IR sensor 1
@@ -107,7 +151,7 @@ void turnRight() {
   // }d
 }
 
-//Turn around
+// Turn around
 void turnAround() {
   leftServo.write(180);
   rightServo.write(0);
@@ -131,16 +175,9 @@ void stop() {
   rightServo.write(90);
 }
 
-void decodePositionByte(byte xxxxyyyy) {
-  // bits 7-4 are x, 3-0 are y as this is written. Check this please.
-  int x = (xxxxyyyy & 0b11110000) >> 4; // AND-ed in case it wraps around or some wack shit p sure it doesn't tho
-  int y = (xxxxyyyy & 0b00001111) << 4;
-  return (10 * x + y); // x should be int-divided by 10, y should be %10
-
-}
 
 
-void dfsPath(byte walldir) {
+bool dfsPath(byte walldir) {
   // use DFS and wall sensing to push to DFS stack. If there's no reachable unexplored locations push nothing
   checkSensors(); // still need old sensory check
 
@@ -158,79 +195,75 @@ void dfsPath(byte walldir) {
   bool wallWest = false;
   // need to know absolute wall locations because DFS gives (absolute) coordinates
   if (direction == 0b01) { // facing EAST right now @Hojung does this need to be imported
-    if (walldir & FRONT) {
+    if (walldir && FRONTWALL) {
       wallEast = true;
     }
-    if (walldir & RIGHT) {
+    if (walldir && RIGHTWALL) {
       wallSouth = true;
     }
-    if (walldir & LEFT) {
+    if (walldir && LEFTWALL) {
       wallNorth = true;
     }
   }
   else if (direction == 0b00) { // facing NORTH right now
-    if (walldir & FRONT) {
+    if (walldir && FRONTWALL) {
       wallNorth = true;
     }
-    if (walldir & RIGHT) {
+    if (walldir && RIGHTWALL) {
       wallEast = true;
     }
-    if (walldir & LEFT) {
+    if (walldir && LEFTWALL) {
       wallWest = true;
     }
   }
 
   else if (direction == 0b10) { // facing WEST right now
-    if (walldir & FRONT) {
+    if (walldir && FRONTWALL) {
       wallWest = true;
     }
-    if (walldir & RIGHT) {
+    if (walldir && RIGHTWALL) {
       wallNorth = true;
     }
-    if (walldir & LEFT) {
+    if (walldir && LEFTWALL) {
       wallSouth = true;
     }
   }
 
   else if (direction == 0b11) { // facing SOUTH right now
-    if (walldir & FRONT) {
+    if (walldir && FRONTWALL) {
       wallSouth = true;
     }
-    if (walldir & RIGHT) {
+    if (walldir && RIGHTWALL) {
       wallWest = true;
     }
-    if (walldir & LEFT) {
+    if (walldir && LEFTWALL) {
       wallEast = true;
     }
   }
-  else { // shouldn't ever happen
-    stop();
+
+  else { // TODO: Check if this is right
   }
-
-
-
-
-}
-else { // TODO: Check if this is right
-  stop();
-}
 // push neighboring locations to DFS Stack if there's no wall
-
+bool somethingPushed = false; 
 if (!wallEast && maze[currentX + 1][currentY] != 0b11111111) {
-  dfsStack.push(byteifyCoordinate(currentX + 1, currentY));
+  pathStackPush(byteifyCoordinate(currentX + 1, currentY));
+  somethingPushed = true; 
 }
 if (!wallSouth && maze[currentX][currentY - 1] != 0b11111111) {
-  dfsStack.push(byteifyCoordinate(currentX, currentY - 1));
+  pathStackPush(byteifyCoordinate(currentX, currentY - 1));
+  somethingPushed = true; 
 }
 if (!wallNorth && maze[currentX][currentY + 1] != 0b11111111) {
-  dfsStack.push(byteifyCoordinate(currentX, currentY + 1));
+  pathStackPush(byteifyCoordinate(currentX, currentY + 1));
+  somethingPushed = true; 
 }
 if (!wallWest && maze[currentX - 1][currentY] != 0b11111111) {
-  dfsStack.push(byteifyCoordinate(currentX - 1, currentY));
+  pathStackPush(byteifyCoordinate(currentX - 1, currentY));
+  somethingPushed = true; 
 }
-
-byte nextLocByte(int nextX, int nextY)
-{
+return somethingPushed; 
+}
+byte nextLocByte(int nextX, int nextY){
   // With a known currentX, currentY, which action (right turn, left turn, forward, flip) should LABron pass
   // to get to position (nextX,nextY).
   // 0b00001000 forward
@@ -240,66 +273,69 @@ byte nextLocByte(int nextX, int nextY)
 
   if (nextX == currentX + 1) { // need to go EAST
     if (direction == 0b00) { // left turn
-      return LEFTDIR;
+      return LEFT;
     }
     else if (direction == 0b11) { // right turn
-      return RIGHTDIR;
+      return RIGHT;
     }
     else if (direction == 0b10) { // flip
-      return FLIPDIR;
+      return FLIP;
     }
     else if (direction == 0b01) { //forward
-      return FORWARDDIR;
+      return FORWARD;
     }
   }
   else if (nextX == currentX - 1) { // need to go WEST
     if (direction == 0b00) { // right turn
-      return RIGHTDIR;
+      return RIGHT;
     }
     else if (direction == 0b11) { // left turn
-      return LEFTDIR;
+      return LEFT;
     }
     else if (direction == 0b10) { // forward
-      return FORWARDDIR;
+      return FORWARD;
     }
     else if (direction == 0b01) { //flip
-      return FLIPDIR;
+      return FLIP;
     }
   }
   else if (nextY == currentY + 1) { // need to go NORTH
     if (direction == 0b00) { // forward
-      return FORWARDDIR;
+      return FORWARD;
     }
     else if (direction == 0b11) { // flip
-      return FLIPDIR;
+      return FLIP;
     }
     else if (direction == 0b10) { // right turn
-      return RIGHTDIR;
+      return RIGHT;
     }
     else if (direction == 0b01) { // left turn
-      return LEFTDIR;
+      return LEFT;
     }
   }
   else if (nextY == currentY + 1) { // need to go SOUTH
     if (direction == 0b00) { // flip
-      return FLIPDIR;
+      return FLIP;
     }
     else if (direction == 0b11) { // forward
-      return FORWARDDIR;
+      return FORWARD;
     }
     else if (direction == 0b10) { // right turn
-      return RIGHTDIR;
+      return RIGHT;
     }
     else if (direction == 0b01) { // left turn
-      return LEFTDIR;
+      return LEFT;
     }
   }
   else {
-    return FLIPDIR; // turn around because you're confused
+    return FLIP; // turn around because you're confused
   }
 }
 
 byte decideRouteDFS() {
+  if (pathStackSize>0){
+    dfsStackPush(pathStack[pathStackSize-1]); 
+  }
   checkSensors(); // still need old sensory check
   Serial.println(vals[1]);  // Taking out all the print statements makes LABron act weird im leaving one in -R
   int leftSpeed;
@@ -317,8 +353,16 @@ byte decideRouteDFS() {
   else if (vals[0] < LINE_THRESHOLD && vals[1] < LINE_THRESHOLD && vals[2] < LINE_THRESHOLD) { //intersection initiate turn
     stop();
     byte walldir = wallDetected();
-    dfsPath(walldir); // update dfsStack based on wallDir, returns nothing
-    int nextLoc = decodePositionByte(dfsStack.pop()); // based on the most recent popped thing choose nextLoc and move there
+    bool somethingPushed = dfsPath(walldir); // update pathStack based on wallDir, returns True if pathStack was pushed to (not dead end) otherwise false
+    bool dfsPop = dfsStackPop(); 
+    if (!somethingPushed){
+      bool dummy = pathStackPop(); // trash variable for path stack, if nothing's pushed then the next location is the last location in both stacks
+      if (dummy != dfsPop){
+        Serial.println("Something went wrong in stack logic. Check this rn."); 
+      }
+      // this dummy should equal dfsStackPop()
+    }
+    int nextLoc = decodePositionByte(dfsPop); // based on the most recent popped thing choose nextLoc and move there
     int nextX = nextLoc / 10; // nextLoc byte encoded as concatenated xy int so our maze can't handle over 9x9 mazes (which is chill lol)
     int nextY = nextLoc % 10;
     walldir |= nextLocByte(nextX, nextY); // now choose which direction nextX, nextY corresponds to (original byte encoding Forward-Right-Backward-Left)
@@ -347,16 +391,6 @@ byte decideRouteDFS() {
 
 }
 
-bool checkMazeEmpty() {
-  for (int i = 0; i < MAZEX; i++) {
-    for (int j = 0; j < MAZEY; j++) {
-      if (maze[i][j] == 0b11111111) { // there is an unexplored node still
-        return false;
-      }
-    }
-  }
-  return true; // THE ENTIRE MAZE IS EXPLORED
-}
 // Logic for deciding the route for the robot
 byte decideRoute() {
   // uses right hand wall following
@@ -381,7 +415,7 @@ byte decideRoute() {
 
     // bits [7-4] are wall directions based on sensors, bits [3-0] are the directions we choose to go
     // bit[3] forward, bit[2]  right, bit[1] turn aroudn, bit[0] left, all 0 do nothing
-    if (walldir == FRONT || walldir == NOWALL || walldir == (FRONT | LEFT)) {
+    if (walldir == FRONTWALL || walldir == NOWALL || walldir == (FRONTWALL | LEFTWALL)) {
       // No wall detected to right, so turn right
       Serial.println("No Wall");
       walldir = walldir | 0b000000100;
@@ -391,7 +425,7 @@ byte decideRoute() {
     }
 
 
-    else if ((walldir & FRONT) && (walldir & RIGHT) && (walldir & LEFT)) {
+    else if ((walldir & FRONTWALL) && (walldir & RIGHTWALL) && (walldir & LEFTWALL)) {
       // Wall detected to right, front,and left so turn around
       // walldir is 11010000
       digitalWrite(RIGHTWALL_PIN, HIGH);
@@ -404,7 +438,7 @@ byte decideRoute() {
       digitalWrite(RIGHTWALL_PIN, LOW);
       digitalWrite(FORWARDWALL_PIN, LOW);
     }
-    else if ((walldir & FRONT) && (walldir & RIGHT)) {
+    else if ((walldir & FRONTWALL) && (walldir & RIGHTWALL)) {
       // Wall detected to right AND in front, so turn left
       digitalWrite(RIGHTWALL_PIN, HIGH);
       digitalWrite(FORWARDWALL_PIN, HIGH);
@@ -414,7 +448,7 @@ byte decideRoute() {
       digitalWrite(RIGHTWALL_PIN, LOW);
       digitalWrite(FORWARDWALL_PIN, LOW);
     }
-    else if (walldir & RIGHT) {
+    else if (walldir & RIGHTWALL) {
       // Wall detected to right, but NOT in front, so move forward
       digitalWrite(RIGHTWALL_PIN, HIGH);
       digitalWrite(FORWARDWALL_PIN, LOW);

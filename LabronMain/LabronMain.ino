@@ -3,6 +3,7 @@
 #include "servo.h"
 #include "radios.h"
 #include "sensors.h"
+#include "helpers.h"
 
 byte fftResult;
 
@@ -29,7 +30,7 @@ void loop() {
     //Serial.println(routeInfo);
     updateDirection(routeInfo);
  
-    unsigned int positionPacket = ((currentX<<4) | (currentY)) & (0x00FF);
+    unsigned int positionPacket = byteifyCoordinate(currentX,currentY);
     // Position Packet as [XXXX-YYYY] 
     Serial.print("D = "); Serial.println(direction);
     Serial.print("X = "); Serial.println(currentX);
@@ -51,7 +52,7 @@ void loop() {
    Serial.println("=======================================");
 
   }
-  while ((routeInfo & FRONT) && (routeInfo & RIGHT) && (routeInfo & LEFT)) {
+  while ((routeInfo & FRONTWALL) && (routeInfo & RIGHTWALL) && (routeInfo & LEFTWALL) || checkMazeEmpty()) { // checkMazeEmpty returns true if all nodes explored
     Serial.println("COMPLETE STOP");
     stop();
   }

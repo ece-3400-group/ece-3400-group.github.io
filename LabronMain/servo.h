@@ -16,10 +16,10 @@
 
 /*==================== [ Bit Masks ] ===============================*/
  // walldir now contains wall information in its first 4 bits, and new direction information in its last 4 bits
- // first four bits organized [F, R, B[ehind], L] and are raised high when a wall is present
- // next four bits organized {forward, right, left, turnaround} to be interpreted in main loop
+ // first four bits organized [F, R, B[ehind], L] and are raised to represent next location
+ // next four bits organized {forward, right, left, turnaround} to be interpreted in main loop. 
 #define FORWARD 0b00001000
-#define RIGHT   0b000000100
+#define RIGHT   0b00000100
 #define FLIP    0b00000010
 #define LEFT    0b00000001
 
@@ -43,6 +43,7 @@ void turnAround();
 
 // Ultimate Function
 byte decideRoute();
+byte decideRouteDFS(); 
 
 
 #endif // SERVO_CONTROL

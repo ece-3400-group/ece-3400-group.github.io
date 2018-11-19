@@ -48,15 +48,15 @@ byte wallDetected(){
   byte directionPacket = 0b00000000;
   if (right) {
     Serial.println(F("RIGHT"));
-    directionPacket |= RIGHT;
+    directionPacket |= RIGHTWALL;
   }
   if (front) {
     Serial.println(F("FRONT"));
-    directionPacket |= FRONT;
+    directionPacket |= FRONTWALL;
   }
  if (left) {
    Serial.println(F("LEFT"));
-   directionPacket |= LEFT;
+   directionPacket |= LEFTWALL;
  }
   else {
     Serial.println(F("nothing"));

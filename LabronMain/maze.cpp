@@ -19,6 +19,18 @@ void populateMazeStart() {
 }
 
 
+bool checkMazeEmpty() {
+  for (int i = 0; i < MAZEX; i++) {
+    for (int j = 0; j < MAZEY; j++) {
+      if (maze[i][j] == 0b11111111) { // there is an unexplored node still
+        return false;
+      }
+    }
+  }
+  return true; // THE ENTIRE MAZE IS EXPLORED
+}
+
+
 void updateMaze(int x, int y, byte metaPacket){
 
   maze[x][y] = metaPacket;
