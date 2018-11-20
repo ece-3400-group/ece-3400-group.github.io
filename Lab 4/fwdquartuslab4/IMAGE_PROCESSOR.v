@@ -89,10 +89,10 @@ always @(posedge CLK) begin
 		if (BLUE_EdgePoint_0 != 8'b0) begin 
 			reg_result[0] = 1'b1; 
 			end
-		else if (BLUE_EdgePoint_1 != 8'b0) begin 
+		if (BLUE_EdgePoint_1 != 8'b0) begin 
 			reg_result[1] = 1'b1; 
 			end
-		else if (BLUE_EdgePoint_2 != 8'b0) begin 
+		if (BLUE_EdgePoint_2 != 8'b0) begin 
 			reg_result[2] = 1'b1; 
 			end
 		/*--------------------- Testing Edge Point -------------------------*/
