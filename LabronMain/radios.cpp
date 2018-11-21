@@ -32,8 +32,8 @@ void setupRadios(void)
 {
   pinMode(RADIO_DEBUG_LED, OUTPUT);
   printf_begin();
-  Serial.println("\nRF24/examples/GettingStarted/\n");
-  Serial.print("ROLE: "); Serial.println(role_friendly_name[role]);
+  Serial.println(F("\nRF24/examples/GettingStarted/\n"));
+  Serial.print(F("ROLE: ")); Serial.println(role_friendly_name[role]);
   //
   // Setup and configure rf radio
   //
@@ -78,15 +78,15 @@ byte packetTransmission(int positionPacket, byte DEBUG=1)
 
   // Take the time, and send it.  This will block until complete
   unsigned long startTime = millis();
-  Serial.print("Now sending "); Serial.print(positionPacket); Serial.println("..."); 
+  Serial.print(F("Now sending ")); Serial.print(positionPacket); Serial.println(F("...")); 
   bool ok1 = radio.write( &positionPacket, sizeof(int));
  // bool ok2 = radio.write( &metaPacket, sizeof(metaPacket));
-  Serial.println("Written");
+  Serial.println(F("Written"));
 
   if (ok1)
-    Serial.println("Transmission sent with positionPacket and metaPacket");
+    Serial.println(F("Transmission sent with positionPacket and metaPacket"));
   else
-    Serial.println("Transmission failed.\n\r");
+    Serial.println(F("Transmission failed.\n\r"));
 
   // Now, continue listening
   radio.startListening();
@@ -113,7 +113,7 @@ byte packetTransmission(int positionPacket, byte DEBUG=1)
     if (DEBUG)
     success = 1;
     digitalWrite(RADIO_DEBUG_LED, !digitalRead(RADIO_DEBUG_LED));
-    Serial.print("Got response"); Serial.print(got_time);
+    Serial.print(F("Got response")); Serial.print(got_time);
     //Serial.print(", round-trip delay: "); Serial.println(millis() - got_time);
   }
   return success;

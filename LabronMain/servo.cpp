@@ -16,7 +16,7 @@ int pathStackSize =0;
 
 void pathStackPush(byte pushed){
   if (pathStackSize > sizeof(pathStack)/sizeof(byte)){ // stack is too big
-    Serial.println("PATHSTACK OVERFLOW >> ABORT!"); 
+    Serial.println(F("PATHSTACK OVERFLOW >> ABORT!")); 
   }
   else{
     pathStack [pathStackSize] = pushed; 
@@ -26,7 +26,7 @@ void pathStackPush(byte pushed){
 
 byte pathStackPop(){
   if (pathStackSize<=0){
-    Serial.println("PATH/ STACK MUST BE POPULATED"); 
+    Serial.println(F("PATH/ STACK MUST BE POPULATED")); 
     return 0b00000000; // nullish
   }
   else{
@@ -40,7 +40,7 @@ int dfsStackSize = 0; // initialize dfStackSize to 0
 
 void dfsStackPush(byte pushed){
   if (dfsStackSize > sizeof(dfsStack)/sizeof(byte)){ // stack is too big
-    Serial.println("DFS STACK OVERFLOW >> ABORT!"); 
+    Serial.println(F("DFS STACK OVERFLOW >> ABORT!")); 
   }
   else{
     dfsStack [dfsStackSize] = pushed; 
@@ -78,7 +78,7 @@ void readServos(byte debug = 1) {
     Serial.print(F("Left Servo = [ " ));
     Serial.print( left );
     Serial.println( F(" ]"));
-    Serial.print(F("Rightt Servo = [ ") );
+    Serial.print(F("Right Servo = [ ") );
     Serial.print( right ); Serial.println( F(" ]"));
   }
 }
@@ -358,7 +358,7 @@ byte decideRouteDFS() {
     if (!somethingPushed){
       bool dummy = pathStackPop(); // trash variable for path stack, if nothing's pushed then the next location is the last location in both stacks
       if (dummy != dfsPop){
-        Serial.println("Something went wrong in stack logic. Check this rn."); 
+        Serial.println(F("Something went wrong in stack logic. Check this rn.")); 
       }
       // this dummy should equal dfsStackPop()
     }
@@ -417,7 +417,7 @@ byte decideRoute() {
     // bit[3] forward, bit[2]  right, bit[1] turn aroudn, bit[0] left, all 0 do nothing
     if (walldir == FRONTWALL || walldir == NOWALL || walldir == (FRONTWALL | LEFTWALL)) {
       // No wall detected to right, so turn right
-      Serial.println("No Wall");
+      Serial.println(F("No Wall"));
       walldir = walldir | 0b000000100;
       turnRight();
       digitalWrite(RIGHTWALL_PIN, LOW);
@@ -434,7 +434,7 @@ byte decideRoute() {
       walldir = walldir | 0b00000010; // bit 1 corresponds to flipping direction
       //turnAround();
       stop();
-      Serial.println("Wall to FRONT and RIGHT and LEFT");
+      Serial.println(F("Wall to FRONT and RIGHT and LEFT"));
       digitalWrite(RIGHTWALL_PIN, LOW);
       digitalWrite(FORWARDWALL_PIN, LOW);
     }
@@ -444,7 +444,7 @@ byte decideRoute() {
       digitalWrite(FORWARDWALL_PIN, HIGH);
       walldir = walldir | 0b00000001;
       turnLeft();
-      Serial.println("Wall to RIGHT and FRONT");
+      Serial.println(F("Wall to RIGHT and FRONT"));
       digitalWrite(RIGHTWALL_PIN, LOW);
       digitalWrite(FORWARDWALL_PIN, LOW);
     }
@@ -454,7 +454,7 @@ byte decideRoute() {
       digitalWrite(FORWARDWALL_PIN, LOW);
       walldir = walldir | 0b00001000;
       goStraight();
-      Serial.println("Wall to RIGHT");
+      Serial.println(F("Wall to RIGHT"));
       while (vals[0] < LINE_THRESHOLD || vals[2] < LINE_THRESHOLD) {
         checkSensors();
       }

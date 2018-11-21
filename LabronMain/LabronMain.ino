@@ -32,14 +32,14 @@ void loop() {
  
     unsigned int positionPacket = byteifyCoordinate(currentX,currentY);
     // Position Packet as [XXXX-YYYY] 
-    Serial.print("D = "); Serial.println(direction);
+    Serial.print(F("D = ")); Serial.println(direction);
     Serial.print("X = "); Serial.println(currentX);
     Serial.print("Y = "); Serial.println(currentY);
     for (int i = 0; i < 9; i++ ) {
       for (int j = 0; j < 9; j++ ){ //SENW
-          Serial.print(maze[i][j], BIN); Serial.print(" ");
+          Serial.print((maze[i][j], BIN)); Serial.print(F(" "));
       }
-      Serial.println("");
+      Serial.println(F(""));
     }
     positionPacket = (positionPacket<<8) | ((maze[currentX][currentY]) & 0x00FF);
     while (packetTransmission(positionPacket) == 0) {
@@ -47,9 +47,9 @@ void loop() {
       //delay(300);
     }
     //delay(300);
-    Serial.println("=======================================");
+    Serial.println(F("(======================================="));
      Serial.println(positionPacket);
-   Serial.println("=======================================");
+   Serial.println(F("======================================="));
 
   }
   while ((routeInfo & FRONTWALL) && (routeInfo & RIGHTWALL) && (routeInfo & LEFTWALL) || checkMazeEmpty()) { // checkMazeEmpty returns true if all nodes explored
