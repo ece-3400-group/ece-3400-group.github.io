@@ -2,7 +2,7 @@
 /* File to keep track of internal maze state and direction */
 
 #include "maze.h"
-int currentX = -1;
+int currentX = 0;
 int currentY = 2;
 byte direction = 0b01; // east
 byte maze[MAZEX][MAZEY];
@@ -12,8 +12,8 @@ byte maze[MAZEX][MAZEY];
 void populateMazeStart() {
   for (int i = 0; i < MAZEX; i++) {
     for (int j = 0; j < MAZEY; j++ ) {
-      //maze[i][j] = 0b11111111;
-      maze[i][j] = 0b00000000;
+      //maze[i][j] = 0b00000000;
+      maze[i][j] = 0b11111111;
     }
   }
 }

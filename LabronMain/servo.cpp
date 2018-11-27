@@ -26,11 +26,11 @@ void pathStackPush(byte pushed){
 
 byte pathStackPop(){
   if (pathStackSize<=0){
-    Serial.println(F("PATH/ STACK MUST BE POPULATED")); 
+    Serial.println(F("PATHSTACK MUST BE POPULATED")); 
     return 0b00000000; // nullish
   }
   else{
-    pathStackSize--; 
+    pathStackSize--; // change address then pop the last array element (head)
     return pathStack[pathStackSize++]; 
   }
 }
@@ -242,25 +242,56 @@ bool dfsPath(byte walldir) {
   }
 
   else { // TODO: Check if this is right
+    Serial.println(F("No direction. Check logic")); 
   }
 // push neighboring locations to DFS Stack if there's no wall
-bool somethingPushed = false; 
-if (!wallEast && maze[currentX + 1][currentY] != 0b11111111) {
+bool somethingPushed = false;
+Serial.print(F("CurrentX: ")); 
+Serial.println(currentX); 
+Serial.print(F("CurrentY: ")); 
+Serial.println(currentY); 
+Serial.print (F("Wall East: ")); 
+Serial.println(wallEast); 
+Serial.print (F("Wall West: ")); 
+Serial.println(wallWest); 
+Serial.print (F("Wall North: ")); 
+Serial.println(wallNorth); 
+Serial.print (F("Wall South: ")); 
+Serial.println(wallSouth); 
+
+if (!(wallEast || wallWest || wallNorth || wallSouth)){
+  Serial.println(F("No walls detected")); 
+}
+
+for (int i=0; i<MAZEX; i++){
+  for (int j=0; j<MAZEY; j++){
+    Serial.print (maze[i][j]);
+    Serial.print (" "); 
+  }
+  Serial.println(F("")); 
+}
+
+if (!wallEast && currentX + 1<MAZEX && maze[currentX + 1][currentY] == 0b11111111) {
   pathStackPush(byteifyCoordinate(currentX + 1, currentY));
   somethingPushed = true; 
-}
-if (!wallSouth && maze[currentX][currentY - 1] != 0b11111111) {
+  Serial.println (F("No wall EAST. Unexplored location at X + 1 pushed to PathStack")); 
+  }
+if (!wallSouth && currentY - 1 >= 0 && maze[currentX][currentY - 1] == 0b11111111) {
   pathStackPush(byteifyCoordinate(currentX, currentY - 1));
   somethingPushed = true; 
-}
-if (!wallNorth && maze[currentX][currentY + 1] != 0b11111111) {
+  Serial.println (F("No wall SOUTH. Unexplored location at Y - 1 pushed to PathStack")); 
+  }
+if (!wallNorth && currentY + 1<MAZEY && maze[currentX][currentY + 1] == 0b11111111) {
   pathStackPush(byteifyCoordinate(currentX, currentY + 1));
   somethingPushed = true; 
-}
-if (!wallWest && maze[currentX - 1][currentY] != 0b11111111) {
+  Serial.println (F("No wall NORTH. Unexplored location Y + 1 pushed to PathStack")); 
+  }
+if (!wallWest && currentX - 1 >= 0 && maze[currentX - 1][currentY] == 0b11111111) {
   pathStackPush(byteifyCoordinate(currentX - 1, currentY));
   somethingPushed = true; 
-}
+   Serial.println (F("No wall WEST. Unexplored location at X - 1 pushed to PathStack")); 
+  }
+
 return somethingPushed; 
 }
 byte nextLocByte(int nextX, int nextY){
@@ -365,7 +396,9 @@ byte decideRouteDFS() {
     int nextLoc = decodePositionByte(dfsPop); // based on the most recent popped thing choose nextLoc and move there
     int nextX = nextLoc / 10; // nextLoc byte encoded as concatenated xy int so our maze can't handle over 9x9 mazes (which is chill lol)
     int nextY = nextLoc % 10;
-    walldir |= nextLocByte(nextX, nextY); // now choose which direction nextX, nextY corresponds to (original byte encoding Forward-Right-Backward-Left)
+    byte loc = nextLocByte(nextX, nextY); 
+    dfsStackPush(loc); 
+    walldir |= loc; // now choose which direction nextX, nextY corresponds to (original byte encoding Forward-Right-Backward-Left)
     return walldir; // return this to LabronMain
 
 

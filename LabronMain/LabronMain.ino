@@ -16,7 +16,11 @@ void setup() {
   setupFFT();
   setupDebugFFT();
   setupRadios();
-  while( waitForStart() );
+  // Starting location is the root of everything
+  byte firstByte = byteifyCoordinate(currentX,currentY); // Initial starting point stack push 
+  dfsStackPush(firstByte);
+  pathStackPush(firstByte); 
+  //while( waitForStart() );
 }
 
 int count = 0;
@@ -35,12 +39,6 @@ void loop() {
     Serial.print(F("D = ")); Serial.println(direction);
     Serial.print("X = "); Serial.println(currentX);
     Serial.print("Y = "); Serial.println(currentY);
-    for (int i = 0; i < 9; i++ ) {
-      for (int j = 0; j < 9; j++ ){ //SENW
-          Serial.print((maze[i][j], BIN)); Serial.print(F(" "));
-      }
-      Serial.println(F(""));
-    }
     positionPacket = (positionPacket<<8) | ((maze[currentX][currentY]) & 0x00FF);
     while (packetTransmission(positionPacket) == 0) {
       packetTransmission(positionPacket);
@@ -53,7 +51,7 @@ void loop() {
 
   }
   while ((routeInfo & FRONTWALL) && (routeInfo & RIGHTWALL) && (routeInfo & LEFTWALL) || checkMazeEmpty()) { // checkMazeEmpty returns true if all nodes explored
-    Serial.println("COMPLETE STOP");
+    Serial.println(F("COMPLETE STOP"));
     stop();
   }
   if (count == 0){

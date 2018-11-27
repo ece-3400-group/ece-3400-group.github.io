@@ -41,6 +41,12 @@ void slightRight();
 void slightLeft();
 void turnAround();
 
+// Stack Control
+void pathStackPush(byte pushed);
+byte pathStackPop(); 
+void dfsStackPush(byte pushed); 
+byte dfsStackPop(); 
+
 // Ultimate Function
 byte decideRoute();
 byte decideRouteDFS(); 
