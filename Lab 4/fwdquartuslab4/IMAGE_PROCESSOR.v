@@ -57,7 +57,7 @@ always @(posedge CLK) begin
 	
 		// The difference of comparing [blue] with [red + 2'b10] and [red + 2'b01] is that [red + 2'b10] might exceed 3 bit. Thus, blue (3 bits) will always be larger than 4'b1000 or larger, 
 		//	Blue usually has dark blue instead of bright, therefore the blue value threshold has to be smaller
-		if(PIXEL_IN[2:0] > 3'b001 && PIXEL_IN[2:0] > (PIXEL_IN[7:5] + 2'b01)  ) begin 	// && PIXEL_IN[2:0] > (PIXEL_IN[7:5] + 2'b10)
+		if(PIXEL_IN[2:0] > 3'b001 && PIXEL_IN[2:0] > (PIXEL_IN[7:5] + 2'b10) && PIXEL_IN[2:0] > (PIXEL_IN[7:5] + 2'b01)  ) begin 	// && PIXEL_IN[2:0] > (PIXEL_IN[7:5] + 2'b10)
 			countBLUE = countBLUE + 16'd1; 
 			
 			if ( VGA_PIXEL_Y == 6'd42) begin
@@ -69,7 +69,6 @@ always @(posedge CLK) begin
 			if ( VGA_PIXEL_Y == 7'd102) begin
 				BLUE_LINE_2 = BLUE_LINE_2 + 1'b1;
 				end
-			// Cont
 			/* Useless edge detecting
 			if ( lastY == VGA_PIXEL_Y && BLUE_EdgePoint_0 == 8'b0) begin
 				BLUE_EdgePoint_0 = VGA_PIXEL_X;
@@ -92,6 +91,17 @@ always @(posedge CLK) begin
 		// Usually, we have brighter red, so the red value threshold is higher.
 		if(PIXEL_IN[7:5] > 3'b100 && PIXEL_IN[7:5] > (PIXEL_IN[2:0] + 2'b10) && PIXEL_IN[7:5] > (PIXEL_IN[2:0] + 2'b01) ) begin 
 			countRED = countRED + 16'd1; 
+			
+			if ( VGA_PIXEL_Y == 6'd42) begin
+				RED_LINE_0 = RED_LINE_0 + 1'b1;
+				end
+			if ( VGA_PIXEL_Y == 7'd72) begin
+				RED_LINE_1 = RED_LINE_1 + 1'b1;
+				end
+			if ( VGA_PIXEL_Y == 7'd102) begin
+				RED_LINE_2 = RED_LINE_2 + 1'b1;
+				end
+			
 			end 
 		else begin 
 			countNULL = countNULL + 16'd1; 
@@ -113,13 +123,30 @@ always @(posedge CLK) begin
 		// reg_result[2] : Triangle
 		// reg_result[1] : Square
 		// reg_result[0] : Diamand
-		if (BLUE_LINE_0 > 5'd12 && BLUE_LINE_1 > 5'd22 && BLUE_LINE_2 > 5'd22 ) begin
-			if (BLUE_LINE_1 > BLUE_LINE_0 && BLUE_LINE_1 > BLUE_LINE_2) begin
+//		if (BLUE_LINE_0 > 5'd12 && BLUE_LINE_1 > 5'd22 && BLUE_LINE_2 > 5'd22 ) begin
+//			if (BLUE_LINE_1 > BLUE_LINE_0 && BLUE_LINE_1 > BLUE_LINE_2) begin
+//				reg_result[0] = 1'b1; 
+//				reg_result[1] = 1'b0;
+//				reg_result[2] = 1'b0;
+//				end
+//			else if ( BLUE_LINE_2 > BLUE_LINE_0 && BLUE_LINE_2 > BLUE_LINE_1 ) begin
+//				reg_result[0] = 1'b0; 
+//				reg_result[1] = 1'b0;
+//				reg_result[2] = 1'b1; 	
+//				end
+//			else begin
+//				reg_result[0] = 1'b0; 
+//				reg_result[1] = 1'b1;
+//				reg_result[2] = 1'b0;
+//				end
+//		end
+		if (RED_LINE_0 > 5'd12 && RED_LINE_1 > 5'd22 && RED_LINE_2 > 5'd22 ) begin
+			if (RED_LINE_1 > RED_LINE_0 && RED_LINE_1 > RED_LINE_2) begin
 				reg_result[0] = 1'b1; 
 				reg_result[1] = 1'b0;
 				reg_result[2] = 1'b0;
 				end
-			else if ( BLUE_LINE_2 > BLUE_LINE_0 && BLUE_LINE_2 > BLUE_LINE_1 ) begin
+			else if ( RED_LINE_2 > RED_LINE_0 && RED_LINE_2 > RED_LINE_1 ) begin
 				reg_result[0] = 1'b0; 
 				reg_result[1] = 1'b0;
 				reg_result[2] = 1'b1; 	
@@ -154,6 +181,9 @@ always @(posedge CLK) begin
 		BLUE_LINE_0 = 8'b0;
 		BLUE_LINE_1 = 8'b0;
 		BLUE_LINE_2 = 8'b0;
+		RED_LINE_0 = 8'b0;
+		RED_LINE_1 = 8'b0;
+		RED_LINE_2 = 8'b0;
 		end 
 	lastsync = VGA_VSYNC_NEG; 
 	lastY = VGA_PIXEL_Y;
