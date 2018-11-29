@@ -304,6 +304,17 @@ always @ (posedge PCLK) begin
 //	  pixel_data_RGB332 = COLOR;
 		 end
 	end
+	
+	// Testing Image Processing
+	
+	if (pixel_data_RGB332[7:5] > 3'b010  && pixel_data_RGB332[7:5] > (pixel_data_RGB332[2:0] + 2'b01) && pixel_data_RGB332[4:3] < 2'b01) begin
+		pixel_data_RGB332 = pixel_data_RGB332;
+	end
+	else begin 
+		pixel_data_RGB332 = 8'b0;
+	end
+	
+	
 	X_ADDR = X_ADDR;
 	Y_ADDR = Y_ADDR;
 	prev_href = HREF;
