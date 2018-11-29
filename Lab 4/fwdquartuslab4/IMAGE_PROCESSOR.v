@@ -102,14 +102,14 @@ always @(posedge CLK) begin
 		// Usually, we have brighter red, so the red value threshold is higher.
 		if(PIXEL_IN[7:5] > 3'b010 && PIXEL_IN[7:5] > (PIXEL_IN[2:0] + 2'b01) && PIXEL_IN[4:3] < 2'b01 ) begin 
 			countRED = countRED + 16'd1; 
-			/*
+			
 			if ( VGA_PIXEL_Y == First_redLine) begin
 				RED_LINE_0 = RED_LINE_0 + 1'b1;
-				if (RED_LINE_0 > 9'd10) begin
+				if (RED_LINE_0 > 9'd30) begin
 					First_redLine = VGA_PIXEL_Y;
 					First_redLine_found = 1'b1;
 					end
-				else if (RED_LINE_0 < 9'd10 && First_redLine_found != 1'b0) begin
+				else if (RED_LINE_0 < 9'd30 && First_redLine_found != 1'b0) begin
 					First_redLine = First_redLine + 1'b1;
 					RED_LINE_0 = 8'b0;
 					end
@@ -117,11 +117,11 @@ always @(posedge CLK) begin
 			if ( VGA_PIXEL_Y == (First_redLine + 6'd20) ) begin
 				RED_LINE_1 = RED_LINE_1 + 1'b1;
 				end
-			if ( VGA_PIXEL_Y == (First_redLine + 6'd50) ) begin
+			if ( VGA_PIXEL_Y == (First_redLine + 6'd40) ) begin
 				RED_LINE_2 = RED_LINE_2 + 1'b1;
 				end
-			*/
 			
+			/*
 			if ( VGA_PIXEL_Y == 8'd52 ) begin
 				RED_LINE_0 = RED_LINE_0 + 1'b1;
 				end
@@ -131,7 +131,7 @@ always @(posedge CLK) begin
 			if ( VGA_PIXEL_Y == 8'd92 ) begin
 				RED_LINE_2 = RED_LINE_2 + 1'b1;
 				end
-			
+			*/
 			end 
 		else begin 
 			countNULL = countNULL + 16'd1; 
