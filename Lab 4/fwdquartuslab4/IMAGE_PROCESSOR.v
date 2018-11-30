@@ -68,7 +68,7 @@ always @(posedge CLK) begin
 	
 		// The difference of comparing [blue] with [red + 2'b10] and [red + 2'b01] is that [red + 2'b10] might exceed 3 bit. Thus, blue (3 bits) will always be larger than 4'b1000 or larger, 
 		//	Blue usually has dark blue instead of bright, therefore the blue value threshold has to be smaller
-		if(PIXEL_IN[2:0] > 3'b001 && PIXEL_IN[2:0] > (PIXEL_IN[7:5] + 2'b10) && PIXEL_IN[2:0] > (PIXEL_IN[7:5] + 2'b01)  ) begin 	// && PIXEL_IN[2:0] > (PIXEL_IN[7:5] + 2'b10)
+		if(PIXEL_IN[2:0] > 3'b001 && PIXEL_IN[2:0] > (PIXEL_IN[7:5] + 2'b01) && PIXEL_IN[4:3] < 2'b01  ) begin 	// && PIXEL_IN[2:0] > (PIXEL_IN[7:5] + 2'b10)
 			countBLUE = countBLUE + 16'd1; 
 			
 			if ( VGA_PIXEL_Y == 52) begin
@@ -105,11 +105,11 @@ always @(posedge CLK) begin
 			
 			if ( VGA_PIXEL_Y == First_redLine) begin
 				RED_LINE_0 = RED_LINE_0 + 1'b1;
-				if (RED_LINE_0 > 9'd30) begin
+				if (RED_LINE_0 > 9'd10) begin
 					First_redLine = VGA_PIXEL_Y;
 					First_redLine_found = 1'b1;
 					end
-				else if (RED_LINE_0 < 9'd30 && First_redLine_found != 1'b0) begin
+				else if (RED_LINE_0 <= 9'd10 && First_redLine_found != 1'b0) begin
 					First_redLine = First_redLine + 1'b1;
 					RED_LINE_0 = 8'b0;
 					end
@@ -184,7 +184,8 @@ always @(posedge CLK) begin
 				// reg_result[2] = 1'b1; 
 				Trian_CNT = Trian_CNT + 1;
 				end
-			else if ( countRED > R_CNT_THRESHOLD ) begin
+			if ( ((RED_LINE_1 - RED_LINE_0) < 5'd10 || (RED_LINE_0 - RED_LINE_1) < 5'd10) && ((RED_LINE_2 - RED_LINE_1) < 5'd10 
+				|| (RED_LINE_1 - RED_LINE_2) < 5'd10) && countRED > R_CNT_THRESHOLD ) begin
 				// ((RED_LINE_1 - RED_LINE_0) < 5'd20 || (RED_LINE_0 - RED_LINE_1) < 5'd20) || ((RED_LINE_2 - RED_LINE_1) < 5'd20 || (RED_LINE_1 - RED_LINE_2) < 5'd20) ||
 				// reg_result[0] = 1'b0; 
 				// reg_result[1] = 1'b1;
@@ -217,7 +218,6 @@ always @(posedge CLK) begin
 		countBLUE = 16'b0; 
 		countRED = 16'b0; 
 		countNULL = 16'b0; 
-		reg_result = 3'b0;
 		BLUE_LINE_0 = 8'b0;
 		BLUE_LINE_1 = 8'b0;
 		BLUE_LINE_2 = 8'b0;
@@ -253,6 +253,8 @@ always @(posedge CLK) begin
 		Sqr_CNT = 0;
 		Diam_CNT = 0;
 		frameCNT = 0;
+		// set the image result for the very last because it would keep the LED dim
+		// reg_result = 3'b0;
 	end
 	
 	lastsync = VGA_VSYNC_NEG; 
