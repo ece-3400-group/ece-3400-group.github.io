@@ -105,6 +105,16 @@ IMAGE_PROCESSOR proc(
 	.RESULT(RESULT)
 );
 
+///////* UART RX *///////
+//module uart_rx 
+//  #(parameter CLKS_PER_BIT)
+//  (
+//   .i_Clock(),
+//   .i_Rx_Serial(),
+//   .o_Rx_DV,
+//   output [7:0] o_Rx_Byte
+//   );
+
 ///////* Update Read Address *///////
 //always @ (VGA_PIXEL_X, VGA_PIXEL_Y) begin
 //		READ_ADDRESS = (VGA_PIXEL_X + VGA_PIXEL_Y*`SCREEN_WIDTH);
@@ -267,7 +277,7 @@ always @ (posedge PCLK) begin
 				  flag = 1'b1;
 				  X_ADDR = X_ADDR;
 				  Y_ADDR = Y_ADDR;
-				  pixel_data_RGB332[2:0] = {D4, D3, D2}; //{D7, D4, D3}
+				  pixel_data_RGB332[2:0] = {D7, D4, D3}; //{D7, D4, D3}
 //	 X_ADDR = X_ADDR + 15'd1;
 //	  if (X_ADDR == 15'd176) begin
 //	  Y_ADDR = Y_ADDR + 1'b1;
@@ -305,15 +315,28 @@ always @ (posedge PCLK) begin
 		 end
 	end
 	
-	// Testing Image Processing
-	
+	// Testing Red Image Processing
+	/*
 	if (pixel_data_RGB332[7:5] > 3'b010  && pixel_data_RGB332[7:5] > (pixel_data_RGB332[2:0] + 2'b01) && pixel_data_RGB332[4:3] < 2'b01) begin
+		pixel_data_RGB332 = pixel_data_RGB332;
+	end
+	else if (pixel_data_RGB332[2:0] < 3'b011  && pixel_data_RGB332[2:0] > 3'b000  && pixel_data_RGB332[2:0] > (pixel_data_RGB332[7:5] + 2'b01) && pixel_data_RGB332[4:3] < 2'b01) begin
 		pixel_data_RGB332 = pixel_data_RGB332;
 	end
 	else begin 
 		pixel_data_RGB332 = 8'b0;
 	end
+	*/
 	
+	// Testing Blue Image Processing
+	/*
+	if (pixel_data_RGB332[2:0] < 3'b011  && pixel_data_RGB332[2:0] > 3'b000  && pixel_data_RGB332[2:0] > (pixel_data_RGB332[7:5] + 2'b01) && pixel_data_RGB332[4:3] < 2'b01) begin
+		pixel_data_RGB332 = pixel_data_RGB332;
+	end
+	else begin 
+		pixel_data_RGB332 = 8'b0;
+	end
+	*/
 	
 	X_ADDR = X_ADDR;
 	Y_ADDR = Y_ADDR;
@@ -321,38 +344,5 @@ always @ (posedge PCLK) begin
 	prev_vsync = VSYNC;
 	W_EN = 1'b1;
 end
-///////* Update Read Address *///////
-//always @ (posedge PCLK) begin
-//	if(VSYNC) begin
-//			X_ADDR = 0;
-//	end
-//	else begin
-//		if(HREF) begin			
-//			if(flag == 0) begin 
-//				pixel_data_RGB332[7:2] = {D0,D1,D2,D5,D6,D7};
-//				flag = 1;
-//				W_EN = 0;
-//			end
-//			else begin
-//				pixel_data_RGB332[1:0] = {D3,D4};
-//				flag = 0;
-//				X_ADDR = X_ADDR + 1;
-//				W_EN = 1;
-//			end				
-//		end
-//		else begin
-//			X_ADDR = 0;
-//		end
-//	end
-//end
-//
-//always @ (negedge HREF or posedge VSYNC) begin
-//	if (VSYNC) begin
-//		Y_ADDR = 0;
-//	end
-//	else begin
-//		Y_ADDR = Y_ADDR + 1;
-//	end
-//end
-//	
+
 endmodule 
