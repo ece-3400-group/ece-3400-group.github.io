@@ -30,12 +30,12 @@ assign RESULT = reg_result;
 reg [15:0] countBLUE; 
 reg [15:0] countRED; 
 reg [15:0] countNULL; 
-reg [8:0] Trian_CNT = 3'b0;
-reg [8:0] Sqr_CNT = 3'b0;
-reg [8:0] Diam_CNT = 3'b0;
+reg [8:0] Trian_CNT = 9'b0;
+reg [8:0] Sqr_CNT = 9'b0;
+reg [8:0] Diam_CNT = 9'b0;
 reg [15:0] FRAME_THRESHOLD = 16'd15000;
-reg [15:0] R_CNT_THRESHOLD = 16'd3000; 
-reg [15:0] B_CNT_THRESHOLD = 16'd3000; 	// 6000 for square (bigger area), 3000 for smaller triangle (smaller area)
+reg [15:0] R_CNT_THRESHOLD = 16'd1500; 
+reg [15:0] B_CNT_THRESHOLD = 16'd1500; 	// 6000 for square (bigger area), 3000 for smaller triangle (smaller area)
 reg lastsync = 1'b0; 
 reg [7:0] lastY = 8'b0;
 
@@ -53,6 +53,8 @@ reg [12:0] frameCNT = 13'd0;
 // First Line for detection, which has enough pixels
 reg [7:0] First_redLine = 8'b0;
 reg First_redLine_found = 1'b0;
+reg [7:0] First_blueLine = 8'b0;
+reg First_blueLine_found = 1'b0;
 
 always @(posedge CLK) begin 
 	if(VGA_VSYNC_NEG) begin 
@@ -68,32 +70,37 @@ always @(posedge CLK) begin
 	
 		// The difference of comparing [blue] with [red + 2'b10] and [red + 2'b01] is that [red + 2'b10] might exceed 3 bit. Thus, blue (3 bits) will always be larger than 4'b1000 or larger, 
 		//	Blue usually has dark blue instead of bright, therefore the blue value threshold has to be smaller
-		if(PIXEL_IN[2:0] > 3'b001 && PIXEL_IN[2:0] > (PIXEL_IN[7:5] + 2'b01) && PIXEL_IN[4:3] < 2'b01  ) begin 	// && PIXEL_IN[2:0] > (PIXEL_IN[7:5] + 2'b10)
+		if(PIXEL_IN[2:0] < 3'b011 && PIXEL_IN[2:0] > 3'b0 && PIXEL_IN[2:0] > (PIXEL_IN[7:5] + 2'b01) && PIXEL_IN[4:3] < 2'b01  ) begin 	// && PIXEL_IN[2:0] > (PIXEL_IN[7:5] + 2'b10)
 			countBLUE = countBLUE + 16'd1; 
 			
+			if ( VGA_PIXEL_Y == First_blueLine) begin
+				BLUE_LINE_0 = BLUE_LINE_0 + 1'b1;
+				if (BLUE_LINE_0 > 9'd10) begin
+					First_blueLine = VGA_PIXEL_Y;
+					First_blueLine_found = 1'b1;
+					end
+				else if (BLUE_LINE_0 <= 9'd10 && First_blueLine_found != 1'b0) begin
+					First_blueLine = First_blueLine + 1'b1;
+					RED_LINE_0 = 8'b0;
+					end
+				end
+			if ( VGA_PIXEL_Y == (First_blueLine + 6'd10) ) begin
+				BLUE_LINE_1 = BLUE_LINE_1 + 1'b1;
+				end
+			if ( VGA_PIXEL_Y == (First_blueLine + 6'd20) ) begin
+				BLUE_LINE_2 = BLUE_LINE_2 + 1'b1;
+				end
+			/*
 			if ( VGA_PIXEL_Y == 52) begin
 				BLUE_LINE_0 = BLUE_LINE_0 + 1'b1;
 				end
 			if ( VGA_PIXEL_Y == 72) begin
 				BLUE_LINE_1 = BLUE_LINE_1 + 1'b1;
 				end
-			if ( VGA_PIXEL_Y == 102) begin
+			if ( VGA_PIXEL_Y == 92) begin
 				BLUE_LINE_2 = BLUE_LINE_2 + 1'b1;
 				end
-			/* Useless edge detecting
-			if ( lastY == VGA_PIXEL_Y && BLUE_EdgePoint_0 == 8'b0) begin
-				BLUE_EdgePoint_0 = VGA_PIXEL_X;
-				end
-			// Continue as long as the second edge point is [bigger] than the first edge point
-			else if ( lastY == VGA_PIXEL_Y && (BLUE_EdgePoint_1 == 8'b0 || VGA_PIXEL_X > BLUE_EdgePoint_0) ) begin
-				BLUE_EdgePoint_1 = VGA_PIXEL_X;
-				end
-			// Continue as long as the third edge point is [smaller] than the second edge point
-			else if ( lastY == VGA_PIXEL_Y && (BLUE_EdgePoint_2 == 8'b0 || BLUE_EdgePoint_2 < VGA_PIXEL_X) ) begin
-				BLUE_EdgePoint_2 = VGA_PIXEL_X;
-				end
-			*/
-							
+			*/			
 			end 
 		else begin 
 			countNULL = countNULL + 16'd1; 
@@ -153,49 +160,32 @@ always @(posedge CLK) begin
 		// reg_result[2] : Triangle
 		// reg_result[1] : Square
 		// reg_result[0] : Diamand
-//		if (BLUE_LINE_0 > 5'd12 && BLUE_LINE_1 > 5'd22 && BLUE_LINE_2 > 5'd22 ) begin
-//			if (BLUE_LINE_1 > BLUE_LINE_0 && BLUE_LINE_1 > BLUE_LINE_2) begin
-//				reg_result[0] = 1'b1; 
-//				reg_result[1] = 1'b0;
-//				reg_result[2] = 1'b0;
-//				end
-//			else if ( BLUE_LINE_2 > BLUE_LINE_0 && BLUE_LINE_2 > BLUE_LINE_1 ) begin
-//				reg_result[0] = 1'b0; 
-//				reg_result[1] = 1'b0;
-//				reg_result[2] = 1'b1; 	
-//				end
-//			else begin
-//				reg_result[0] = 1'b0; 
-//				reg_result[1] = 1'b1;
-//				reg_result[2] = 1'b0;
-//				end
-//		end
-		if (RED_LINE_0 > 5'd10 && RED_LINE_1 > 5'd10 && RED_LINE_2 > 5'd10 ) begin
+		if ((RED_LINE_0 > 5'd10 && RED_LINE_1 > 5'd10 && RED_LINE_2 > 5'd10)
+				|| (BLUE_LINE_0 > 5'd10 && BLUE_LINE_1 > 5'd10 && BLUE_LINE_2 > 5'd10) ) begin
 			
 			if (RED_LINE_1 > RED_LINE_0 && RED_LINE_1 > RED_LINE_2) begin
-				// reg_result[0] = 1'b1; 
-				// reg_result[1] = 1'b0;
-				// reg_result[2] = 1'b0;
 				Diam_CNT = Diam_CNT + 1;
 				end
 			else if ( RED_LINE_2 > RED_LINE_0 && RED_LINE_2 > RED_LINE_1 ) begin
-				// reg_result[0] = 1'b0; 
-				// reg_result[1] = 1'b0;
-				// reg_result[2] = 1'b1; 
 				Trian_CNT = Trian_CNT + 1;
 				end
 			if ( ((RED_LINE_1 - RED_LINE_0) < 5'd10 || (RED_LINE_0 - RED_LINE_1) < 5'd10) && ((RED_LINE_2 - RED_LINE_1) < 5'd10 
 				|| (RED_LINE_1 - RED_LINE_2) < 5'd10) && countRED > R_CNT_THRESHOLD ) begin
 				// ((RED_LINE_1 - RED_LINE_0) < 5'd20 || (RED_LINE_0 - RED_LINE_1) < 5'd20) || ((RED_LINE_2 - RED_LINE_1) < 5'd20 || (RED_LINE_1 - RED_LINE_2) < 5'd20) ||
-				// reg_result[0] = 1'b0; 
-				// reg_result[1] = 1'b1;
-				// reg_result[2] = 1'b0; 
 				Sqr_CNT = Sqr_CNT + 1;
 				end
-			else begin
-				// reg_result[0] = 1'b0; 
-				// reg_result[1] = 1'b0;
-				// reg_result[2] = 1'b0;
+				
+			if (BLUE_LINE_1 > BLUE_LINE_0 && BLUE_LINE_1 > BLUE_LINE_2) begin
+
+				Diam_CNT = Diam_CNT + 1;
+				end
+			if ( BLUE_LINE_2 > BLUE_LINE_0 && BLUE_LINE_2 > BLUE_LINE_1 ) begin
+
+				Trian_CNT = Trian_CNT + 1;
+				end
+			if ( ((BLUE_LINE_1 - BLUE_LINE_0) < 5'd10 || (BLUE_LINE_0 - BLUE_LINE_1) < 5'd10) && ((BLUE_LINE_2 - BLUE_LINE_1) < 5'd10 
+				|| (BLUE_LINE_1 - BLUE_LINE_2) < 5'd10) && countBLUE > B_CNT_THRESHOLD ) begin
+				Sqr_CNT = Sqr_CNT + 1;
 				end
 		end
 		/*-------------------- Testing Treasure Shape -------------------------*/
