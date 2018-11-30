@@ -23,8 +23,8 @@ input [9:0] VGA_PIXEL_X;
 input [9:0] VGA_PIXEL_Y;
 input			VGA_VSYNC_NEG;
 
-output [2:0] RESULT;
-reg [2:0] reg_result;
+output [3:0] RESULT;
+reg [3:0] reg_result;
 assign RESULT = reg_result;
 
 reg [15:0] countBLUE; 
@@ -62,6 +62,9 @@ reg Last_redLine_found = 1'b0;
 // Last line for detection, which doesn't have enough pixel
 reg [7:0] First_blueLine = 8'b0;
 reg First_blueLine_found = 1'b0;
+
+// Preious Y address for HREF
+reg [7:0] prev_Y = 8'b0;
 
 always @(posedge CLK) begin 
 	if(VGA_VSYNC_NEG) begin 
@@ -117,14 +120,17 @@ always @(posedge CLK) begin
 		if(PIXEL_IN[7:5] > 3'b010 && PIXEL_IN[7:5] > (PIXEL_IN[2:0] + 2'b01) && PIXEL_IN[4:3] < 2'b01 ) begin 
 			countRED = countRED + 16'd1; 
 			
-			if ( VGA_PIXEL_Y == First_redLine) begin
+			if (prev_Y != VGA_PIXEL_Y) begin
+				First_redLine = First_redLine + 1'b1;
+				end
+			
+			if ( VGA_PIXEL_Y == Prev_First_redLine) begin
 				RED_LINE_0 = RED_LINE_0 + 1'b1;
 				if (RED_LINE_0 > 9'd10) begin
 					First_redLine = VGA_PIXEL_Y;
 					First_redLine_found = 1'b1;
 					end
-				else if (RED_LINE_0 <= 9'd10 && First_redLine_found != 1'b0) begin
-					First_redLine = First_redLine + 1'b1;
+				else if (RED_LINE_0 <= 9'd10 && First_redLine_found != 1'b0 && prev_Y != VGA_PIXEL_Y) begin
 					RED_LINE_0 = 8'b0;
 					end
 				end
@@ -142,11 +148,12 @@ always @(posedge CLK) begin
 					Last_redLine_found = 1'b1;
 					end
 				else if (RED_LINE_0 >= 9'd10 && Last_redLine_found != 1'b0) begin
-					Last_redLine = Last_redLine + 1'b1;
+					Last_redLine = VGA_PIXEL_Y + 1'b1;
 					RED_LINE_0 = 8'b0;
 					end
 				end
 			*/
+			
 			/*
 			if ( VGA_PIXEL_Y == 8'd52 ) begin
 				RED_LINE_0 = RED_LINE_0 + 1'b1;
@@ -172,8 +179,11 @@ always @(posedge CLK) begin
 			end
 		if (BLUE_LINE_2 != 8'b0) begin 
 			reg_result[2] = 1'b1; 
+			end*/
+		if (Prev_Last_redLine != 8'b0) begin 
+			reg_result[3] = 1'b1; 
 			end
-		--------------------- Testing Edge Point -------------------------*/
+		/*--------------------- Testing Edge Point -------------------------*/
 		
 		/*--------------------- Testing Treasure Shape -------------------------*/
 		// reg_result[2] : Triangle
@@ -221,6 +231,9 @@ always @(posedge CLK) begin
 			reg_result[2] = 1'b1;
 			end 
 		/*---------------------- Testing color ---------------------------*/
+		
+		// Storing last Y address
+		prev_Y = VGA_PIXEL_Y;
 	end 
 	
 	if(VGA_VSYNC_NEG == 1'b0 && lastsync == 1'b1) begin //negedge VSYNC 
@@ -234,6 +247,7 @@ always @(posedge CLK) begin
 		RED_LINE_1 = 8'b0;
 		RED_LINE_2 = 8'b0;
 		
+		// RED
 		Prev_First_redLine = First_redLine;
 		First_redLine = 8'b0;
 		
