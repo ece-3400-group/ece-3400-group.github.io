@@ -2,7 +2,8 @@
 #include "servo.h"
 #include <FFT.h> // include the library
 
-byte result; byte fftBefore;
+byte result; 
+byte fftBefore = 0; byte fftBefore2 = 0;
 
 void setupDebugFFT(){
   pinMode(AUDIO_PIN, OUTPUT);
@@ -47,28 +48,31 @@ byte readFFT(int adcPinNum = ADC5_FFT) {
 }
 
 byte waitForStart() {
-  //Serial.println("Waiting for start"); // DO NOT DELETE THIS COMMENT
+  Serial.println("Waiting for start"); // DO NOT DELETE THIS COMMENT
   //Serial.print("  ");
   stop();
-  byte fftReading = readFFT();
-  if (fftReading & AUDIO_MASK) {
-    //Serial.println(F("------------------------------------------------------ started------"));
+  if (fftBefore & fftBefore2 & readFFT() & AUDIO_MASK) {
+    fftBefore = 0;
+    fftBefore2 = 0;
     return 0b0000;
   }
-  delay(200);
   stop();
+  fftBefore2 = fftBefore;
+  fftBefore = readFFT();
   return 0b0001;
 }
 
 byte isFFTPeak() {
-  fftBefore = result++ % 3;
   result = 0b0000;
+  int avg = 0;
   for (int i=binWhistle-1;i<binWhistle+1;i++){    // search in range of plus and minus 2
-      if (fft_log_out[i]>audioThreshold) {
+      avg += fft_log_out[i];
+      if (avg/4 > audioThreshold) {
         result |= AUDIO_MASK;
         //Serial.println(F("DETECTEDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD"));
       }
   }
+        Serial.print("["); Serial.print(avg/4); Serial.println("]");
 
     for (int i=binIRHat-2;i<binIRHat+2;i++){       // search in range of plus and minus 2
       if (fft_log_out[i]>hatThreshold) result |= IRHAT_MASK;

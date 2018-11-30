@@ -11,7 +11,7 @@ void setup() {
   Serial.begin(57600); // radios want this
   setupLineSensors();
   populateMazeStart();
-  setupServos();
+ // setupServos();
   setupIR();
   setupFFT();
   setupDebugFFT();
@@ -26,7 +26,8 @@ void setup() {
 int count = 0;
 
 void loop() {
-  byte routeInfo = decideRouteDFS();  // routeInfo organized [F,R,B,L; forward, right, left, turnaround]
+  Serial.println("Started");
+  byte routeInfo = decideRoute();  // routeInfo organized [F,R,B,L; forward, right, left, turnaround]
   //routeInfo = 1;
   if (routeInfo != 0) {
     // now have new information to update with
@@ -58,6 +59,7 @@ void loop() {
    // debugFFT();
     fftResult = readFFT(ADC5_FFT);
     while (fftResult & IRHAT_MASK) {
+      Serial.println("IR HAT DETECTED");
       fftResult = readFFT(ADC5_FFT);
       stop();
     }

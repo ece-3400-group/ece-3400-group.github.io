@@ -23,7 +23,7 @@
 #define DECOY_MASK 0b0100
 
 /******************* [ Threshold Values ] **************************/
-#define audioThreshold 100
+#define audioThreshold 43
 #define hatThreshold   50
 #define decoyThreshold 100
 
