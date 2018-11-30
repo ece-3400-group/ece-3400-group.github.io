@@ -52,7 +52,14 @@ reg [7:0] RED_LINE_2 = 8'b0;
 reg [12:0] frameCNT = 13'd0;
 // First Line for detection, which has enough pixels
 reg [7:0] First_redLine = 8'b0;
+reg [7:0] Prev_First_redLine = 8'b0;
 reg First_redLine_found = 1'b0;
+
+reg [7:0] Last_redLine = 8'b0;
+reg [7:0] Prev_Last_redLine = 8'b0;
+reg Last_redLine_found = 1'b0;
+
+// Last line for detection, which doesn't have enough pixel
 reg [7:0] First_blueLine = 8'b0;
 reg First_blueLine_found = 1'b0;
 
@@ -127,7 +134,19 @@ always @(posedge CLK) begin
 			if ( VGA_PIXEL_Y == (First_redLine + 6'd40) ) begin
 				RED_LINE_2 = RED_LINE_2 + 1'b1;
 				end
-			
+			/*
+			if ( VGA_PIXEL_Y == Prev_Last_redLine && First_redLine_found) begin
+				RED_LINE_0 = RED_LINE_0 + 1'b1;
+				if (RED_LINE_0 < 9'd10) begin
+					Last_redLine = VGA_PIXEL_Y;
+					Last_redLine_found = 1'b1;
+					end
+				else if (RED_LINE_0 >= 9'd10 && Last_redLine_found != 1'b0) begin
+					Last_redLine = Last_redLine + 1'b1;
+					RED_LINE_0 = 8'b0;
+					end
+				end
+			*/
 			/*
 			if ( VGA_PIXEL_Y == 8'd52 ) begin
 				RED_LINE_0 = RED_LINE_0 + 1'b1;
@@ -214,9 +233,17 @@ always @(posedge CLK) begin
 		RED_LINE_0 = 8'b0;
 		RED_LINE_1 = 8'b0;
 		RED_LINE_2 = 8'b0;
+		
+		Prev_First_redLine = First_redLine;
 		First_redLine = 8'b0;
+		
+		Prev_Last_redLine = Last_redLine;
+		Last_redLine = 8'b0;
+		
 		First_redLine_found = 1'b0;
+		
 		frameCNT = frameCNT + 1;
+		//countRED = countRED / frameCNT;
 		end 
 	if ( frameCNT > 4000 ) begin
 		if (Sqr_CNT > Diam_CNT && Sqr_CNT > Trian_CNT) begin
@@ -243,6 +270,8 @@ always @(posedge CLK) begin
 		Sqr_CNT = 0;
 		Diam_CNT = 0;
 		frameCNT = 0;
+		
+		countRED = 16'b0; 
 		// set the image result for the very last because it would keep the LED dim
 		// reg_result = 3'b0;
 	end
