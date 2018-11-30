@@ -133,6 +133,7 @@ IMAGE_PROCESSOR proc(
 assign GPIO_0_D[25] = RESULT[0];
 assign GPIO_0_D[27] = RESULT[1];
 assign GPIO_0_D[29] = RESULT[2];
+assign GPIO_0_D[31] = RESULT[3];
 
 reg [2:0] red;   // 3 bits
 reg [2:0] green; // 3 bits
