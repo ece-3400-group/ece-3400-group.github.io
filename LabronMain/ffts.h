@@ -24,7 +24,7 @@
 
 /******************* [ Threshold Values ] **************************/
 #define audioThreshold 43
-#define hatThreshold   50
+#define hatThreshold   36
 #define decoyThreshold 100
 
 /******************* [ Pin Definitions ] **************************/

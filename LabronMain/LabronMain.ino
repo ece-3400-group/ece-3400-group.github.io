@@ -20,14 +20,14 @@ void setup() {
   byte firstByte = byteifyCoordinate(currentX,currentY); // Initial starting point stack push 
   dfsStackPush(firstByte);
   pathStackPush(firstByte); 
-  //while( waitForStart() );
+  while( waitForStart() );
 }
 
 int count = 0;
 
 void loop() {
   Serial.println("Started");
-  byte routeInfo = decideRoute();  // routeInfo organized [F,R,B,L; forward, right, left, turnaround]
+  byte routeInfo = decideRouteDFS();  // routeInfo organized [F,R,B,L; forward, right, left, turnaround]
   //routeInfo = 1;
   if (routeInfo != 0) {
     // now have new information to update with
@@ -57,12 +57,12 @@ void loop() {
   }
   if (count == 0){
    // debugFFT();
-    fftResult = readFFT(ADC5_FFT);
-    while (fftResult & IRHAT_MASK) {
+    while (fftResult & readFFT(ADC5_FFT) & IRHAT_MASK) {
       Serial.println("IR HAT DETECTED");
-      fftResult = readFFT(ADC5_FFT);
+      fftResult = 0;
       stop();
     }
+    fftResult = readFFT(ADC5_FFT);
   }
   //displayLedFFT(fftResult, AUDIO_PIN, IRHAT_PIN );
   count++;
