@@ -14,7 +14,12 @@
 #define COM9   0x14 
 #define BRIGHTNESS 0x55
 
+#define FPGA_0 4
+#define FPGA_1 5
+#define FPGA_2 6
+#define FPGA_3 7
 
+int val = 0b0000;
 
 //int KEY_REGISTERS[] = {RESET_COM7, // BIT 6 reserved
 //                        SCALING_COM3, // BIT 0,1,7 reserved
@@ -42,17 +47,61 @@ void setup() {
  // OV7670_write_register(COM15 , 0b11010000);
   //OV7670_write_register(COM17 , 0x0C);
   OV7670_write_register(COM17 , 0x00);
-   //OV7670_write_register(COM9 , 0x01);    // Noise COM9[0] = 1 <- Freeze AGC/AEC
+  OV7670_write_register(COM9 , 0x01);    // Noise COM9[0] = 1 <- Freeze AGC/AEC
   // OV7670_write_register(RGB444 , 0x02); 
    OV7670_write_register(BRIGHTNESS, 0x00);
    Serial.println("Written!");
   
   read_key_registers();
   Serial.println("READ!");
+  
+  // Reading from FPGA
+  pinMode(FPGA_0, INPUT); 
+  pinMode(FPGA_1, INPUT); 
+  pinMode(FPGA_2, INPUT); 
+  pinMode(FPGA_3, INPUT); 
+}
+
+void ReadTreasure(){
+  val += digitalRead(FPGA_0)*1;
+  val += digitalRead(FPGA_1)*2;
+  val += digitalRead(FPGA_2)*4;
+  val += digitalRead(FPGA_3)*8;
+
+   Serial.print("val is ");
+   Serial.println(val);
+   
+  switch (val) {
+  case 0b0001:
+    Serial.println("Read Red Triangle!");
+    break;
+  case 0b0010:
+    Serial.println("Read Red Square!");
+    break;
+  case 0b0100:
+    Serial.println("Read Red Diamond!");
+    break;
+  case 0b0101:
+    Serial.println("Read Blue Triangle!");
+    break;
+  case 0b0110:
+    Serial.println("Read Blue Square!");
+    break;
+  case 0b0111:
+    Serial.println("Read Blue Diamond!");
+    break;
+  default:
+    // statements
+    break;
+   }
+   val = 0;
+   Serial.println("========================================================");
 }
 
 void loop(){
- }
+  ReadTreasure(); 
+
+}
 
 
 ///////// Function Definition //////////////

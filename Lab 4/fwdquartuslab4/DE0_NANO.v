@@ -55,7 +55,9 @@ assign GPIO_0_D[5] = VGA_VSYNC_NEG;
 assign VGA_RESET = ~KEY[0];
 
 ///// I/O for Img Proc /////
-wire [2:0] RESULT;
+wire [3:0] RESULT;
+wire [9:0] firstline;
+wire [9:0] lastline;
 
 /* WRITE ENABLE */
 reg W_EN;
@@ -102,7 +104,9 @@ IMAGE_PROCESSOR proc(
 	.VGA_PIXEL_X(VGA_PIXEL_X),
 	.VGA_PIXEL_Y(VGA_PIXEL_Y),
 	.VGA_VSYNC_NEG(VGA_VSYNC_NEG),
-	.RESULT(RESULT)
+	.RESULT(RESULT),
+	.FirstLine(firstline), 
+	.LastLine(lastline)
 );
 
 ///////* UART RX *///////
@@ -268,13 +272,6 @@ always @ (posedge PCLK) begin
 			 // Gather the color data (D0-D7) from camera
 			 if (~flag) begin
 			     W_EN = 1'b0;
-				  //red = {D6, D5, D4};
-				  //red = {1'b0, 1'b0, 1'b0};
-				  //green[2:1] = {D1, D0};
-				  //red[2:0] <= {1'b0, 1'b0, 1'b0}; //{D7, D6, D5};
-				  //green[2:0] <= {1'b0, 1'b0, 1'b0}; 
-				  //green[2:1] <= {1'b1, 1'b1};
-				  //blue = blue;
 				  flag = 1'b1;
 				  X_ADDR = X_ADDR;
 				  Y_ADDR = Y_ADDR;
@@ -288,15 +285,9 @@ always @ (posedge PCLK) begin
 //	  pixel_data_RGB332 = COLOR;
 			 end
 			 else begin
-				  //red[2:0] = red;
-				 // green[0] = {D7};
-				 // green[2:0] = {1'b0, 1'b0, 1'b0};
-				  //blue[1:0] = {1'b0, 1'b0};
-				  //green[0] <= 1'b1;
-				  //blue = {D4, D3};
-				  //blue[1:0] <= {1'b1, 1'b1};
 				  flag = 1'b0;
 				  pixel_data_RGB332[7:3] = {D6, D5, D4, D1, D0}; // Now write the color to memory (since write address has been setup)
+				  // pixel_data_RGB332[7:3] = {D6, D5, D4, D1, D0};
 					X_ADDR = X_ADDR + 1;
 				  Y_ADDR = Y_ADDR;
 //				  if (X_ADDR < 10'b01111111) begin
@@ -305,23 +296,28 @@ always @ (posedge PCLK) begin
 //					else begin W_EN = 1'b0; end
 			end 
 					
-
- //X_ADDR = X_ADDR + 15'd1;
-//	  if (X_ADDR == 15'd176) begin
-//	  Y_ADDR = Y_ADDR + 1'b1;
-//	  end
-//	  	W_EN = 1'b1;
-//	  COLOR = GREEN;
-//	  pixel_data_RGB332 = COLOR;
 		 end
 	end
 	
+	if (pixel_data_RGB332[7:5] > 3'd3  && pixel_data_RGB332[7:5] > (pixel_data_RGB332[1:0] + 2'b01) && pixel_data_RGB332[4:2] < 3'd3) begin
+		pixel_data_RGB332 = pixel_data_RGB332;
+		end
+	else if (Y_ADDR == firstline || Y_ADDR == (firstline - 1)) begin
+		pixel_data_RGB332 = 8'd255;
+		end
+	else if (Y_ADDR == lastline || Y_ADDR == (lastline - 1)) begin
+		pixel_data_RGB332 = 8'b00011000;
+		end	
+	else begin
+		pixel_data_RGB332 = 0;
+		end
+	
 	// Testing Red Image Processing
 	/*
-	if (pixel_data_RGB332[7:5] > 3'b010  && pixel_data_RGB332[7:5] > (pixel_data_RGB332[2:0] + 2'b01) && pixel_data_RGB332[4:3] < 2'b01) begin
-		pixel_data_RGB332 = pixel_data_RGB332;
+	if (pixel_data_RGB332[7:5] > 3'b010  && pixel_data_RGB332[7:5] > (pixel_data_RGB332[1:0] + 2'b01) && pixel_data_RGB332[4:3] < 2'b01) begin
+			pixel_data_RGB332 = pixel_data_RGB332;
 	end
-	else if (pixel_data_RGB332[2:0] < 3'b011  && pixel_data_RGB332[2:0] > 3'b000  && pixel_data_RGB332[2:0] > (pixel_data_RGB332[7:5] + 2'b01) && pixel_data_RGB332[4:3] < 2'b01) begin
+	else if (pixel_data_RGB332[2:0] > 3'b001  && pixel_data_RGB332[1:0] > (pixel_data_RGB332[7:5] + 2'b01) && pixel_data_RGB332[4:3] < 2'b01) begin
 		pixel_data_RGB332 = pixel_data_RGB332;
 	end
 	else begin 
