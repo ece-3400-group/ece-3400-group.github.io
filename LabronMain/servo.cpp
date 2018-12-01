@@ -12,50 +12,111 @@ Servo leftServo;
 // 0b00000001 left
 int vals[3];         // container for sensor output
 byte pathStack[MAZEY*MAZEX];  // at most MAZEY * MAZEX positions pushed, with head at stackSize and tail at 0
-int pathStackSize =0; 
+int pathStackSize = 0; 
+byte dfsStack[MAZEY*MAZEX];  // at most MAZEY * MAZEX positions pushed, with head at stackSize and tail at 0
+int dfsStackSize = 0; // initialize dfStackSize to 0
+
+
 
 void pathStackPush(byte pushed){
+ 
   if (pathStackSize > sizeof(pathStack)/sizeof(byte)){ // stack is too big
     Serial.println(F("PATHSTACK OVERFLOW >> ABORT!")); 
   }
   else{
-    pathStack [pathStackSize] = pushed; 
-    pathStackSize++; // increment stack size
+    bool seen = false;
+    int seenIdx = -1; 
+    for (int i = 0; i < pathStackSize; ++i){
+      if (pathStack[i] == pushed){
+        seen = true; 
+        seenIdx = i; 
+      }
+    }
+    
+    if (seen){
+      Serial.println(F("Detected this node before! Swapping it to most current position.")); 
+      for (int i=seenIdx; i<pathStackSize-1; i++){
+        pathStack[i] = pathStack[i+1] ;   
+      }
+    }
+    // If seen, last element is "new" node, if not, then everything is the same
+    Serial.print (F("Pushing "));
+    Serial.print (decodePositionByte(pushed)); 
+    Serial.println(F(" to PathStack"));
+    if (!seen){
+      pathStackSize = pathStackSize+1; // increment stack size only if unseen
+      }
+    pathStack [pathStackSize-1] = pushed; 
+
+
   }
 }
+
+
 
 byte pathStackPop(){
+  Serial.print (F("Popping "));
+  Serial.println(F(" from PathStack"));
   if (pathStackSize<=0){
-    Serial.println(F("PATHSTACK MUST BE POPULATED")); 
-    return 0b00000000; // nullish
+    Serial.println(F("PATHSTACK MUST BE POPULATED (POP)")); 
+    return 0b11111111; // nullish
   }
   else{
-    pathStackSize--; // change address then pop the last array element (head)
-    return pathStack[pathStackSize++]; 
+    byte returned = pathStack[pathStackSize-1]; 
+    pathStackSize = pathStackSize - 1; // change address then pop the last array element (head)
+    return returned; 
   }
 }
 
-byte dfsStack[MAZEY*MAZEX];  // at most MAZEY * MAZEX positions pushed, with head at stackSize and tail at 0
-int dfsStackSize = 0; // initialize dfStackSize to 0
+byte pathStackPeek(){
+  Serial.print (F("Peeking "));
+  Serial.println(F("from PathStack"));
+  if (pathStackSize<=0){
+    Serial.println(F("PATHSTACK MUST BE POPULATED (PEEK)")); 
+    return 0b11111111; // nullish
+  }
+  else{
+    return pathStack[pathStackSize-1]; 
+  }
+}
 
 void dfsStackPush(byte pushed){
+  Serial.print (F("Pushing "));
+  Serial.print (decodePositionByte(pushed)); 
+  Serial.println(F(" to dfsStack"));
   if (dfsStackSize > sizeof(dfsStack)/sizeof(byte)){ // stack is too big
     Serial.println(F("DFS STACK OVERFLOW >> ABORT!")); 
   }
   else{
-    dfsStack [dfsStackSize] = pushed; 
-    dfsStackSize++; // increment stack size
+    dfsStackSize=dfsStackSize + 1; // increment stack size
+    dfsStack [dfsStackSize-1] = pushed; 
   }
 }
 
 byte dfsStackPop(){
+  Serial.print (F("Popping "));
+  Serial.println(F(" from dfsStack"));
   if (dfsStackSize<=0){
     Serial.println("DFS STACK MUST BE POPULATED"); 
+    return 0b11111111; // nullish
+  }
+  else{
+    byte returned = dfsStack[dfsStackSize-1]; 
+    dfsStackSize = dfsStackSize - 1; // change address then pop the last array element (head)
+    return returned; 
+  }
+}
+
+
+byte dfsStackPeek(){
+  Serial.print (F("Peeking "));
+  Serial.println(F(" from dfsStack"));
+  if (dfsStackSize<=0){
+    Serial.println(F("PATHSTACK MUST BE POPULATED")); 
     return 0b00000000; // nullish
   }
   else{
-    dfsStackSize--; 
-    return dfsStack[dfsStackSize+1]; 
+    return dfsStack[dfsStackSize-1]; 
   }
 }
 
@@ -137,31 +198,41 @@ void turnRight() {
     checkSensors();
   }
   leftServo.write(90);
-  // if (direction == 0b00){
-  //   direction = 0b01;
+  // if (dir == 0b00){
+  //   dir = 0b01;
   // }
-  // elif (direction == 0b01){
-  //   direction = 0b11;
+  // elif (dir == 0b01){
+  //   dir = 0b11;
   // }
-  // elif (direction == 0b11){
-  //   direction = 0b10;
+  // elif (dir == 0b11){
+  //   dir = 0b10;
   // }
-  // else (direction == 0b10){
-  //   direction = 0b00;
+  // else (dir == 0b10){
+  //   dir = 0b00;
   // }d
 }
 
 // Turn around
+
+// Turn around
 void turnAround() {
-  leftServo.write(180);
+  leftServo.write(0);
   rightServo.write(0);
-  delay(400);
+  delay(200);
+  checkSensors();
+  while (vals[1] > LINE_THRESHOLD) {
+    checkSensors();
+  }
+  leftServo.write(0);
+  rightServo.write(0);
+  delay(200);
   checkSensors();
   while (vals[1] > LINE_THRESHOLD) {
     checkSensors();
   }
   stop();
 }
+
 
 // Move forwrard
 void goStraight() {
@@ -176,7 +247,44 @@ void stop() {
 }
 
 
+void printDfsStack(){
+    
+   Serial.println(F("\nPrinting DFS Stack")); 
+      Serial.print(F("Size: "));
+      Serial.println (dfsStackSize); 
+   for (int i=0; i<MAZEY*MAZEX; i++){
+      Serial.print (decodePositionByte(dfsStack[i])); 
+      Serial.print (" "); 
+   }
+   Serial.println(F("")); 
+}
+void printPathStack(){
+   Serial.println(F("Printing PathStack")); 
+        Serial.print(F("Size: "));
+      Serial.println (pathStackSize); 
+   for (int i=0; i<MAZEY*MAZEX; i++){
+      Serial.print (decodePositionByte(pathStack[i])); 
+      Serial.print (F(" ")); 
+   }
+   Serial.println(F("")); 
+   
+}
 
+void goToLoc(byte nextLoc){
+  if (nextLoc==RIGHT){
+    turnRight();
+  }
+  else if (nextLoc==LEFT){
+    turnLeft(); 
+  }
+  else if (nextLoc==FLIP){
+    turnAround(); 
+  }
+  else if (nextLoc==FORWARD){
+    goStraight(); 
+    delay(400); 
+  }
+}
 bool dfsPath(byte walldir) {
   // use DFS and wall sensing to push to DFS stack. If there's no reachable unexplored locations push nothing
   checkSensors(); // still need old sensory check
@@ -194,55 +302,55 @@ bool dfsPath(byte walldir) {
   bool wallEast = false;
   bool wallWest = false;
   // need to know absolute wall locations because DFS gives (absolute) coordinates
-  if (direction == 0b01) { // facing EAST right now @Hojung does this need to be imported
-    if (walldir && FRONTWALL) {
+  if (dir == 0b01) { // facing EAST right now @Hojung does this need to be imported
+    if (bitRead(walldir,7)) {
       wallEast = true;
     }
-    if (walldir && RIGHTWALL) {
+    if (bitRead(walldir,6)) {
       wallSouth = true;
     }
-    if (walldir && LEFTWALL) {
+    if (bitRead(walldir,4)) {
       wallNorth = true;
     }
   }
-  else if (direction == 0b00) { // facing NORTH right now
-    if (walldir && FRONTWALL) {
+  else if (dir == 0b00) { // facing NORTH right now
+    if (bitRead(walldir,7)) {
       wallNorth = true;
     }
-    if (walldir && RIGHTWALL) {
+    if (bitRead(walldir,6)) {
       wallEast = true;
     }
-    if (walldir && LEFTWALL) {
+    if (bitRead(walldir,4)) {
       wallWest = true;
     }
   }
 
-  else if (direction == 0b10) { // facing WEST right now
-    if (walldir && FRONTWALL) {
+  else if (dir == 0b10) { // facing WEST right now
+    if (bitRead(walldir,7)) {
       wallWest = true;
     }
-    if (walldir && RIGHTWALL) {
+    if (bitRead(walldir,6)) {
       wallNorth = true;
     }
-    if (walldir && LEFTWALL) {
+    if (bitRead(walldir,4)) {
       wallSouth = true;
     }
   }
 
-  else if (direction == 0b11) { // facing SOUTH right now
-    if (walldir && FRONTWALL) {
+  else if (dir == 0b11) { // facing SOUTH right now
+    if (bitRead(walldir,7)) {
       wallSouth = true;
     }
-    if (walldir && RIGHTWALL) {
+    if (bitRead(walldir,6)) {
       wallWest = true;
     }
-    if (walldir && LEFTWALL) {
+    if (bitRead(walldir,4)) {
       wallEast = true;
     }
   }
 
   else { // TODO: Check if this is right
-    Serial.println(F("No direction. Check logic")); 
+    Serial.println(F("No dir. Check logic")); 
   }
 // push neighboring locations to DFS Stack if there's no wall
 bool somethingPushed = false;
@@ -263,30 +371,24 @@ if (!(wallEast || wallWest || wallNorth || wallSouth)){
   Serial.println(F("No walls detected")); 
 }
 
-for (int i=0; i<MAZEX; i++){
-  for (int j=0; j<MAZEY; j++){
-    Serial.print (maze[i][j]);
-    Serial.print (" "); 
-  }
-  Serial.println(F("")); 
-}
 
-if (!wallEast && currentX + 1<MAZEX && maze[currentX + 1][currentY] == 0b11111111) {
+if ((!wallEast) && (currentX + 1<MAZEX) && (maze[currentX + 1][currentY] == 0b11111111))
+{
   pathStackPush(byteifyCoordinate(currentX + 1, currentY));
   somethingPushed = true; 
   Serial.println (F("No wall EAST. Unexplored location at X + 1 pushed to PathStack")); 
-  }
-if (!wallSouth && currentY - 1 >= 0 && maze[currentX][currentY - 1] == 0b11111111) {
+}
+if ((!wallSouth) && (currentY - 1 >= 0) && (maze[currentX][currentY - 1] == 0b11111111)){
   pathStackPush(byteifyCoordinate(currentX, currentY - 1));
   somethingPushed = true; 
   Serial.println (F("No wall SOUTH. Unexplored location at Y - 1 pushed to PathStack")); 
   }
-if (!wallNorth && currentY + 1<MAZEY && maze[currentX][currentY + 1] == 0b11111111) {
+if ((!wallNorth) && (currentY + 1<MAZEY) && (maze[currentX][currentY + 1] == 0b11111111)) {
   pathStackPush(byteifyCoordinate(currentX, currentY + 1));
   somethingPushed = true; 
   Serial.println (F("No wall NORTH. Unexplored location Y + 1 pushed to PathStack")); 
   }
-if (!wallWest && currentX - 1 >= 0 && maze[currentX - 1][currentY] == 0b11111111) {
+if ((!wallWest) && (currentX - 1 >= 0) && (maze[currentX - 1][currentY] == 0b11111111)) {
   pathStackPush(byteifyCoordinate(currentX - 1, currentY));
   somethingPushed = true; 
    Serial.println (F("No wall WEST. Unexplored location at X - 1 pushed to PathStack")); 
@@ -295,6 +397,15 @@ if (!wallWest && currentX - 1 >= 0 && maze[currentX - 1][currentY] == 0b11111111
 return somethingPushed; 
 }
 byte nextLocByte(int nextX, int nextY){
+  Serial.print(F("CurrentX: ")); 
+  Serial.println(currentX); 
+  Serial.print(F("CurrentY: ")); 
+  Serial.println(currentY); 
+  Serial.print(F("NextX: ")); 
+  Serial.println(nextX); 
+  Serial.print(F("NextY: ")); 
+  Serial.println(nextY); 
+  
   // With a known currentX, currentY, which action (right turn, left turn, forward, flip) should LABron pass
   // to get to position (nextX,nextY).
   // 0b00001000 forward
@@ -303,76 +414,78 @@ byte nextLocByte(int nextX, int nextY){
   // 0b00000001 left
 
   if (nextX == currentX + 1) { // need to go EAST
-    if (direction == 0b00) { // left turn
-      return LEFT;
-    }
-    else if (direction == 0b11) { // right turn
+    if (dir == 0b00) {// Facing north // right turn
       return RIGHT;
     }
-    else if (direction == 0b10) { // flip
+    else if (dir == 0b11) { // left turn
+      return LEFT;
+    }
+    else if (dir == 0b10) { // flip
       return FLIP;
     }
-    else if (direction == 0b01) { //forward
+    else if (dir == 0b01) { //forward
       return FORWARD;
     }
   }
   else if (nextX == currentX - 1) { // need to go WEST
-    if (direction == 0b00) { // right turn
-      return RIGHT;
-    }
-    else if (direction == 0b11) { // left turn
+    if (dir == 0b00) { // left turn
       return LEFT;
     }
-    else if (direction == 0b10) { // forward
+    else if (dir == 0b11) { // right turn
+      return RIGHT;
+    }
+    else if (dir == 0b10) { // forward
       return FORWARD;
     }
-    else if (direction == 0b01) { //flip
+    else if (dir == 0b01) { //flip
       return FLIP;
     }
   }
   else if (nextY == currentY + 1) { // need to go NORTH
-    if (direction == 0b00) { // forward
+    if (dir == 0b00) { // forward
       return FORWARD;
     }
-    else if (direction == 0b11) { // flip
+    else if (dir == 0b11) { // flip
       return FLIP;
     }
-    else if (direction == 0b10) { // right turn
+    else if (dir == 0b10) { // right turn
       return RIGHT;
     }
-    else if (direction == 0b01) { // left turn
+    else if (dir == 0b01) { // left turn
       return LEFT;
     }
   }
-  else if (nextY == currentY + 1) { // need to go SOUTH
-    if (direction == 0b00) { // flip
+  else if (nextY == currentY - 1) { // need to go SOUTH
+    if (dir == 0b00) { // flip
       return FLIP;
     }
-    else if (direction == 0b11) { // forward
+    else if (dir == 0b11) { // forward
       return FORWARD;
     }
-    else if (direction == 0b10) { // right turn
-      return RIGHT;
-    }
-    else if (direction == 0b01) { // left turn
+    else if (dir == 0b10) { // right turn
       return LEFT;
+    }
+    else if (dir == 0b01) { // left turn
+      return RIGHT;
     }
   }
   else {
+    Serial.println("I am very confused"); 
+    delay(10000); 
     return FLIP; // turn around because you're confused
   }
 }
 
 byte decideRouteDFS() {
-  if (pathStackSize>0){
-    dfsStackPush(pathStack[pathStackSize-1]); 
+  if (checkMazeEmpty()){
+    Serial.println ("MAZE EXPLORATION DONE"); 
   }
   checkSensors(); // still need old sensory check
-  Serial.println(vals[1]);  // Taking out all the print statements makes LABron act weird im leaving one in -R
+  delay(5); 
+  
   int leftSpeed;
   int rightSpeed;
-
-
+  
 
   // not an intersection
   if (vals[0] > LINE_THRESHOLD && vals[2] > LINE_THRESHOLD && vals[1] < LINE_THRESHOLD) { //go straight
@@ -384,21 +497,49 @@ byte decideRouteDFS() {
   else if (vals[0] < LINE_THRESHOLD && vals[1] < LINE_THRESHOLD && vals[2] < LINE_THRESHOLD) { //intersection initiate turn
     stop();
     byte walldir = wallDetected();
+    Serial.print(F("Wall detection information ")); Serial.println(walldir);
     bool somethingPushed = dfsPath(walldir); // update pathStack based on wallDir, returns True if pathStack was pushed to (not dead end) otherwise false
-    bool dfsPop = dfsStackPop(); 
+    byte pathPeek; 
+    if (pathStackSize > 0){ // There's explorable space
+      pathPeek = pathStackPeek(); 
+    }
     if (!somethingPushed){
-      bool dummy = pathStackPop(); // trash variable for path stack, if nothing's pushed then the next location is the last location in both stacks
-      if (dummy != dfsPop){
-        Serial.println(F("Something went wrong in stack logic. Check this rn.")); 
+      Serial.println(F("TIME TO TURN AROUND!")); 
+      printPathStack(); 
+      printDfsStack(); 
+      byte pathPop = pathStackPop(); 
+      byte dfsPop = dfsStackPop(); // trash variable for path stack, if nothing's pushed then the next location is the last location in both stacks
+      if (pathPop != dfsPop){
+        Serial.println(F("dfsStack is diverging from pathStack while retracing")); 
+        int nextLoc = decodePositionByte(dfsStackPeek());
+        int nextX = nextLoc / 10;
+        int nextY = nextLoc % 10;
+        byte loc = nextLocByte(nextX, nextY);
+        walldir |= loc;
+        return walldir;
+      }
+      else{
+        Serial.println (F("Retracing steps but not yet diverged")); 
+        int nextLoc = decodePositionByte(dfsStackPeek()); // based on the most recent popped thing choose nextLoc and move there
+        int nextX = nextLoc / 10; // nextLoc byte encoded as concatenated xy int so our maze can't handle over 9x9 mazes (which is chill lol)
+        int nextY = nextLoc % 10;    
+        byte loc = nextLocByte(nextX, nextY);
+//        goToLoc(loc);      
+        walldir |= (loc); // now choose which dir nextX, nextY corresponds to (original byte encodging Forward-Right-Backward-Left)
+        return walldir; // return this to LabronMain
       }
       // this dummy should equal dfsStackPop()
     }
-    int nextLoc = decodePositionByte(dfsPop); // based on the most recent popped thing choose nextLoc and move there
+    int nextLoc = decodePositionByte(pathPeek); // based on the most recent popped thing choose nextLoc and move there
     int nextX = nextLoc / 10; // nextLoc byte encoded as concatenated xy int so our maze can't handle over 9x9 mazes (which is chill lol)
     int nextY = nextLoc % 10;
-    byte loc = nextLocByte(nextX, nextY); 
-    dfsStackPush(loc); 
-    walldir |= loc; // now choose which direction nextX, nextY corresponds to (original byte encoding Forward-Right-Backward-Left)
+    Serial.print(F("NextLoc: "));
+    Serial.println(nextLoc);
+    printDfsStack(); 
+    printPathStack();
+    byte loc = nextLocByte(nextX, nextY);
+    dfsStackPush(pathPeek); 
+    walldir |= loc; // now choose which dir nextX, nextY corresponds to (original byte encoding Forward-Right-Backward-Left)
     return walldir; // return this to LabronMain
 
 
@@ -421,8 +562,8 @@ byte decideRouteDFS() {
     stop();                // No intersection reached, so return 0 (no radio information necessary)
     return 0;
   }
-
 }
+
 
 // Logic for deciding the route for the robot
 byte decideRoute() {
@@ -432,7 +573,6 @@ byte decideRoute() {
   Serial.println(vals[1]);  // Taking out all the print statements makes LABron act weird im leaving one in -R
   int leftSpeed;
   int rightSpeed;
-  byte direction = 0b00000000;
 
 
   if (vals[0] > LINE_THRESHOLD && vals[2] > LINE_THRESHOLD && vals[1] < LINE_THRESHOLD) { //go straight
@@ -446,7 +586,7 @@ byte decideRoute() {
     stop();
     byte walldir = wallDetected();
 
-    // bits [7-4] are wall directions based on sensors, bits [3-0] are the directions we choose to go
+    // bits [7-4] are wall dirs based on sensors, bits [3-0] are the dirs we choose to go
     // bit[3] forward, bit[2]  right, bit[1] turn aroudn, bit[0] left, all 0 do nothing
     if (walldir == FRONTWALL || walldir == NOWALL || walldir == (FRONTWALL | LEFTWALL)) {
       // No wall detected to right, so turn right
@@ -464,7 +604,7 @@ byte decideRoute() {
       digitalWrite(RIGHTWALL_PIN, HIGH);
       digitalWrite(FORWARDWALL_PIN, HIGH);
       // digitalWrite(LEFTWALL_PIN, HIGH); // not sure if this LED exists
-      walldir = walldir | 0b00000010; // bit 1 corresponds to flipping direction
+      walldir = walldir | 0b00000010; // bit 1 corresponds to flipping dir
       //turnAround();
       stop();
       Serial.println(F("Wall to FRONT and RIGHT and LEFT"));
@@ -499,7 +639,7 @@ byte decideRoute() {
     }
     return walldir;
   }
-
+  
   // Adjust the robot a bit if it's off the line
   else if (vals[2] < LINE_THRESHOLD) { //left sensor on line now adjust left
     //Serial.println("ADJUSTING LEFT");
@@ -517,5 +657,12 @@ byte decideRoute() {
     //Serial.println("STOPPING");
     stop();                // No intersection reached, so return 0 (no radio information necessary)
     return 0;
+  }
+}
+
+void clearStacks(){
+  for (int i=0; i<MAZEY*MAZEX; i++){
+    pathStack[i] = 0b11111111; 
+    dfsStack[i] = 0b11111111;
   }
 }

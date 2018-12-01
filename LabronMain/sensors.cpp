@@ -45,22 +45,22 @@ byte wallDetected(){
 
   // returning encoded wall packet
   // encoding goes (F, R, B[ehind], L, nullx4 so for example if wall was in front then first bit is high all others are 0
-  byte directionPacket = 0b00000000;
+  byte dirPacket = 0b00000000;
   if (right) {
     Serial.println(F("RIGHT"));
-    directionPacket |= RIGHTWALL;
+    dirPacket |= RIGHTWALL;
   }
   if (front) {
     Serial.println(F("FRONT"));
-    directionPacket |= FRONTWALL;
+    dirPacket |= FRONTWALL;
   }
  if (left) {
    Serial.println(F("LEFT"));
-   directionPacket |= LEFTWALL;
+   dirPacket |= LEFTWALL;
  }
-  else {
-    Serial.println(F("nothing"));
-    directionPacket |= NOWALL;
+  if (not (front or left or right)) {
+    Serial.println(F("NO WALL FOUND"));
+    dirPacket |= NOWALL;
   }
-  return directionPacket;
+  return dirPacket;
 }

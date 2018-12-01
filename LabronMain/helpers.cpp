@@ -9,7 +9,7 @@ int invert(int number){
 }
 
 byte byteifyCoordinate(int x, int y){
-  return ((x<<4|y) & (0x00FF)); 
+  return (x << 4) | y;
 }
 void serialBegin( int baudrate ) {
   Serial.begin( baudrate );
@@ -17,9 +17,9 @@ void serialBegin( int baudrate ) {
 
 
 int decodePositionByte(byte xxxxyyyy) {
+
   // bits 7-4 are x, 3-0 are y as this is written. Check this please.
   int x = (xxxxyyyy & 0b11110000) >> 4; // AND-ed in case it wraps around or some wack shit p sure it doesn't tho
-  int y = (xxxxyyyy & 0b00001111) << 4;
+  int y = (xxxxyyyy & 0b00001111); 
   return (10 * x + y); // x should be int-divided by 10, y should be %10
-
 }

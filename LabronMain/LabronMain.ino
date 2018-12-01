@@ -10,13 +10,14 @@ byte fftResult;
 void setup() {
   Serial.begin(57600); // radios want this
   setupLineSensors();
-  populateMazeStart();
+  populateMazeStart(); // all locs unexplored
   setupServos();
   setupIR();
   setupFFT();
   setupDebugFFT();
   setupRadios();
   // Starting location is the root of everything
+  void clearStacks(); 
   byte firstByte = byteifyCoordinate(currentX,currentY); // Initial starting point stack push 
   dfsStackPush(firstByte);
   pathStackPush(firstByte); 
@@ -26,32 +27,48 @@ void setup() {
 int count = 0;
 
 void loop() {
-  byte routeInfo = decideRouteDFS();  // routeInfo organized [F,R,B,L; forward, right, left, turnaround]
+  if (checkMazeEmpty()){
+    Serial.println(F("MAZE IS EXPLORED LEBRON IS DONE")); 
+  }
+  byte routeInfo = decideRouteDFS(); 
+  // routeInfo organized [F,R,B,L; forward, right, left, turnaround]
   //routeInfo = 1;
+  byte loc = 0b0000000; 
+
   if (routeInfo != 0) {
+    loc = routeInfo & 0b00001111; 
     // now have new information to update with
-    //Serial.println(direction);
+    //Serial.println(dir);
     //Serial.println(routeInfo);
     updateDirection(routeInfo);
- 
-    unsigned int positionPacket = byteifyCoordinate(currentX,currentY);
+    goToLoc(loc); 
+     unsigned int positionPacket = byteifyCoordinate(currentX,currentY);
     // Position Packet as [XXXX-YYYY] 
-    Serial.print(F("D = ")); Serial.println(direction);
-    Serial.print("X = "); Serial.println(currentX);
-    Serial.print("Y = "); Serial.println(currentY);
+    Serial.print(F("Dir = ")); Serial.println(dir);
+    Serial.print(F("CurrentX = ")); Serial.println(currentX);
+    Serial.print(F("CurrentY = ")); Serial.println(currentY);
     positionPacket = (positionPacket<<8) | ((maze[currentX][currentY]) & 0x00FF);
-    while (packetTransmission(positionPacket) == 0) {
-      packetTransmission(positionPacket);
-      //delay(300);
-    }
-    //delay(300);
-    Serial.println(F("(======================================="));
-     Serial.println(positionPacket);
-   Serial.println(F("======================================="));
+    printDfsStack(); 
+    printPathStack(); 
+    printMaze(); 
+
+//    while (packetTransmission(positionPacket) == 0) {
+//      packetTransmission(positionPacket);
+//      //delay(300);
+//    }
+    //delay(300);no
+//    Serial.println(F("(======================================="));
+//     Serial.println(positionPacket);
+//   Serial.println(F("======================================="));
 
   }
+  bool dumStop = false; 
   while ((routeInfo & FRONTWALL) && (routeInfo & RIGHTWALL) && (routeInfo & LEFTWALL) || checkMazeEmpty()) { // checkMazeEmpty returns true if all nodes explored
+    dumStop = true; 
+    if (!dumStop){
     Serial.println(F("COMPLETE STOP"));
+    bool dumStop = false;
+    }
     stop();
   }
   if (count == 0){

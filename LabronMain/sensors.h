@@ -3,9 +3,9 @@
 #include <Arduino.h>
 
 /******************* [ Threshold Values ] **************************/
-#define wallThreshold 250
+#define wallThreshold 200
 #define wallDetectedDelay 30
-#define wallDetectedAverage 5
+#define wallDetectedAverage 8
 
 /******************* [ Pin Definitions ] **************************/
 #define IRFRONT_PIN     A3

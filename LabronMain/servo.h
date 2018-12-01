@@ -15,7 +15,7 @@
 #define LINE_THRESHOLD 200
 
 /*==================== [ Bit Masks ] ===============================*/
- // walldir now contains wall information in its first 4 bits, and new direction information in its last 4 bits
+ // walldir now contains wall information in its first 4 bits, and new dir information in its last 4 bits
  // first four bits organized [F, R, B[ehind], L] and are raised to represent next location
  // next four bits organized {forward, right, left, turnaround} to be interpreted in main loop. 
 #define FORWARD 0b00001000
@@ -40,16 +40,20 @@ void stop();
 void slightRight();
 void slightLeft();
 void turnAround();
+void goToLoc(byte nextLoc);
 
 // Stack Control
 void pathStackPush(byte pushed);
 byte pathStackPop(); 
+void printPathStack(); 
+
 void dfsStackPush(byte pushed); 
 byte dfsStackPop(); 
-
+void printDfsStack(); 
 // Ultimate Function
 byte decideRoute();
 byte decideRouteDFS(); 
+void clearStacks(); 
 
 
 #endif // SERVO_CONTROL
