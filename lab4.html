@@ -1,0 +1,176 @@
+<!DOCTYPE HTML>
+<!--
+	Forty by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Lab 4</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async>
+		</script>
+		<script type="text/javascript" src="http://latex.codecogs.com/latexit.js"></script>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+				<!-- Note: The "styleN" class below should match that of the banner element. -->
+					<header id="header" class="alt style2">
+						<a href="index.html" class="logo"><strong>ECE 3400</strong></a>
+						<nav>
+							<a href="#menu">Menu</a>
+						</nav>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<ul class="links">
+							<li><a href="index.html">Home</a></li>
+							<li><a href="team_contract.html">Team Contract</a></li>
+						</ul>
+					</nav>
+
+				<!-- Banner -->
+				<!-- Note: The "styleN" class below should match that of the header element. -->
+					<section id="banner" class="style2">
+						<div class="inner">
+							<span class="image">
+								<img src="images/pic07.jpg" alt="" />
+							</span>
+							<header class="major">
+								<h1>Lab 4</h1>
+							</header>
+							<div class="content">
+								<p>LABron Sees His Chance</p>
+							</div>
+						</div>
+					</section>
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- One -->
+							<section id="one">
+								<div class="inner">
+									<header class="major">
+										<h2>Introduction</h2>
+									</header>
+									<p>As part of this pre-lab, we were asked to lookup some useful information for the remaining portions of this lab, which will be listed out now. The largest possible memory buffer to store image information is approximately 74250 bytes. This space would be used up quite quickly usinga a standard image storage protocol like RGB565, but downsampling this to RGB332 would allow us to store double the number of pixels (in this case, 74250 pixels for a total of nearly 3 full frames in memory on the FPGA). More specific information about the hardware we're using includes:</p>
+									<ul>
+										<li>Reg for reset: 							COM7 -> 0x0C</li>
+										<li>Reg for scaling: 						COM3 -> 0X08 </li>
+										<li>Reg for gain control: 			COM9 -> 0x01 (Bit[0] froze AGC/AEC)</li>
+										<li>Reg for external clock: 		CLKRC -> 0xC0 (Bit[6]: Use external clock directl)</li>
+										<li>Reg for data formatting: 		COM15 -> 0XF0 (Bit[7:6]: 11: Output range: [00] to [FF]; Bit[5:4]: 11 for RGB555)</li>
+										<li>Reg for color bar: 					COM17 -> 0x00 (Disable colorbar) or 0x08 (Enable Colorbar)</li>
+									</ul>
+									<p>This wraps up the information we gathered before endeavoring on Lab 4.</p>
+								</div>
+							</section>
+
+						<!-- Two -->
+							<section id="two" class="spotlights">
+								<section>
+									<img src="images/Lab4/registers.jpg" width=450 height=330 style="padding-left: 2em;">
+									<div class="content">
+										<div class="inner">
+											<header class="major">
+												<h3>Arduino Setup</h3>
+											</header>
+											<p>One of the first things we did with our Arduino was disable the pull-up resistors on our I2C lines; this was necessary because of a voltage mismatch between the camera and Arduino (damage to the camera would results if we hadn't done this). Next, we setup our FPGA to provide a common 24 MHz clock signal to our camera and began playing around with setting registers and reading their values back on our Arduino. After this, we simply followed a camera pinout diagram and were finished with this portion of our lab.
+										</p>
+										</div>
+									</div>
+								</section>
+								<section>
+									<img src="images/Lab4/colorbar.jpg" width=450 height=330 style="padding-left: 2em;">
+									<div class="content">
+										<div class="inner">
+											<header class="major">
+
+											<h3>Setting Up Our Image output </h3>
+											</header>
+											<p>
+													Setting up our camera involved first attaching the camera to our Arduino and FPGA, but once this was done and we were able to confirm accurate register writes, we began experimenting with reading data from the FPGA. One of the first things we did was simulate the color bars. After this, we began working with our M9K blocks and syncing up with camera frames.
+											</p>
+										</div>
+									</div>
+								</section>
+								<section>
+										<img src="images/Lab4/camera.jpg" width=400 height=400 style="padding-left:2em;">
+										<div class="content">
+											<div class="inner">
+												<header class="major">
+													<h3>Setting Up Our Camera</h3>
+												</header>
+												<p>The most difficult part of setting up our camera was determining the order in which to check various values like VSYNC, HREF, and PCLK. However, after reading through more documentation we found the following:</p>
+												<ul>
+													<li>VSYNC: Determines when a new frame is starting</li>
+													<li>HREF: Determines when a new row of pixels is starting</li>
+													<li>PCLK: Determines when half of a pixel has been transmitted</li>
+												</ul>
+												<p>
+													Using this information together, we were very slowly able to begin drawing full images out of our camera. Our final code was organized in a structure based around PCLK being triggered (as it switches the most often), then HREF, and finally VSYNC. This led us to finally capture the image to the left.
+												</p>
+											</div>
+										</div>
+								</section>
+							</section>
+					</div>
+
+					<!-- Four -->
+						<section id="four">
+							<div class="inner">
+								<header class="major">
+									<h2>Conclusion</h2>
+								</header>
+								<iframe width="560" height="315" src="https://www.youtube.com/embed/Tw_tMw3Blxg?ecver=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+								<p>
+								After successfully connecting our Arduino, camera, and FPGA we were able to implement some basic color detection. Above is a video from a few days later, in more detail, though the premise which was refined into the above mechanics were finished as part of this lab and built off of.
+							</p>
+								<ul class="actions">
+									<li><a href="index.html" class="button next">Back To Home</a></li>
+								</ul>
+							</div>
+						</section>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<div class="inner">
+							<ul class="icons">
+								<li><a href="https://twitter.com/KingJames?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor" class="icon alt fa-twitter"><span class="label">Twitter</span></a></li>
+								<li><a href="https://www.facebook.com/LeBron/" class="icon alt fa-facebook"><span class="label">Facebook</span></a></li>
+								<li><a href="https://www.instagram.com/kingjames/?hl=en" class="icon alt fa-instagram"><span class="label">Instagram</span></a></li>
+								<li><a href="https://github.com/ece-3400-group/" class="icon alt fa-github"><span class="label">GitHub</span></a></li>
+								<li><a href="https://www.linkedin.com/in/shubhom/" class="icon alt fa-linkedin"><span class="label">LinkedIn</span></a></li>
+							</ul>
+							<ul class="copyright">
+								<li>&copy; Cornell University</li>
+								<li>Design Credits: <a href="https://html5up.net">HTML5 UP</a></li>
+								<li>Mathematics Display Engine: <a href="https://www.mathjax.org/">MathJax</a></li>
+								<li>Electronics Design: <a href="http://fritzing.org/home/">Fritzing</a></li>
+							</ul>
+						</div>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

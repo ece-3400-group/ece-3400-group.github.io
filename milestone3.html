@@ -1,0 +1,166 @@
+<!DOCTYPE HTML>
+<!--
+	Forty by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Milestone 3</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+				<!-- Note: The "styleN" class below should match that of the banner element. -->
+					<header id="header" class="alt style2">
+						<a href="index.html" class="logo"><strong>ECE 3400</strong></a>
+						<nav>
+							<a href="#menu">Menu</a>
+						</nav>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<ul class="links">
+							<li><a href="index.html">Home</a></li>
+							<li><a href="team_contract.html">Team Contract</a></li>
+						</ul>
+					</nav>
+
+				<!-- Banner -->
+				<!-- Note: The "styleN" class below should match that of the header element. -->
+					<section id="banner" class="style2">
+						<div class="inner">
+							<span class="image">
+								<img src="images/pic07.jpg" alt="" />
+							</span>
+							<header class="major">
+								<h1>Milestone 3</h1>
+							</header>
+							<div class="content">
+								<p>Labron Learns Some Strategy</p>
+							</div>
+						</div>
+					</section>
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- One -->
+							<section id="one">
+								<div class="inner">
+									<header class="major">
+										<h2>Introduction</h2>
+									</header>
+									<p>In fulfilling this Milestone, we needed to deviate from our Right-Hand-Rule following strategy to a more robust method. We chose a variation of DFS to accomplish this. The main structures we used were a stack of visited nodes, and a stack of "seen" nodes, or nodes that we had access to but didn't visit.</p>
+								</div>
+							</section>
+							<section id="one">
+								<div class="inner">
+									<header class="major">
+										<h2>Basic Organization of Tasks</h2>
+									</header>
+									<p>One of the most difficult parts of this task was determining where to start. We began by first outlining what actions we thought we could expect from our robot that would be robust enough to handle any situation.</p>
+											<ol>
+												<li>Reach a target position (targetX, targetY)</li>
+												<li>Update wall and treasure information about this position</li>
+												<li>Push traversable nodes onto a stack</li>
+												<li>Choose a new node's position (*targetX, *targetY)</li>
+											</ol>
+                                            <p>This plan takes care of a raw version of maze exploration, but there was one major corner case for us to deal with: getting into a dead-end situation, our robot would need to be able to retrace its steps somehow and find new nodes. This we accomplished quite simply by retraversing the stack we dynamically created of our visited locations. Below, you can view some sample mazes we had our robot run. Most of the troubleshooting involved in this process were maintenance of logical identities as we passed parameter values across many files; for example, passing wall information from our sensor file to our algorithm, then back out to our main loop to be passed into our radio gave us some difficulty.</p>
+								</div>
+							</section>
+
+
+						<!-- Two -->
+							<section id="two" class="spotlights">
+								<section>
+									<iframe width="560" height="315" src="https://www.youtube.com/embed/e5aLWsfMR54?ecver=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+									<div class="content">
+										<div class="inner">
+											<header class="major">
+												<h3>DFS Test 1</h3>
+											</header>
+											<p>Here, we just wanted to determine that our robot was adding new nodes to the stack where possible. Notice that in our impmlementation of DFS, a left turn is prioritized over a right turn. This was in part because we knew that we would be starting our robot in the left corner of our maze, but coudl very easily be changed by just changing the order of pushes to our stack.</p>
+										</div>
+									</div>
+								</section>
+								<section>
+									<iframe width="560" height="315" src="https://www.youtube.com/embed/FjSVtC4a6PY?ecver=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+									<div class="content">
+										<div class="inner">
+											<header class="major">
+												<h3>DFS Test 2</h3>
+											</header>
+											<p>This test is mostly reviewing that our robot can retrace its steps until it reaches a point where new nodes are available. Here, we see it trace a pattern into a dead-end before coming back to the start and exploring the other fork.</p>
+										</div>
+									</div>
+								</section>
+								<section>
+									<section>
+									<iframe width="560" height="315" src="https://www.youtube.com/embed/PlaDFXFss1Y" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+									</section>
+									<div class="content">
+										<div class="inner">
+											<header class="major">
+												<h3>DFS Test 3</h3>
+											</header>
+											<p>And once more we extensively test the ability for our robot to backtrack and continue maze exploration. At this point, we are quite happy with our DFS implementation and believe everything is in working order. </p>
+										</div>
+									</div>
+								</section>
+							</section>
+
+						<!-- Three -->
+							<section id="three">
+								<div class="inner">
+									<header class="major">
+										<h2>Conclusion</h2>
+									</header>
+									<p>LABron was successful in completing the
+                                    maze using our logic. However, as we
+                                    switched over to the larger maze, we began to run into major mechanical issues. For instance, debris left throughout the maze area made line tracing erratic and would often lead to our robot being thrown off course or jammed at an intersection. Most unfortunate was the non-level surface upon which the maze was laid out, creating large lumps that would catch on our line sensors and pin LABron between intersections. For this reason, we were unable to post a large maze video.</p>
+									<ul class="actions">
+										<li><a href="index.html" class="button next">Back to Home</a></li>
+									</ul>
+								</div>
+							</section>
+
+					</div>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<div class="inner">
+							<ul class="icons">
+								<li><a href="https://twitter.com/KingJames?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor" class="icon alt fa-twitter"><span class="label">Twitter</span></a></li>
+								<li><a href="https://www.facebook.com/LeBron/" class="icon alt fa-facebook"><span class="label">Facebook</span></a></li>
+								<li><a href="https://www.instagram.com/kingjames/?hl=en" class="icon alt fa-instagram"><span class="label">Instagram</span></a></li>
+								<li><a href="https://github.com/ece-3400-group/" class="icon alt fa-github"><span class="label">GitHub</span></a></li>
+								<li><a href="https://www.linkedin.com/in/shubhom/" class="icon alt fa-linkedin"><span class="label">LinkedIn</span></a></li>
+							</ul>
+							<ul class="copyright">
+								<li>&copy; Cornell University</li><li>Design Credits: <a href="https://html5up.net">HTML5 UP</a></li>
+							</ul>
+						</div>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
