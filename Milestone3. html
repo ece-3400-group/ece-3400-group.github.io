@@ -1,0 +1,212 @@
+<!DOCTYPE HTML>
+<!--
+	Forty by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Milestone 3</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+				<!-- Note: The "styleN" class below should match that of the banner element. -->
+					<header id="header" class="alt style2">
+						<a href="index.html" class="logo"><strong>ECE 3400</strong></a>
+						<nav>
+							<a href="#menu">Menu</a>
+						</nav>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<ul class="links">
+							<li><a href="index.html">Home</a></li>
+							<li><a href="team_contract.html">Team Contract</a></li>
+						</ul>
+					</nav>
+
+				<!-- Banner -->
+				<!-- Note: The "styleN" class below should match that of the header element. -->
+					<section id="banner" class="style2">
+						<div class="inner">
+							<span class="image">
+								<img src="images/pic07.jpg" alt="" />
+							</span>
+							<header class="major">
+								<h1>Milestone 3</h1>
+							</header>
+							<div class="content">
+								<p>3-Pointer from Labron</p>
+							</div>
+						</div>
+					</section>
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- One -->
+							<section id="one">
+								<div class="inner">
+									<header class="major">
+										<h2>Introduction</h2>
+									</header>
+									<p> In this Milestone, we implemented a depth-first search of the maze to 
+                  ensure that all locations were explored by LABron. Depth-first search (DFS) was a natural choice
+                  of search algorithm that allowed simple data structures that employed no ulterior heuristics. Furthermore, DFS
+                  would be far more efficient than breadth-first search (DFS) because BFS would require much more time to explore the maze. 
+                  </p>
+								</div>
+							</section>
+
+						<!-- Two -->
+							<section id="two" class="spotlights">
+								<section>
+									<img src="images/Milestone2/distanceSensor.png" style="padding-left:1em;" />
+									<div class="content">
+										<div class="inner">
+											<header class="major">
+												<h3>Depth-First Searches and the Maze Graph</h3>
+											</header>
+											<p>Depth first search is a graph search algorithm that stars at a parent node and 
+                      greedily chooses to search a child subtree at each iteration until 
+                      the desired node is found. When all leaves of a subtree are explored, DFS returns to the parent and explores
+                      the next child who is the root of another subtree, until all leaves are explored, meaning all nodes are explored. 
+                      This is in contrast to BFS, which assesses each child node and then continues to the child nodes of those children,
+                      until all nodes are explored. To represent the maze, the graph would be consisting of nodes representing intersections and 
+                      edges beween any neighboring nodes with no walls between them. BFS requires returning to each parent node before assessing the next node. 
+                      So, while DFS is guaranteed to explore a new node or take at most the path length of edges to return to a parent in an action, BFS 
+                      may require far more edge traversals even on a small maze. Thus, DFS was deemed to be the most efficient search algorithm for our purposes. 
+                      
+                     </p>
+                                     
+										</div>
+									</div>
+								</section>
+								<section>
+									<iframe width="560" height="315" src="https://www.youtube.com/embed/NxXAH7k8x6c" frameborder="0" allow="autoplay; encrypted-media" style="padding-right:1em;"allowfullscreen></iframe>
+									<div class="content">
+										<div class="inner">
+											<header class="major">
+												<h3>Implementation</h3>
+											</header>
+											<p>To implement DFS, two stacks were necessary. To implement stacks in Arduino, the simplest and most memory efficient method was 
+                      maintaing two byte arrays of length MAZEX x MAZEY. Then, an int was used to keep track of the stack head index, so that all push(), peek(),
+                      and pop() operations could be done with this information. One stack, PathStack, pushed each reachable unexplored intersection from the given
+                      one when a new intersection was reached. The other one, DFSStack, pushed the visited nodes so far, so that at each intersection the next location 
+                      was the popped DFSStack, which was determined by peeking at the PathStack, which had already pushed the reachable neighbors from that intersection. 
+                      Finally, to trace back through the maze when no unexplored nodes were reachable from the current one, the common nodes in DFSStack and PathStack were popped
+                      until an uncommon node was reached, meaning PathStack had popped a node that DFSStack had not yet reached. Lastly, we had to make sure that
+                      each element of PathStack appeared only once in the stack or it would be reached twice, so any previous entries of PathStack which referred
+                      to the same location were deleted. 
+                      
+											<ul class="actions">
+												<li><a href="https://github.com/ece-3400-group/ece-3400-group.github.io/blob/master/Milestone2/ExampleLogic.ino" class="button" download>Download Code Logic Here</a></li>
+											</ul>
+										</div>
+									</div>
+								</section>
+								<section>
+									<img src="images/Milestone2/IntegrateCode.png" height="350" style="padding-left:1em;">
+									<div class="content">
+										<div class="inner">
+											<header class="major">
+												<h3></h3>
+											</header>
+											<p></p>
+										</div>
+									</div>
+								</section>
+								<section>
+									<section>
+									<img src="images/Milestone2/power_bank_29-7850.jpg" height="315" style="padding-right:8em;"/>
+									</section>
+									<div class="content">
+										<div class="inner">
+											<header class="major">
+												<h3></h3>
+											</header>
+											<p></p>
+										</div>
+									</div>
+								</section>
+								<section>
+									<iframe width="560" height="315" src="https://www.youtube.com/embed/NXW5ouEzAQ8" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="padding-left: 1em;"></iframe>
+									<div class="content">
+										<div class="inner">
+											<header class="major">
+												<h3>Result</h3>
+											</header>
+											<p> We ested our algorihm on several mazes with success. We showed that our algorithm is functional on several maze
+                      patterns. </p>
+											<ul class="actions">
+												<li><a
+                                                        href="https://github.com/ece-3400-group/ece-3400-group.github.io/tree/master/LabronMain"
+                                                        class="button"
+                                                download>Link to Final Code Here</a></li>
+											</ul>
+										</div>
+									</div>
+								</section>
+							</section>
+
+						<!-- Three -->
+							<section id="three">
+								<div class="inner">
+									<header class="major">
+										<h2>Conclusion</h2>
+									</header>
+									<p>LABron was successful in completing the
+                                    maze using our logic. However, as we
+                                    fiddled with its ability to follow lines,
+                                    we drastically reduced the speed of line
+                                    tracing. In the current code base has
+                                    integrated the correct components, but in
+                                    the future we would like to see LABron move
+                                    through the maze faster with smoother
+                                    direction correcting mechanisms. This will hopefully be implemented by Lab 3.</p>
+									<ul class="actions">
+										<li><a href="index.html" class="button next">Back to Home</a></li>
+									</ul>
+								</div>
+							</section>
+
+					</div>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<div class="inner">
+							<ul class="icons">
+								<li><a href="https://twitter.com/KingJames?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor" class="icon alt fa-twitter"><span class="label">Twitter</span></a></li>
+								<li><a href="https://www.facebook.com/LeBron/" class="icon alt fa-facebook"><span class="label">Facebook</span></a></li>
+								<li><a href="https://www.instagram.com/kingjames/?hl=en" class="icon alt fa-instagram"><span class="label">Instagram</span></a></li>
+								<li><a href="https://github.com/ece-3400-group/" class="icon alt fa-github"><span class="label">GitHub</span></a></li>
+								<li><a href="https://www.linkedin.com/in/shubhom/" class="icon alt fa-linkedin"><span class="label">LinkedIn</span></a></li>
+							</ul>
+							<ul class="copyright">
+								<li>&copy; Cornell University</li><li>Design Credits: <a href="https://html5up.net">HTML5 UP</a></li>
+							</ul>
+						</div>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
