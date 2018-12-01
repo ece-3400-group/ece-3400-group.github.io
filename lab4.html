@@ -113,9 +113,9 @@
 												</header>
 												<p>The most difficult part of setting up our camera was determining the order in which to check various values like VSYNC, HREF, and PCLK. However, after reading through more documentation we found the following:</p>
 												<ul>
-													<li>VSYNC: Determines when a new frame is starting</li>
-													<li>HREF: Determines when a new row of pixels is starting</li>
-													<li>PCLK: Determines when half of a pixel has been transmitted</li>
+													<li>VSYNC: Determines when a new frame is starting (falling edge) and ending (rising edge). </li>
+													<li>HREF: Determines when a new row of pixels is starting (rising edge) and ending (falling edge) </li>
+													<li>PCLK: Determines when half of a pixel has been transmitted. New bytes start with rising edge indicates a new byte is ready to read.</li>
 												</ul>
 												<p>
 													Using this information together, we were very slowly able to begin drawing full images out of our camera. Our final code was organized in a structure based around PCLK being triggered (as it switches the most often), then HREF, and finally VSYNC. This led us to finally capture the image to the left.
@@ -123,6 +123,26 @@
 											</div>
 										</div>
 								</section>
+
+								<section>
+										<iframe width="560" height="315" src="https://www.youtube.com/embed/7HMbCMyBm5I" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+										<div class="content">
+											<div class="inner">
+												<header class="major">
+													<h3>[Problem] Blinking Camera Image</h3>
+												</header>
+												<p>We got the blinking image in real camera, and also discolorated color bar. We solve the blinking image based on the following concept:</p>
+												<ul>
+													<li>Registor: When doing downsampling, the pixel bit should directly assign to M9K memory (pixel_data_RGB332) rather than storing on a register. </li>
+													<li>Wire: Although minimizing the wire between FPGA and Arduino is a better method, we solve the blinking image by replacing female to female with two female to male and one breadboard.</li>
+												</ul>
+												<p>
+													Every team has the similar problem and similar code when doing downsampling. It is better to do the sample test to test out whether the problem is from hardware or software. For example, a prestored image in M9K can be testing for image processing, or replacing certain wire to eliminate the bad wire connection.
+												</p>
+											</div>
+										</div>
+								</section>
+
 							</section>
 					</div>
 
