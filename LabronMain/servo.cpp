@@ -22,6 +22,7 @@ void pathStackPush(byte pushed){
 
   if (pathStackSize > sizeof(pathStack)/sizeof(byte)){ // stack is too big
     Serial.println(F("PATHSTACK OVERFLOW >> ABORT!"));
+    confused = true; 
   }
   else{
     bool seen = false;
@@ -47,12 +48,16 @@ void pathStackPush(byte pushed){
       pathStackSize = pathStackSize+1; // increment stack size only if unseen
       }
     pathStack [pathStackSize-1] = pushed;
-
-
   }
 }
 
 
+void dfsInit(byte initLoc){
+  // If something goes wrong, we're going to clear stacks and restart exploration at the current location. This way, hopefully LABron is less confused all the time >:( 
+  clearStacks(); 
+  dfsStackPush(initLoc);
+  pathStackPush(initLoc);
+}
 
 byte pathStackPop(){
   Serial.print (F("Popping "));
@@ -60,6 +65,7 @@ byte pathStackPop(){
   if (pathStackSize<=0){
     Serial.println(F("PATHSTACK MUST BE POPULATED (POP)"));
     return 0b11111111; // nullish
+    confused = true; 
   }
   else{
     byte returned = pathStack[pathStackSize-1];
@@ -74,6 +80,7 @@ byte pathStackPeek(){
   if (pathStackSize<=0){
     Serial.println(F("PATHSTACK MUST BE POPULATED (PEEK)"));
     return 0b11111111; // nullish
+    confused = true; 
   }
   else{
     return pathStack[pathStackSize-1];
@@ -86,6 +93,7 @@ void dfsStackPush(byte pushed){
   Serial.println(F(" to dfsStack"));
   if (dfsStackSize > sizeof(dfsStack)/sizeof(byte)){ // stack is too big
     Serial.println(F("DFS STACK OVERFLOW >> ABORT!"));
+    confused = true; 
   }
   else{
     dfsStackSize=dfsStackSize + 1; // increment stack size
@@ -98,6 +106,7 @@ byte dfsStackPop(){
   Serial.println(F(" from dfsStack"));
   if (dfsStackSize<=0){
     Serial.println("DFS STACK MUST BE POPULATED");
+    confused = true; 
     return 0b11111111; // nullish
   }
   else{
@@ -114,6 +123,7 @@ byte dfsStackPeek(){
   if (dfsStackSize<=0){
     Serial.println(F("PATHSTACK MUST BE POPULATED"));
     return 0b00000000; // nullish
+    confused = true; 
   }
   else{
     return dfsStack[dfsStackSize-1];
@@ -286,6 +296,7 @@ void goToLoc(byte nextLoc){
     delay(400);
   }
 }
+
 bool dfsPath(byte walldir) {
   // use DFS and wall sensing to push to DFS stack. If there's no reachable unexplored locations push nothing
   checkSensors(); // still need old sensory check
@@ -355,6 +366,7 @@ bool dfsPath(byte walldir) {
   }
 // push neighboring locations to DFS Stack if there's no wall
 bool somethingPushed = false;
+
 Serial.print(F("CurrentX: "));
 Serial.println(currentX);
 Serial.print(F("CurrentY: "));
@@ -471,9 +483,10 @@ byte nextLocByte(int nextX, int nextY){
     }
   }
   else {
-    Serial.println("I am very confused");
-    delay(10000);
-    return FLIP; // turn around because you're confused
+    Serial.println("nextLocByte confused");
+    confused = true; 
+    delay(1000);
+    return FORWARD; // turn around because you're confused
   }
 }
 
@@ -526,14 +539,16 @@ byte decideRouteDFS() {
         int nextY = nextLoc % 10;
         byte loc = nextLocByte(nextX, nextY);
 //        goToLoc(loc);
-        walldir |= (loc); // now choose which dir nextX, nextY corresponds to (original byte encodging Forward-Right-Backward-Left)
+        walldir |= (loc); // now choose which dir nextX, nepxtY corresponds to (original byte encodging Forward-Right-Backward-Left)
         return walldir; // return this to LabronMain
       }
       // this dummy should equal dfsStackPop()
     }
+    
     int nextLoc = decodePositionByte(pathPeek); // based on the most recent popped thing choose nextLoc and move there
     int nextX = nextLoc / 10; // nextLoc byte encoded as concatenated xy int so our maze can't handle over 9x9 mazes (which is chill lol)
     int nextY = nextLoc % 10;
+    
     Serial.print(F("NextLoc: "));
     Serial.println(nextLoc);
     printDfsStack();
@@ -567,7 +582,7 @@ byte decideRouteDFS() {
 
 
 // Logic for deciding the route for the robot
-byte decideRoute() {
+byte decideRoute(bool right) {
   // uses right hand wall following
   checkSensors();
 
@@ -586,46 +601,100 @@ byte decideRoute() {
   {
     stop();
     byte walldir = wallDetected();
-
+    if (right){
+    Serial.println(F("Right hand wall following")); 
     // bits [7-4] are wall dirs based on sensors, bits [3-0] are the dirs we choose to go
     // bit[3] forward, bit[2]  right, bit[1] turn aroudn, bit[0] left, all 0 do nothing
     if (walldir == FRONTWALL || walldir == NOWALL || walldir == (FRONTWALL | LEFTWALL)) {
       // No wall detected to right, so turn right
-      Serial.println(F("No Wall"));
+      Serial.println(F("No Wall to RIGHT"));
       walldir = walldir | 0b000000100;
-      turnRight();
-      digitalWrite(RIGHTWALL_PIN, LOW);
-      digitalWrite(FORWARDWALL_PIN, LOW);
+//      turnRight();
+//      digitalWrite(RIGHTWALL_PIN, LOW);
+//      digitalWrite(FORWARDWALL_PIN, LOW);
     }
 
 
     else if ((walldir & FRONTWALL) && (walldir & RIGHTWALL) && (walldir & LEFTWALL)) {
       // Wall detected to right, front,and left so turn around
       // walldir is 11010000
-      digitalWrite(RIGHTWALL_PIN, HIGH);
-      digitalWrite(FORWARDWALL_PIN, HIGH);
+//      digitalWrite(RIGHTWALL_PIN, HIGH);
+//      digitalWrite(FORWARDWALL_PIN, HIGH);
       // digitalWrite(LEFTWALL_PIN, HIGH); // not sure if this LED exists
       walldir = walldir | 0b00000010; // bit 1 corresponds to flipping dir
-      //turnAround();
-      stop();
       Serial.println(F("Wall to FRONT and RIGHT and LEFT"));
-      digitalWrite(RIGHTWALL_PIN, LOW);
-      digitalWrite(FORWARDWALL_PIN, LOW);
+//      turnAround();
+//      digitalWrite(RIGHTWALL_PIN, LOW);
+//      digitalWrite(FORWARDWALL_PIN, LOW);
+    }
+    else if ((walldir & FRONTWALL) && (walldir & LEFTWALL)) {
+      // Wall detected to right AND in front, so turn left
+//      digitalWrite(RIGHTWALL_PIN, HIGH);
+//      digitalWrite(FORWARDWALL_PIN, HIGH);
+      walldir = walldir | 0b00000100;
+//      turnRight();
+      Serial.println(F("Wall to LEFT and FRONT"));
+//      digitalWrite(RIGHTWALL_PIN, LOW);
+//      digitalWrite(FORWARDWALL_PIN, LOW);
+    }
+    else if (walldir & LEFTWALL) {
+      // Wall detected to left, but NOT in front, so move forward
+//      digitalWrite(RIGHTWALL_PIN, HIGH);
+//      digitalWrite(FORWARDWALL_PIN, LOW);
+      walldir = walldir | 0b00001000;
+//      goStraight();
+      Serial.println(F("Wall to LEFT"));
+      while (vals[0] < LINE_THRESHOLD || vals[2] < LINE_THRESHOLD) {
+        checkSensors();
+      }
+      stop();
+    }
+    else {
+      Serial.println(F("Sorry something really weird happened"));
+      confused = true; 
+    }
+    return walldir;
+  }
+  else{ //left hand wall following
+    Serial.println(F("Left hand wall following")); 
+      // bits [7-4] are wall dirs based on sensors, bits [3-0] are the dirs we choose to go
+    // bit[3] forward, bit[2]  right, bit[1] turn aroudn, bit[0] left, all 0 do nothing
+    if (walldir == FRONTWALL || walldir == NOWALL || walldir == (FRONTWALL | RIGHTWALL)) {
+      // No wall detected to right, so turn left
+      Serial.println(F("No Wall to LEFT"));
+      walldir = walldir | 0b000000001;
+      turnLeft();
+//      digitalWrite(RIGHTWALL_PIN, LOW);
+//      digitalWrite(FORWARDWALL_PIN, LOW);
+    }
+
+
+    else if ((walldir & FRONTWALL) && (walldir & RIGHTWALL) && (walldir & LEFTWALL)) {
+      // Wall detected to right, front,and left so turn around
+      // walldir is 11010000
+//      digitalWrite(RIGHTWALL_PIN, HIGH);
+//      digitalWrite(FORWARDWALL_PIN, HIGH);
+      // digitalWrite(LEFTWALL_PIN, HIGH); // not sure if this LED exists
+      walldir = walldir | 0b00000010; // bit 1 corresponds to flipping dir
+      turnAround();
+      Serial.println(F("Wall to FRONT and RIGHT and LEFT"));
+//      digitalWrite(RIGHTWALL_PIN, LOW);
+//      digitalWrite(FORWARDWALL_PIN, LOW);
     }
     else if ((walldir & FRONTWALL) && (walldir & RIGHTWALL)) {
       // Wall detected to right AND in front, so turn left
-      digitalWrite(RIGHTWALL_PIN, HIGH);
-      digitalWrite(FORWARDWALL_PIN, HIGH);
+//      digitalWrite(RIGHTWALL_PIN, HIGH);
+//      digitalWrite(FORWARDWALL_PIN, HIGH);
       walldir = walldir | 0b00000001;
       turnLeft();
       Serial.println(F("Wall to RIGHT and FRONT"));
-      digitalWrite(RIGHTWALL_PIN, LOW);
-      digitalWrite(FORWARDWALL_PIN, LOW);
+//      digitalWrite(RIGHTWALL_PIN, LOW);
+//      digitalWrite(FORWARDWALL_PIN, LOW);
     }
     else if (walldir & RIGHTWALL) {
       // Wall detected to right, but NOT in front, so move forward
-      digitalWrite(RIGHTWALL_PIN, HIGH);
-      digitalWrite(FORWARDWALL_PIN, LOW);
+//      digitalWrite(RIGHTWALL_PIN, HIGH);
+//      digitalWrite(FORWARDWALL_PIN, LOW);
       walldir = walldir | 0b00001000;
       goStraight();
       Serial.println(F("Wall to RIGHT"));
@@ -636,9 +705,10 @@ byte decideRoute() {
     }
     else {
       Serial.println(F("Sorry something really weird happened"));
-      stop();
+      confused = true; 
     }
     return walldir;
+  }
   }
 
   // Adjust the robot a bit if it's off the line

@@ -2,9 +2,10 @@
 /* File to keep track of internal maze state and dir */
 
 #include "maze.h"
+bool confused = false; 
 int currentX = 0;
-int currentY = 5;
-byte dir = 0b11; // south
+int currentY = 0;
+byte dir = 0b00; // north
 byte maze[MAZEX][MAZEY];
 
 // DIRECTIONS

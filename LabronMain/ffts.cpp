@@ -55,9 +55,9 @@ byte waitForStart() {
     fftBefore2 = 0;
     return 0b0000;
   }
-  Serial.print("["); Serial.print(fftBefore2); Serial.println("]");
-  Serial.print("["); Serial.print(fftBefore); Serial.println("]");
-  Serial.print("["); Serial.print(readFFT()); Serial.println("]");
+//  Serial.print("["); Serial.print(fftBefore2); Serial.println("]");
+//  Serial.print("["); Serial.print(fftBefore); Serial.println("]");
+//  Serial.print("["); Serial.print(readFFT()); Serial.println("]");
   stop();
   fftBefore2 = fftBefore;
   fftBefore = readFFT();
@@ -77,7 +77,7 @@ byte isFFTPeak() {
         
 
     for (int i=binIRHat-2;i<binIRHat+1;i++){       // search in range of plus and minus 2
-      Serial.print("["); Serial.print(fft_log_out[i]); Serial.println("]");
+      //Serial.print("["); Serial.print(fft_log_out[i]); Serial.println("]");
       if (fft_log_out[i]>hatThreshold) result |= IRHAT_MASK;
     }
 

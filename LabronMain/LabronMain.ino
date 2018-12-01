@@ -17,25 +17,43 @@ void setup() {
   setupDebugFFT();
   setupRadios();
   // Starting location is the root of everything
-  void clearStacks();
   byte firstByte = byteifyCoordinate(currentX,currentY); // Initial starting point stack push
-  dfsStackPush(firstByte);
-  pathStackPush(firstByte);
+  dfsInit(firstByte); 
   while( waitForStart() );
 }
 
 int count = 0;
-
+int confusedCount = 0; 
 void loop() {
   if (checkMazeEmpty()){
     Serial.println(F("MAZE IS EXPLORED LEBRON IS DONE"));
   }
-  byte routeInfo = decideRouteDFS();
+  byte routeInfo; 
+  if (confused){
+          Serial.print ("Labron is confused. It's time to switch to randomish wall following"); 
+          confusedCount = confusedCount + 1; 
+          if (confusedCount<5){
+            byte currentLoc = byteifyCoordinate(currentX,currentY); 
+            dfsInit(currentLoc); 
+            confused = false; 
+            routeInfo = decideRouteDFS();
+
+          }
+          else{ // DFS probably broken, switch to randomly wall following
+                bool wallFollow = ((confusedCount%2==0)? true:false);  // right hand wall follow if even, left hand wall follow if odd
+                routeInfo = decideRoute(wallFollow);  
+          }
+  }
+  else{
+          routeInfo = decideRouteDFS();
+  }
   // routeInfo organized [F,R,B,L; forward, right, left, turnaround]
   //routeInfo = 1;
   byte loc = 0b0000000;
-
+  
   if (routeInfo != 0) {
+    Serial.println(F("Confusion: "));
+    Serial.print(confused); 
     loc = routeInfo & 0b00001111;
     // now have new information to update with
     //Serial.println(dir);
@@ -52,14 +70,14 @@ void loop() {
     printPathStack();
     printMaze();
 
-//    while (packetTransmission(positionPacket) == 0) {
-//      packetTransmission(positionPacket);
-//      //delay(300);
-//    }
-    //delay(300);no
-//    Serial.println(F("(======================================="));
-//     Serial.println(positionPacket);
-//   Serial.println(F("======================================="));
+    while (packetTransmission(positionPacket) == 0) {
+      packetTransmission(positionPacket);
+      delay(300);
+    }
+    delay(300);
+    Serial.println(F("(======================================="));
+    Serial.println(positionPacket);
+    Serial.println(F("======================================="));
 
   }
   bool dumStop = false;
@@ -68,6 +86,9 @@ void loop() {
     if (!dumStop){
     Serial.println(F("COMPLETE STOP"));
     bool dumStop = false;
+    }
+    if (checkMazeEmpty()){
+      Serial.println(F("Maze completed!")); 
     }
     stop();
   }

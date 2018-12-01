@@ -42,16 +42,16 @@ void slightLeft();
 void turnAround();
 void goToLoc(byte nextLoc);
 
-// Stack Control
+// Stacks
 void pathStackPush(byte pushed);
 byte pathStackPop(); 
 void printPathStack(); 
-
 void dfsStackPush(byte pushed); 
 byte dfsStackPop(); 
 void printDfsStack(); 
+void dfsInit(byte loc); 
 // Ultimate Function
-byte decideRoute();
+byte decideRoute(bool right);
 byte decideRouteDFS(); 
 void clearStacks(); 
 
