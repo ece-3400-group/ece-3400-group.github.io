@@ -65,12 +65,12 @@
 									</header>
 									<p>As part of this pre-lab, we were asked to lookup some useful information for the remaining portions of this lab, which will be listed out now. The largest possible memory buffer to store image information is approximately 74250 bytes. This space would be used up quite quickly usinga a standard image storage protocol like RGB565, but downsampling this to RGB332 would allow us to store double the number of pixels (in this case, 74250 pixels for a total of nearly 3 full frames in memory on the FPGA). More specific information about the hardware we're using includes:</p>
 									<ul>
-										<li>Reg for reset: COM7</li>
-										<li>Reg for scaling: COM3</li>
-										<li>Reg for gain control: COM9</li>
-										<li>Reg for external clock: CLKRC</li>
-										<li>Reg for data formatting: COM15</li>
-										<li>Reg for color bar: COM17</li>
+										<li>Reg for reset: 							COM7 -> 0x0C</li>
+										<li>Reg for scaling: 						COM3 -> 0X08 </li>
+										<li>Reg for gain control: 			COM9 -> 0x01 (Bit[0] froze AGC/AEC)</li>
+										<li>Reg for external clock: 		CLKRC -> 0xC0 (Bit[6]: Use external clock directl)</li>
+										<li>Reg for data formatting: 		COM15 -> 0XF0 (Bit[7:6]: 11: Output range: [00] to [FF]; Bit[5:4]: 11 for RGB555)</li>
+										<li>Reg for color bar: 					COM17 -> 0x00 (Disable colorbar) or 0x08 (Enable Colorbar)</li>
 									</ul>
 									<p>This wraps up the information we gathered before endeavoring on Lab 4.</p>
 								</div>
@@ -99,7 +99,7 @@
 											<h3>Setting Up Our Image output </h3>
 											</header>
 											<p>
-													Setting up our camera involved first attaching the camera to our Arduino and FPGA, but once this was done and we were able to confirm accurate register writes, we began experimenting with reading data from the FPGA. One of the first things we did was simulate the color bars. After this, we began working with our M9K blocks and syncing up with camera frames. 
+													Setting up our camera involved first attaching the camera to our Arduino and FPGA, but once this was done and we were able to confirm accurate register writes, we began experimenting with reading data from the FPGA. One of the first things we did was simulate the color bars. After this, we began working with our M9K blocks and syncing up with camera frames.
 											</p>
 										</div>
 									</div>
