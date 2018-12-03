@@ -19,7 +19,7 @@ void setup() {
   // Starting location is the root of everything
   byte firstByte = byteifyCoordinate(currentX,currentY); // Initial starting point stack push
   dfsInit(firstByte); 
-  while( waitForStart() );
+//  while( waitForStart() );
 }
 
 int count = 0;
@@ -42,6 +42,7 @@ void loop() {
           else{ // DFS probably broken, switch to randomly wall following
                 bool wallFollow = ((confusedCount%2==0)? true:false);  // right hand wall follow if even, left hand wall follow if odd
                 routeInfo = decideRoute(wallFollow);  
+                
           }
   }
   else{
@@ -60,7 +61,7 @@ void loop() {
     //Serial.println(routeInfo);
     updateDirection(routeInfo);
     goToLoc(loc);
-     unsigned int positionPacket = byteifyCoordinate(currentX,currentY);
+    unsigned int positionPacket = byteifyCoordinate(currentX,currentY);
     // Position Packet as [XXXX-YYYY]
     Serial.print(F("Dir = ")); Serial.println(dir);
     Serial.print(F("CurrentX = ")); Serial.println(currentX);
@@ -97,7 +98,8 @@ void loop() {
     while (fftResult & readFFT(ADC5_FFT) & IRHAT_MASK) {
       Serial.println("IR HAT DETECTED");
       fftResult = 0;
-      stop();
+      confused = true;
+      reverse(); 
     }
     fftResult = readFFT(ADC5_FFT);
   }

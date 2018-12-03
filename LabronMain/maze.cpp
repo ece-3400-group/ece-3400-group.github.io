@@ -5,7 +5,7 @@
 bool confused = false; 
 int currentX = 0;
 int currentY = 0;
-byte dir = 0b00; // north
+byte dir = 0b11; // north
 byte maze[MAZEX][MAZEY];
 
 // DIRECTIONS

@@ -282,6 +282,7 @@ void printPathStack(){
 }
 
 void goToLoc(byte nextLoc){
+  
   if (nextLoc==RIGHT){
     turnRight();
   }
@@ -663,7 +664,7 @@ byte decideRoute(bool right) {
       // No wall detected to right, so turn left
       Serial.println(F("No Wall to LEFT"));
       walldir = walldir | 0b000000001;
-      turnLeft();
+   //   turnLeft();
 //      digitalWrite(RIGHTWALL_PIN, LOW);
 //      digitalWrite(FORWARDWALL_PIN, LOW);
     }
@@ -676,7 +677,7 @@ byte decideRoute(bool right) {
 //      digitalWrite(FORWARDWALL_PIN, HIGH);
       // digitalWrite(LEFTWALL_PIN, HIGH); // not sure if this LED exists
       walldir = walldir | 0b00000010; // bit 1 corresponds to flipping dir
-      turnAround();
+   //   turnAround();
       Serial.println(F("Wall to FRONT and RIGHT and LEFT"));
 //      digitalWrite(RIGHTWALL_PIN, LOW);
 //      digitalWrite(FORWARDWALL_PIN, LOW);
@@ -686,7 +687,7 @@ byte decideRoute(bool right) {
 //      digitalWrite(RIGHTWALL_PIN, HIGH);
 //      digitalWrite(FORWARDWALL_PIN, HIGH);
       walldir = walldir | 0b00000001;
-      turnLeft();
+  //    turnLeft();
       Serial.println(F("Wall to RIGHT and FRONT"));
 //      digitalWrite(RIGHTWALL_PIN, LOW);
 //      digitalWrite(FORWARDWALL_PIN, LOW);
@@ -696,7 +697,7 @@ byte decideRoute(bool right) {
 //      digitalWrite(RIGHTWALL_PIN, HIGH);
 //      digitalWrite(FORWARDWALL_PIN, LOW);
       walldir = walldir | 0b00001000;
-      goStraight();
+ //     goStraight();
       Serial.println(F("Wall to RIGHT"));
       while (vals[0] < LINE_THRESHOLD || vals[2] < LINE_THRESHOLD) {
         checkSensors();
@@ -730,7 +731,26 @@ byte decideRoute(bool right) {
     return 0;
   }
 }
+void reverse(){
+// Move forwrard
 
+  leftServo.write(100);
+  rightServo.write(80);
+
+  delay(200);
+  checkSensors();
+  while (vals[1] > LINE_THRESHOLD) {
+    checkSensors();
+  }
+  leftServo.write(0);
+  rightServo.write(0);
+  delay(200);
+  checkSensors();
+  while (vals[1] > LINE_THRESHOLD) {
+    checkSensors();
+  }
+  stop();
+}
 void clearStacks(){
   for (int i=0; i<MAZEY*MAZEX; i++){
     pathStack[i] = 0b11111111;

@@ -40,6 +40,7 @@ void stop();
 void slightRight();
 void slightLeft();
 void turnAround();
+void reverse(); 
 void goToLoc(byte nextLoc);
 
 // Stacks
