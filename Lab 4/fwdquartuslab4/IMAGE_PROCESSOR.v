@@ -134,27 +134,31 @@ always @(posedge CLK) begin
 		// Usually, we have brighter red, so the red value threshold is higher.
 		if ( ((PIXEL_IN[7:5] > 3'd3) && (PIXEL_IN[7:5] > PIXEL_IN[1:0] + 2'b01) && (PIXEL_IN[4:2] < 3'd3)) && prev_X != VGA_PIXEL_X) begin 
 			countRED = countRED + 16'd1; 
-					
-			if ((prev_Y != VGA_PIXEL_Y) && (Last_redLine_found == 0)) begin
-				Last_redLine = VGA_PIXEL_Y + 1'b1;
-				RED_LINE_4 = 10'b0;
-				lastline = Last_redLine;
-				//Prev_Last_redLine = Last_redLine;
-				//reg_result[0] = 1'b1;
-				end
 			
-			if( ( VGA_PIXEL_Y == (Last_redLine-1) ) ) begin // && First_redLine_found
-				RED_LINE_4 = RED_LINE_4 + 1'b1;
-				//reg_result[1] = 1'b1;
-				if (RED_LINE_4 < 9'd30 || VGA_PIXEL_Y == 100) begin
-					Last_redLine_found = 1'b1;
-					//reg_result[2] = 1'b1;
-					end
+			if (VGA_PIXEL_Y < 120 ) begin
+				Last_redLine = VGA_PIXEL_Y;
 				end
+//			if ((prev_Y != VGA_PIXEL_Y) && (Last_redLine_found == 0) && First_redLine_found) begin
+//				Last_redLine = VGA_PIXEL_Y + 1'b1;
+//				RED_LINE_4 = 10'b0;
+//				lastline = Last_redLine;
+//				//Prev_Last_redLine = Last_redLine;
+//				//reg_result[0] = 1'b1;
+//				end
+//			
+//			if( ( VGA_PIXEL_Y == (Last_redLine-1) ) ) begin // && First_redLine_found
+//				RED_LINE_4 = RED_LINE_4 + 1'b1;
+//				//reg_result[1] = 1'b1;
+//				if (RED_LINE_4 > 9'd30 && VGA_PIXEL_Y > 80) begin
+//					Last_redLine_found = 1'b1;
+//					//reg_result[2] = 1'b1;
+//					end
+//				end
 				
-			if ((prev_Y != VGA_PIXEL_Y) && (First_redLine_found != 1'b1)) begin
-				First_redLine = First_redLine + 1'b1;
-				firstline = First_redLine;
+			if ((prev_Y != VGA_PIXEL_Y) && (First_redLine_found == 0)) begin
+				First_redLine = VGA_PIXEL_Y + 1'b1;
+				RED_LINE_0 = 10'b0;
+				//firstline = First_redLine;
 				//Prev_First_redLine = First_redLine;
 				//reg_result[0] = 1'b1;
 				end
@@ -164,22 +168,22 @@ always @(posedge CLK) begin
 			
 			if ( VGA_PIXEL_Y == (First_redLine - 1)) begin
 				RED_LINE_0 = RED_LINE_0 + 1'b1;
-				if (RED_LINE_0 > 9'd30) begin
+				if (RED_LINE_0 > 9'd5 && RED_LINE_0 < 9'd30) begin
 					First_redLine_found = 1'b1;
 					//reg_result[1] = 1'b1;
 					end
 				end
 		
 				
-			if ( VGA_PIXEL_Y == (Prev_First_redLine + ((Prev_First_redLine - Prev_Last_redLine)*2/6)) ) begin
+			if ( VGA_PIXEL_Y == (Prev_First_redLine + ((Prev_Last_redLine - Prev_First_redLine)*2/6)) ) begin
 				RED_LINE_1 = RED_LINE_1 + 1'b1;
 				end
 				
-			if ( VGA_PIXEL_Y == (Prev_First_redLine + ((Prev_First_redLine - Prev_Last_redLine)*3/6)) ) begin
+			if ( VGA_PIXEL_Y == (Prev_First_redLine + ((Prev_Last_redLine - Prev_First_redLine)*3/6)) ) begin
 				RED_LINE_2 = RED_LINE_2 + 1'b1;
 				end
 			
-			if ( VGA_PIXEL_Y == (Prev_First_redLine + ((Prev_First_redLine - Prev_Last_redLine)*4/6)) ) begin
+			if ( VGA_PIXEL_Y == (Prev_First_redLine + ((Prev_Last_redLine - Prev_First_redLine)*4/6)) ) begin
 				RED_LINE_3 = RED_LINE_3 + 1'b1;
 				end
 			
@@ -201,8 +205,8 @@ always @(posedge CLK) begin
 			countNULL = countNULL + 16'd1; 
 			end 
 				// Storing last Y address	
-	  prev_X = VGA_PIXEL_X;
-	  prev_Y = VGA_PIXEL_Y;
+//	  prev_X = VGA_PIXEL_X;
+//	  prev_Y = VGA_PIXEL_Y;
 	end
 			
 	/*--------------------- Testing Line Number -------------------------
@@ -227,14 +231,14 @@ always @(posedge CLK) begin
 	if (((RED_LINE_1 > 5'd10) && (RED_LINE_2 > 5'd10) && (RED_LINE_3 > 5'd10))
 			|| ((BLUE_LINE_1 > 5'd10) && (BLUE_LINE_2 > 5'd10) && (BLUE_LINE_3 > 5'd10))) begin
 		
-		if ((RED_LINE_2 > RED_LINE_1) && (RED_LINE_2 > RED_LINE_3)) begin
+		if ((RED_LINE_2 > RED_LINE_1 + 5) && (RED_LINE_2 > RED_LINE_3 + 5)) begin
 			Diam_CNT = Diam_CNT + 1;
 			end
-		else if ( (RED_LINE_3 > RED_LINE_1) && (RED_LINE_3 > RED_LINE_2)) begin
+		if ( (RED_LINE_3 > RED_LINE_1 + 5) && (RED_LINE_3 > RED_LINE_2 + 5)) begin
 			Trian_CNT = Trian_CNT + 1;
 			end
-		else if ( (((RED_LINE_2 - RED_LINE_1) < 5'd10) || ((RED_LINE_1 - RED_LINE_2) < 5'd10)) && (((RED_LINE_3 - RED_LINE_2) < 5'd10) 
-			|| ((RED_LINE_2 - RED_LINE_3) < 5'd10)) && (countRED > R_CNT_THRESHOLD) ) begin
+		if ( (((RED_LINE_2 - RED_LINE_1) < 5'd20) || ((RED_LINE_1 - RED_LINE_2) < 5'd20)) && (((RED_LINE_3 - RED_LINE_2) < 5'd20) 
+			|| ((RED_LINE_2 - RED_LINE_3) < 5'd20)) && (countRED > R_CNT_THRESHOLD) ) begin
 			// ((RED_LINE_1 - RED_LINE_0) < 5'd20 || (RED_LINE_0 - RED_LINE_1) < 5'd20) || ((RED_LINE_2 - RED_LINE_1) < 5'd20 || (RED_LINE_1 - RED_LINE_2) < 5'd20) ||
 			Sqr_CNT = Sqr_CNT + 1;
 			end
@@ -270,7 +274,7 @@ always @(posedge CLK) begin
 
 	
 	
-	if( (VGA_PIXEL_Y > `SCREEN_HEIGHT) && (VGA_PIXEL_Y <= `SCREEN_HEIGHT+2) ) begin //negedge VSYNC 
+	if( (prev_Y != VGA_PIXEL_Y) && (VGA_PIXEL_Y == `SCREEN_HEIGHT+1) ) begin //negedge VSYNC 
 		countBLUE = 16'b0; 
 		countRED = 16'b0; 
 		countNULL = 16'b0; 
@@ -288,11 +292,11 @@ always @(posedge CLK) begin
 		
 		// RED
 		Prev_First_redLine = First_redLine;
-		//firstline = First_redLine;
+		firstline = Prev_First_redLine;
 		First_redLine = 8'b0;
 		
 		Prev_Last_redLine = Last_redLine;
-		//lastline = Last_redLine;
+		lastline = Prev_Last_redLine;
 		Last_redLine = 8'b0;
 		
 		First_redLine_found = 1'b0;
@@ -301,10 +305,10 @@ always @(posedge CLK) begin
 		// 
 		frameCNT = frameCNT + 1;
 		//countRED = countRED / frameCNT;
-		reg_result = 3'b0;
+		//reg_result = 3'b0;
 		end 
 	
-	if ( (frameCNT > 1000) && (VGA_PIXEL_Y > `SCREEN_HEIGHT) && (VGA_PIXEL_Y <= `SCREEN_HEIGHT+2) ) begin
+	if ( (frameCNT > 4000) && (VGA_PIXEL_Y > `SCREEN_HEIGHT) && (VGA_PIXEL_Y <= `SCREEN_HEIGHT+1) ) begin
 		if ((Sqr_CNT > Diam_CNT) && (Sqr_CNT > Trian_CNT)) begin
 			reg_result[0] = 1'b0; 
 			reg_result[1] = 1'b1;
@@ -332,12 +336,14 @@ always @(posedge CLK) begin
 		
 		countRED = 16'b0; 
 		
-		//firstline = Prev_First_redLine;
-		//lastline = Prev_Last_redLine;
-	end
+		firstline = Prev_First_redLine;
+		lastline = Prev_Last_redLine;
+		end
 	
 
 lastsync = VGA_VSYNC_NEG; 
+prev_X = VGA_PIXEL_X;
+prev_Y = VGA_PIXEL_Y;
 
 end 
 
