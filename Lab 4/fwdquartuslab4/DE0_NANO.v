@@ -58,6 +58,9 @@ assign VGA_RESET = ~KEY[0];
 wire [3:0] RESULT;
 wire [9:0] firstline;
 wire [9:0] lastline;
+wire [9:0] MidLine_0;
+wire [9:0] MidLine_1;
+wire [9:0] MidLine_2;
 
 /* WRITE ENABLE */
 reg W_EN;
@@ -107,6 +110,9 @@ IMAGE_PROCESSOR proc(
 	.RESULT(RESULT),
 	.FirstLine(firstline), 
 	.LastLine(lastline)
+//	.MidLine_0(MidLine_0),
+//	.MidLine_1(MidLine_1),
+//	.MidLine_2(MidLine_2)
 );
 
 ///////* UART RX *///////
@@ -302,12 +308,24 @@ always @ (posedge PCLK) begin
 	if (pixel_data_RGB332[7:5] > 3'd3  && pixel_data_RGB332[7:5] > (pixel_data_RGB332[1:0] + 2'b01) && pixel_data_RGB332[4:2] < 3'd3) begin
 		pixel_data_RGB332 = pixel_data_RGB332;
 		end
+//	else if (pixel_data_RGB332[1:0] > 2'b00  && pixel_data_RGB332[1:0] > ((pixel_data_RGB332[7:5] >> 1) + 1) && pixel_data_RGB332[4:2] < 3'd3) begin
+//		pixel_data_RGB332 = pixel_data_RGB332;
+//	end
 	else if (Y_ADDR == firstline || Y_ADDR == (firstline - 1)) begin
 		pixel_data_RGB332 = 8'd255;
 		end
 	else if (Y_ADDR == lastline || Y_ADDR == (lastline - 1)) begin
 		pixel_data_RGB332 = 8'b00011000;
 		end	
+//	else if (Y_ADDR == MidLine_0 || Y_ADDR == (MidLine_0 - 1)) begin
+//		pixel_data_RGB332 = 8'b00011000;
+//		end	
+//	else if (Y_ADDR == MidLine_1 || Y_ADDR == (MidLine_1 - 1)) begin
+//		pixel_data_RGB332 = 8'b00011000;
+//		end	
+//	else if (Y_ADDR == MidLine_2 || Y_ADDR == (MidLine_2 - 1)) begin
+//		pixel_data_RGB332 = 8'b00011000;
+//		end	
 	else begin
 		pixel_data_RGB332 = 0;
 		end

@@ -47,7 +47,7 @@ void setup() {
  // OV7670_write_register(COM15 , 0b11010000);
   //OV7670_write_register(COM17 , 0x0C);
   OV7670_write_register(COM17 , 0x00);
-  OV7670_write_register(COM9 , 0x01);    // Noise COM9[0] = 1 <- Freeze AGC/AEC
+  // OV7670_write_register(COM9 , 0x01);    // Noise COM9[0] = 1 <- Freeze AGC/AEC
   // OV7670_write_register(RGB444 , 0x02); 
    OV7670_write_register(BRIGHTNESS, 0x00);
    Serial.println("Written!");
