@@ -63,32 +63,32 @@
 									<header class="major">
 										<h2>Introduction</h2>
 									</header>
-<pre>	ECE 3400 was a course based around the design of a maze tracing robot, 
-controlled by a pre programmed Arduino, and including functionality like 
-line-tracing, radio communication, FFT analysis of IR and Audio input, etc. The 
-methods by which we completed each subtask leading up to competition are 
-detailed below. 
-	The first portion of our robot design was beginning on a 660Hz tone. This was 
-performed by continuous microphone polling and FFT analysis. Later, a pushbutton 
+<pre>	ECE 3400 was a course based around the design of a maze tracing robot,
+controlled by a pre programmed Arduino, and including functionality like
+line-tracing, radio communication, FFT analysis of IR and Audio input, etc. The
+methods by which we completed each subtask leading up to competition are
+detailed below.
+	The first portion of our robot design was beginning on a 660Hz tone. This was
+performed by continuous microphone polling and FFT analysis. Later, a pushbutton
 was added and polled for a start signal as well.
-The next portion of our robot design was the methodology by which we actually 
-explored the maze. This was first done by learning to trace lines with our 
-completed robot. 3 line sensors on the front of LABron were used to achieve 
-this, and as all 3 line sensors detected a line at an intersection, LABron’s 
-onboard Arduino would determine which direction to move in based off of additional 
-information like nearby walls (supplied by distance sensors mounted on the front 
-and sides) as well as internal memory and position tracking, determining whether 
-LABron had been to a specific node before. 
-	During this process of traversing the maze, LABron also had to access his radio 
-component to report location and maze information to a base station. This was only 
-done at intersections in our final design and was executed using a bit masking 
-strategy discussed below to reduce our total radio transmission to 2 bytes. 
-	One of the last components of LABron was checking for the presence of other robots. 
-This was accomplished by using an IR LED and checking for spikes from other robots 
-IR hats. The final portion of LABron’s design was the incorporation of an FPGA performing 
-image processing on a camera output. The camera was used to search the maze for red and 
-blue trasures in the shape of triangles, squares, and diamonds. This implementation is 
-also discussed below. 
+The next portion of our robot design was the methodology by which we actually
+explored the maze. This was first done by learning to trace lines with our
+completed robot. 3 line sensors on the front of LABron were used to achieve
+this, and as all 3 line sensors detected a line at an intersection, LABron’s
+onboard Arduino would determine which direction to move in based off of additional
+information like nearby walls (supplied by distance sensors mounted on the front
+and sides) as well as internal memory and position tracking, determining whether
+LABron had been to a specific node before.
+	During this process of traversing the maze, LABron also had to access his radio
+component to report location and maze information to a base station. This was only
+done at intersections in our final design and was executed using a bit masking
+strategy discussed below to reduce our total radio transmission to 2 bytes.
+	One of the last components of LABron was checking for the presence of other robots.
+This was accomplished by using an IR LED and checking for spikes from other robots
+IR hats. The final portion of LABron’s design was the incorporation of an FPGA performing
+image processing on a camera output. The camera was used to search the maze for red and
+blue trasures in the shape of triangles, squares, and diamonds. This implementation is
+also discussed below.
 
 									</pre>
 								</div>
@@ -155,7 +155,7 @@ also discussed below.
 								</section>
 								<section>
 									<img src="https://ece-3400-group.github.io/images/Lab2/AudioCircuit_noFilter.png" height=330>
-									
+
 										<div class="content">
 
 											<div class="inner">
@@ -187,7 +187,7 @@ also discussed below.
 												<p>The competition had penalties for colliding into other robots in the maze. Each robot had an IR hat mounted 5.5” above ground broadcasting at 6 kHz.
 	The base IR signal circuit is shown below. It was a little different from the recommended layout to have non IR signal be roughly GND and have IR signals be positive voltages rather than the other way around. Amplifying this signal was also done with the same inverting op amp configuration biased at 2.5V shown in the audio circuit.
 
-	A simple RC low pass filter was also added to this circuit to filter out the 18 kHz frequencies broadcasted by decoys. A pole at ~16 kHz was added with a 10 kOhm resistor and a 1 nF capacitor. Though decoys weren’t used in the final competition, the filter stayed on LABron. 
+	A simple RC low pass filter was also added to this circuit to filter out the 18 kHz frequencies broadcasted by decoys. A pole at ~16 kHz was added with a 10 kOhm resistor and a 1 nF capacitor. Though decoys weren’t used in the final competition, the filter stayed on LABron.
 	The FFT function developed in the audio section was also used in for the IR hat. Since the desired signal was at 6 kHz, the bin number to search for was bin 44 since ~6 kHz = (fs/2)*(44/256) with fs = 67 kHz. The IR FFT is shown below
 
 </p>
@@ -200,7 +200,7 @@ also discussed below.
 												<header class="major">
 													<h3>Radio Communications</h3>
 												</header>
-												<p>For the radio communication, it was decided that the most resource efficient transmission time occurred at the intersections of the maze. The RF24 library was used and essentially, all example coded given by the course instructors remained the same minus an additional transmitted byte in the packet. The first byte sent was the current location (the intersection coordinates) and the second byte was that intersection’s “metadata”: walls in each absolute cardinal direction and treasures if any. In this way, LABron updated the base station with maze information at each intersection. Then, the GUI at the base station written by course instructors was updated to reflect that by parsing the Arduino sent packets to the GUI input format. 
+												<p>For the radio communication, it was decided that the most resource efficient transmission time occurred at the intersections of the maze. The RF24 library was used and essentially, all example coded given by the course instructors remained the same minus an additional transmitted byte in the packet. The first byte sent was the current location (the intersection coordinates) and the second byte was that intersection’s “metadata”: walls in each absolute cardinal direction and treasures if any. In this way, LABron updated the base station with maze information at each intersection. Then, the GUI at the base station written by course instructors was updated to reflect that by parsing the Arduino sent packets to the GUI input format.
 
 
 </p>
@@ -214,18 +214,18 @@ also discussed below.
 													<h3>Arduino-FPGA Communication</h3>
 												</header>
 												<p>Pin Assignments
-GPIO0_D0 = 24 MHz clock for Camera
-GPIO1_D20 = D0
-GPIO1_D21 = D1
-GPIO1_D22 = D2
-GPIO1_D23 = D3
-GPIO1_D24 = D4
-GPIO1_D25 = D5
-GPIO1_D26 = D6
-GPIO1_D27 = D7
-GPIO1_D28 = PCLK
-GPIO1_D29 = HREF
-GPIO1_D30 = VSYNC
+<li>GPIO0_D0 = 24 MHz clock for Camera</li>
+<li>GPIO1_D20 = D0</li>
+<li>GPIO1_D21 = D1</li>
+<li>GPIO1_D22 = D2</li>
+<li>GPIO1_D23 = D3</li>
+<li>GPIO1_D24 = D4</li>
+<li>GPIO1_D25 = D5</li>
+<li>GPIO1_D26 = D6</li>
+<li>GPIO1_D27 = D7</li>
+<li>GPIO1_D28 = PCLK</li>
+<li>GPIO1_D29 = HREF</li>
+<li>GPIO1_D30 = VSYNC</li>
 </p>
 <p>
 	FPGA
@@ -236,8 +236,8 @@ PLL
 50 MHz for RAM write cycles
 Color Bar Test
 Picture of working color bar
-Camera 
-http://web.mit.edu/6.111/www/f2016/tools/OV7670_2006.pdf 
+Camera
+http://web.mit.edu/6.111/www/f2016/tools/OV7670_2006.pdf
 Set to output 5 bits red, 5 bits green, 5 bits blue in 2 packets
 Downsampling
 VGA driver takes 332 (3 bits red, 3 bits green, 2 bits blue)
@@ -290,9 +290,9 @@ Penalties if detect a treasure that’s not there and thresholding with ambient 
 												<header class="major">
 													<h3>Path Planning</h3>
 												</header>
-												<p>The main task in the competition was to navigate as much of the maze as possible while keeping track of treasures and walls. In order to do this, LABron needed IR sensors to follow a white line. The logic for this sensing was straightforward- whichever sensor had the smallest signal read by the Arduino could be mapped to LABron moving onto a black part of the grid, meaning this sensor was not on a white line. In this way, with three sensors placed in front of LABron, it was possible to detect which sensor was on the white line at a given time, and follow the line based on turning towards that sensor at each timestep. To decide what values of the IR sensor analogRead() corresponded to white tape or black areas, we tested the IR sensors and determined a threshold, which was approximately 180. Because LABron’s movement was prone to noise based on factors like ambient light and battery power, we included functions that made small adjustments to LABron’s direction while line following to keep the robot as close to the middle of the line as possible. Finally, an intersection of the maze corresponded to a spot where all three sensors gave a value that indicated they were over white tape, meaning LABron then had some decision to make about which way to go, based on the walls around him and the spots on the maze he had already explored. 
-	To detect walls, we included several more IR sensors on the front, left, and right of LABron. These too had thresholds that were tested and input like the line-following IR sensors, though these tended to be noisier, especially given different lighting conditions. To counteract this, we took a running average of the wall sensor output when we called to these sensors. Additionally, in order to save analog input pins at the expense of digital pins, we incorporated a MUX with inputs from Left and Right wall sensors, flipped based on a digital pin and read from an analog pin.  Based on these measurements and the treasure detecting, a bit-masking scheme was developed, where [F-R-L-B-Treasure shape-Treasure color] corresponded to the Front, Right, Left and Behind walls (though the Behind bit was always 0) and treasure shape and color were each encoded with 2 bits. Additionally, another byte corresponded to LABron’s current location given by [xxxx-yyyy]; this condenses the radio transmission to two byte packets at each transmission to update the base station GUI. This meant that LABron’s current coordinates on the map and direction were constantly updated, and had to be manually initialized. Furthermore, it is important to note that the sensor inputs were relative to LABron’s current direction, as opposed to an absolute direction (North-South-East-West), so all sensory input about walls and treasures at a current location had to be transmitted to the base station after deciding their absolute directions based on LABron’s current direction. This facilitated updating LABron’s current position at each timestep as well. 
-	Exploring the maze was a task that required path planning. The two algorithms LABron applied to this task were right-hand wall following and depth-first search (DFS). Right-hand wall following is a naive form of exploration that greedily choose the rightmost turn when a wall is not present. It is obvious that this is not an optimal solution to the problem, especially in mazes with several intersections without walls near them (“islands”). In order to avoid this problem, depth-first search was employed. DFS allows traversal of the entire set of reachable nodes by exploring the full subtree of each child before exploring the next child. In other words, a path based on DFS will go to the current location’s neighbor, and then move to the new location’s next neighbor before going back to check the original location’s other neighbors. We felt that this solution was optimal mostly because LABron spends as little time as possible retracing over this own steps as he would in a BFS algorithm (which is ideal except when maximizing the explored area of a maze). In this problem, DFS was employed to search for unexplored spaces, so the internal maze representation allowed us to provide define a condition for terminating the DFS: finding an unexplored location. 
+												<p>The main task in the competition was to navigate as much of the maze as possible while keeping track of treasures and walls. In order to do this, LABron needed IR sensors to follow a white line. The logic for this sensing was straightforward- whichever sensor had the smallest signal read by the Arduino could be mapped to LABron moving onto a black part of the grid, meaning this sensor was not on a white line. In this way, with three sensors placed in front of LABron, it was possible to detect which sensor was on the white line at a given time, and follow the line based on turning towards that sensor at each timestep. To decide what values of the IR sensor analogRead() corresponded to white tape or black areas, we tested the IR sensors and determined a threshold, which was approximately 180. Because LABron’s movement was prone to noise based on factors like ambient light and battery power, we included functions that made small adjustments to LABron’s direction while line following to keep the robot as close to the middle of the line as possible. Finally, an intersection of the maze corresponded to a spot where all three sensors gave a value that indicated they were over white tape, meaning LABron then had some decision to make about which way to go, based on the walls around him and the spots on the maze he had already explored.
+	To detect walls, we included several more IR sensors on the front, left, and right of LABron. These too had thresholds that were tested and input like the line-following IR sensors, though these tended to be noisier, especially given different lighting conditions. To counteract this, we took a running average of the wall sensor output when we called to these sensors. Additionally, in order to save analog input pins at the expense of digital pins, we incorporated a MUX with inputs from Left and Right wall sensors, flipped based on a digital pin and read from an analog pin.  Based on these measurements and the treasure detecting, a bit-masking scheme was developed, where [F-R-L-B-Treasure shape-Treasure color] corresponded to the Front, Right, Left and Behind walls (though the Behind bit was always 0) and treasure shape and color were each encoded with 2 bits. Additionally, another byte corresponded to LABron’s current location given by [xxxx-yyyy]; this condenses the radio transmission to two byte packets at each transmission to update the base station GUI. This meant that LABron’s current coordinates on the map and direction were constantly updated, and had to be manually initialized. Furthermore, it is important to note that the sensor inputs were relative to LABron’s current direction, as opposed to an absolute direction (North-South-East-West), so all sensory input about walls and treasures at a current location had to be transmitted to the base station after deciding their absolute directions based on LABron’s current direction. This facilitated updating LABron’s current position at each timestep as well.
+	Exploring the maze was a task that required path planning. The two algorithms LABron applied to this task were right-hand wall following and depth-first search (DFS). Right-hand wall following is a naive form of exploration that greedily choose the rightmost turn when a wall is not present. It is obvious that this is not an optimal solution to the problem, especially in mazes with several intersections without walls near them (“islands”). In order to avoid this problem, depth-first search was employed. DFS allows traversal of the entire set of reachable nodes by exploring the full subtree of each child before exploring the next child. In other words, a path based on DFS will go to the current location’s neighbor, and then move to the new location’s next neighbor before going back to check the original location’s other neighbors. We felt that this solution was optimal mostly because LABron spends as little time as possible retracing over this own steps as he would in a BFS algorithm (which is ideal except when maximizing the explored area of a maze). In this problem, DFS was employed to search for unexplored spaces, so the internal maze representation allowed us to provide define a condition for terminating the DFS: finding an unexplored location.
 DFS was implemented using two stacks, one which represented the chosen path and a frontier stack that contained the set of accessible nodes to be explored. At each iteration, the frontier stack was expanded, and the top element from it was added to the path stack. If the frontier stack was not expanded at an intersection, it meant that no additional nodes could be reached from that location and it was time to turn back, so each subsequent path location was popped from both stacks until an unexplored location from the frontier stack could be added to the path stack. We found that in a 9x9 maze, to implement a stack data structure as described in the C++ standard library required much more memory than we had available. So, we implemented these stacks using two 9x9 byte arrays, each initialized with 255 values and updated according to the location. Then, each stack had a “head” int global variable that was incremented/decremented as elements were popped and pushed. In this way, the memory used by the stack was reduced to 2x81 bytes + 2 integers (2 bytes each) to yield a memory requirement of 166 bytes. In the graphic below, we run through a full depth-first search until all nodes have been visited at least once, starting at 0 and ending at 4 after traversing the other two legs of this maze.
 
 
