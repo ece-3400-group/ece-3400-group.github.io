@@ -314,19 +314,18 @@ DFS was implemented using two stacks, one which represented the chosen path and 
 											</div>
 										</div>
 								</section>
-								<section>
-										<div class="content">
-											<div class="inner">
-												<header class="major">
-													<h3>Last Minute Fatal Problems</h3>
-												</header>
-												<p>During the competition, unfortunately, several major obstacles were faced that LABron was ultimately unable to overcome. Shortly before the competition, as LABron’s design was being tuned, all sensors stopped working, and LABron’s motion was ruined. This was presumably the result of a circuit failure that short-circuited the Arduino and damaged it, because hours of circuit debugging and baseline software tests (like checking individual line sensor outputs and PWM outputs on the Arduino) seemed to imply. After frantically being repaired with a new Arduino and fixing the circuitry that was moved in taking him apart, it was evident that new bugs were introduced, and LABron was not fixed in time for the competition despite the team’s best efforts. While we succeeded in reintroducing the logic and motion, the circuit had failed somehow because LABron’s turns were wrong and untimely. One small success was the introduction of a functional starting pushbutton, to be used in case LABron’s microphone did not detect the 660 Hz tone amidst the noise of the event itself. The implementation of this was quite simple, adding to our function waitToStart(), which ordinarily continuously called LABron to stop() inside a while loop until an FFT function returned the presence of  a 660 Hz tone. We simply connected our pushbutton between a digital input and ground, and also passed out of the waitToStart() function when that particular digital input was read as LOW (ordinarily, it was left floating and determine to be HIGH on the newly installed Arduino).
 
-</p>
-											</div>
+							</section>
+
+							<section id="three">
+										<div class="inner">
+											<header class="major">
+												<h3>Last Minute Fatal Problems</h3>
+											</header>
+											<p>During the competition, unfortunately, several major obstacles were faced that LABron was ultimately unable to overcome. Shortly before the competition, as LABron’s design was being tuned, all sensors stopped working, and LABron’s motion was ruined. This was presumably the result of a circuit failure that short-circuited the Arduino and damaged it, because hours of circuit debugging and baseline software tests (like checking individual line sensor outputs and PWM outputs on the Arduino) seemed to imply. After frantically being repaired with a new Arduino and fixing the circuitry that was moved in taking him apart, it was evident that new bugs were introduced, and LABron was not fixed in time for the competition despite the team’s best efforts. While we succeeded in reintroducing the logic and motion, the circuit had failed somehow because LABron’s turns were wrong and untimely. One small success was the introduction of a functional starting pushbutton, to be used in case LABron’s microphone did not detect the 660 Hz tone amidst the noise of the event itself. The implementation of this was quite simple, adding to our function waitToStart(), which ordinarily continuously called LABron to stop() inside a while loop until an FFT function returned the presence of  a 660 Hz tone. We simply connected our pushbutton between a digital input and ground, and also passed out of the waitToStart() function when that particular digital input was read as LOW (ordinarily, it was left floating and determine to be HIGH on the newly installed Arduino).
+
+											</p>
 										</div>
-								</section>
-
 							</section>
 					</div>
 
