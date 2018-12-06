@@ -1,0 +1,355 @@
+<!DOCTYPE HTML>
+<!--
+	Forty by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Final Design</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async>
+		</script>
+		<script type="text/javascript" src="http://latex.codecogs.com/latexit.js"></script>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+				<!-- Note: The "styleN" class below should match that of the banner element. -->
+					<header id="header" class="alt style2">
+						<a href="index.html" class="logo"><strong>ECE 3400</strong></a>
+						<nav>
+							<a href="#menu">Menu</a>
+						</nav>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<ul class="links">
+							<li><a href="index.html">Home</a></li>
+							<li><a href="team_contract.html">Team Contract</a></li>
+						</ul>
+					</nav>
+
+				<!-- Banner -->
+				<!-- Note: The "styleN" class below should match that of the header element. -->
+					<section id="banner" class="style2">
+						<div class="inner">
+							<span class="image">
+								<img src="images/pic07.jpg" alt="" />
+							</span>
+							<header class="major">
+								<h1>Fina Design</h1>
+							</header>
+							<div class="content">
+								<p>The Fall of a Legend: LABron</p>
+							</div>
+						</div>
+					</section>
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- One -->
+							<section id="one">
+								<div class="inner">
+									<header class="major">
+										<h2>Introduction</h2>
+									</header>
+<pre>	ECE 3400 was a course based around the design of a maze tracing robot, 
+controlled by a pre programmed Arduino, and including functionality like 
+line-tracing, radio communication, FFT analysis of IR and Audio input, etc. The 
+methods by which we completed each subtask leading up to competition are 
+detailed below. 
+	The first portion of our robot design was beginning on a 660Hz tone. This was 
+performed by continuous microphone polling and FFT analysis. Later, a pushbutton 
+was added and polled for a start signal as well.
+The next portion of our robot design was the methodology by which we actually 
+explored the maze. This was first done by learning to trace lines with our 
+completed robot. 3 line sensors on the front of LABron were used to achieve 
+this, and as all 3 line sensors detected a line at an intersection, LABron’s 
+onboard Arduino would determine which direction to move in based off of additional 
+information like nearby walls (supplied by distance sensors mounted on the front 
+and sides) as well as internal memory and position tracking, determining whether 
+LABron had been to a specific node before. 
+	During this process of traversing the maze, LABron also had to access his radio 
+component to report location and maze information to a base station. This was only 
+done at intersections in our final design and was executed using a bit masking 
+strategy discussed below to reduce our total radio transmission to 2 bytes. 
+	One of the last components of LABron was checking for the presence of other robots. 
+This was accomplished by using an IR LED and checking for spikes from other robots 
+IR hats. The final portion of LABron’s design was the incorporation of an FPGA performing 
+image processing on a camera output. The camera was used to search the maze for red and 
+blue trasures in the shape of triangles, squares, and diamonds. This implementation is 
+also discussed below. 
+
+									</pre>
+								</div>
+								<img src=images/final/final-robot-1.png height=330>
+								<img src=images/final/final-robot-2.png height=330>
+								<img src=images/final/final-robot-3.png height=330>
+								<img src=images/final/final-robot-4.png height=330>
+								<img src=images/final/final-robot-5.png height=330>
+							</section>
+
+						<!-- Two -->
+							<section id="two" class="spotlights">
+								<section>
+									<div class="content">
+										<div class="inner">
+											<header class="major">
+												<h3>Final Design</h3>
+											</header>
+											<p>One of the first things we did with our Arduino was disable the pull-up resistors on our I2C lines; this was necessary because of a voltage mismatch between the camera and Arduino (damage to the camera would results if we hadn't done this). Next, we setup our FPGA to provide a common 24 MHz clock signal to our camera and began playing around with setting registers and reading their values back on our Arduino. After this, we simply followed a camera pinout diagram and were finished with this portion of our lab.
+										</p>
+										</div>
+									</div>
+								</section>
+								<section>
+									<div class="content">
+										<div class="inner">
+											<header class="major">
+
+											<h3>Physical Design </h3>
+											</header>
+											<p>
+													As can be seen above, LABron has sensors attached attached primarily to the front and sides. The three red pieces of plastic running down the front of LABron hold the line sensors. Above and located on the front and sides are distance sensors which were used for wall detection. On the bottom we've attached an FPGA to interpret the data stream from the front-mounted camera. On the back and tucked behind the FPGA are batteries to power our robot. Finally, the breadboard on top of LABron was split into two halves, powering the FFT amplifier, LED signal, and pushbutton in the back and leaving the sensor output and routing for the front half of the breadboard. This was eventually replaced with the protoboard to the right, though a test indiciated a miss-wiring and we were unable to finish it for competetion. Beneath the yellow plastic is our Arduino control unit, a radio attached directly to GPIO pins and our IR Hat.
+											</p>
+										</div>
+									</div>
+								</section>
+								<section>
+										<div class="content">
+											<div class="inner">
+												<header class="major">
+													<h3>Electrical Layout</h3>
+												</header>
+												<p>Below is our pinout from our Arduino</p>
+												<ul>
+													<li>A0 = Left Line Sensor</li>
+													<li>A1 = Middle Line Sensor</li>
+													<li>A2 = Right Line Sensor</li>
+													<li>A3 = Middle Wall Sensor</li>
+													<li>A4 = Mux Output, taking in Left & Right Wall Sensor Outputs</li>
+													<li>A5 = Audio and IR signal</li>
+
+													<li>D2 - D4 = FPGA Communication</li>
+													<li>D5 = Right Servo</li>
+													<li>D6 = Left Servo</li>
+													<li>D7 = Pushbutton Start</li>
+													<li>D8 = Mux Select Pin to read Left or Right Wall Sensor</li>
+													<li>D9-13 = Radio</li>
+												</ul>
+												<p>
+													These were all the pins we needed to accomplish the tasks discussed in the Introduction to our final design.
+												</p>
+											</div>
+										</div>
+								</section>
+								<section>
+									<img src="https://ece-3400-group.github.io/images/Lab2/AudioCircuit_noFilter.png" height=330>
+									
+										<div class="content">
+
+											<div class="inner">
+												<header class="major">
+													<h3>Starting on a 660Hz Signal and IR Sensing</h3>
+												</header>
+
+												<p>An inverting amplifier from Team Alpha using the LF353 op-amp (http://www.ti.com/lit/ds/symlink/lf353-n.pdf) with (380 kOhm / 3.8 kOhm) = 100x gain was built. A final schematic of the audio circuit and the results of amplification are shown below. In the scope image, the blue waveform (CH 2) is the audio signal before amplification and the yellow waveform (CH 1) is the waveform after amplification.
+
+
+	A simple RC low pass filter after the output of the amplifier was also put in to block unwanted frequencies. The cutoff frequency was put at 1326 Hz with a 12 kOhm resistor and a 100 uF capacitor (1/(2*pi*RC) = 1326).
+	The FFT3 library (http://wiki.openmusiclabs.com/wiki/ArduinoFFT)’s FFT functions were used to detect the 660 Hz tone. A picture of an audio FFT diagram using the FFT3 library on the Arduino is shown below. The bin the 660 Hz tone was in was calculated to be bin 6 since the Arduino was sampling around fs = 67 kHz for 256 samples and (fs/2)*(6/256) = 660.
+<img src="https://ece-3400-group.github.io/images/Lab2/IR_fft.png">
+	The FFT library took up a lot of memory and required a lot of research to not have it slow down or stop other sensor inputs. The ADC register states had to be saved before taking the FFT and restored afterwards.
+ </p>
+ <p> Below is our IR sensor output. Much of the same mechanics described above were used to determine the sampling rate for our IR sensor looking for a 6.08KHz signal, though the gain given to that circuit was slightly less so as to suppress the noise floor. Additionally, the the outputs of the microphone and IR were averaged using resistors in order to save on an analog input and sample both siganls from one FFT analysis.</p>
+											</div>
+											<img src="https://ece-3400-group.github.io/images/Lab2/IRpt1.png" height=330>
+											<img src="images/final/resistor.png" height=330>
+										</div>
+
+								</section>
+								<section>
+										<div class="content">
+											<div class="inner">
+												<header class="major">
+													<h3>Detecting Other Robots</h3>
+												</header>
+												<p>The competition had penalties for colliding into other robots in the maze. Each robot had an IR hat mounted 5.5” above ground broadcasting at 6 kHz.
+	The base IR signal circuit is shown below. It was a little different from the recommended layout to have non IR signal be roughly GND and have IR signals be positive voltages rather than the other way around. Amplifying this signal was also done with the same inverting op amp configuration biased at 2.5V shown in the audio circuit.
+
+	A simple RC low pass filter was also added to this circuit to filter out the 18 kHz frequencies broadcasted by decoys. A pole at ~16 kHz was added with a 10 kOhm resistor and a 1 nF capacitor. Though decoys weren’t used in the final competition, the filter stayed on LABron. 
+	The FFT function developed in the audio section was also used in for the IR hat. Since the desired signal was at 6 kHz, the bin number to search for was bin 44 since ~6 kHz = (fs/2)*(44/256) with fs = 67 kHz. The IR FFT is shown below
+
+</p>
+											</div>
+										</div>
+								</section>
+								<section>
+										<div class="content">
+											<div class="inner">
+												<header class="major">
+													<h3>Radio Communications</h3>
+												</header>
+												<p>For the radio communication, it was decided that the most resource efficient transmission time occurred at the intersections of the maze. The RF24 library was used and essentially, all example coded given by the course instructors remained the same minus an additional transmitted byte in the packet. The first byte sent was the current location (the intersection coordinates) and the second byte was that intersection’s “metadata”: walls in each absolute cardinal direction and treasures if any. In this way, LABron updated the base station with maze information at each intersection. Then, the GUI at the base station written by course instructors was updated to reflect that by parsing the Arduino sent packets to the GUI input format. 
+
+
+</p>
+											</div>
+										</div>
+								</section>
+								<section>
+										<div class="content">
+											<div class="inner">
+												<header class="major">
+													<h3>Arduino-FPGA Communication</h3>
+												</header>
+												<p>Pin Assignments
+GPIO0_D0 = 24 MHz clock for Camera
+GPIO1_D20 = D0
+GPIO1_D21 = D1
+GPIO1_D22 = D2
+GPIO1_D23 = D3
+GPIO1_D24 = D4
+GPIO1_D25 = D5
+GPIO1_D26 = D6
+GPIO1_D27 = D7
+GPIO1_D28 = PCLK
+GPIO1_D29 = HREF
+GPIO1_D30 = VSYNC
+</p>
+<p>
+	FPGA
+Clocks
+PLL
+24 MHz clock for camera
+25 MHz for VGA & RAM read cycles
+50 MHz for RAM write cycles
+Color Bar Test
+Picture of working color bar
+Camera 
+http://web.mit.edu/6.111/www/f2016/tools/OV7670_2006.pdf 
+Set to output 5 bits red, 5 bits green, 5 bits blue in 2 packets
+Downsampling
+VGA driver takes 332 (3 bits red, 3 bits green, 2 bits blue)
+Downsampling by taking MSB of colors within a packet
+Basic Logic of FPGA
+M9K Block memory stores “.input_data” into WRITE_ADDRESS if W_EN is 1
+When image frame starts (VSYNC falling edge) and HREF is low
+Make current X_ADDRESS and Y_ADDRESS 0
+When HREF has a falling edge, a new row happens
+Increment Y_ADDRESS
+Set X_ADDRESS to 0
+HREF rising edge means taking in 2 packet cycles and downsampling, then incrementing X_ADDRESS
+Write the downsampled pixel into the memory
+The VGA driver increments its READ_ADDRESS according to the clock it’s hooked up to
+Outputs pixel data on screen
+Color Detection
+For each frame, count the number of red and blue pixels
+Red meant a certain amount of red, little blue, and little green
+Blue meant a certain amount of blue, little green, and a little red was ok
+If there was more red then blue, the color detection would detect red and vice versa
+Shape Detection
+Didn’t get this fully working, there were some bugs with finding the last line
+Working principle
+Get the firstline and lastline of a red or blue shape
+Firstline is row with more than 15 red or blue pixels in it
+Lastline is row with less than 15 red or blue pixels in it (matches color with firstline)
+We assume the frames are fast enough
+Move to the next frame and use the firstline and lastline from the previous frame to get 3 middle lines
+Classify based on middle 3 lines
+Triangle = very few red pixels on top, middle number in middle, and largest number on bottom
+Square = approximately the same number of pixels for each row
+Diamond = very few pixels on top, largest in middle, and very few on bottom
+Issues
+Couldn’t latch onto the last line
+Hard to adjust for distance
+Thresholds are hard to decide, would trigger on non-shapes also
+Didnt’ really put on robot in the end because it didn’t fit really well and didn’t really work
+Penalties if detect a treasure that’s not there and thresholding with ambient light could be tricky
+
+	</p>
+											</div>
+										</div>
+								</section>
+								<section>
+
+										<div class="content">
+											<img src="images/final/dfs.png" height=330>
+									<img src="images/final/dsf1.png" height=330>
+											<div class="inner">
+												<header class="major">
+													<h3>Path Planning</h3>
+												</header>
+												<p>The main task in the competition was to navigate as much of the maze as possible while keeping track of treasures and walls. In order to do this, LABron needed IR sensors to follow a white line. The logic for this sensing was straightforward- whichever sensor had the smallest signal read by the Arduino could be mapped to LABron moving onto a black part of the grid, meaning this sensor was not on a white line. In this way, with three sensors placed in front of LABron, it was possible to detect which sensor was on the white line at a given time, and follow the line based on turning towards that sensor at each timestep. To decide what values of the IR sensor analogRead() corresponded to white tape or black areas, we tested the IR sensors and determined a threshold, which was approximately 180. Because LABron’s movement was prone to noise based on factors like ambient light and battery power, we included functions that made small adjustments to LABron’s direction while line following to keep the robot as close to the middle of the line as possible. Finally, an intersection of the maze corresponded to a spot where all three sensors gave a value that indicated they were over white tape, meaning LABron then had some decision to make about which way to go, based on the walls around him and the spots on the maze he had already explored. 
+	To detect walls, we included several more IR sensors on the front, left, and right of LABron. These too had thresholds that were tested and input like the line-following IR sensors, though these tended to be noisier, especially given different lighting conditions. To counteract this, we took a running average of the wall sensor output when we called to these sensors. Additionally, in order to save analog input pins at the expense of digital pins, we incorporated a MUX with inputs from Left and Right wall sensors, flipped based on a digital pin and read from an analog pin.  Based on these measurements and the treasure detecting, a bit-masking scheme was developed, where [F-R-L-B-Treasure shape-Treasure color] corresponded to the Front, Right, Left and Behind walls (though the Behind bit was always 0) and treasure shape and color were each encoded with 2 bits. Additionally, another byte corresponded to LABron’s current location given by [xxxx-yyyy]; this condenses the radio transmission to two byte packets at each transmission to update the base station GUI. This meant that LABron’s current coordinates on the map and direction were constantly updated, and had to be manually initialized. Furthermore, it is important to note that the sensor inputs were relative to LABron’s current direction, as opposed to an absolute direction (North-South-East-West), so all sensory input about walls and treasures at a current location had to be transmitted to the base station after deciding their absolute directions based on LABron’s current direction. This facilitated updating LABron’s current position at each timestep as well. 
+	Exploring the maze was a task that required path planning. The two algorithms LABron applied to this task were right-hand wall following and depth-first search (DFS). Right-hand wall following is a naive form of exploration that greedily choose the rightmost turn when a wall is not present. It is obvious that this is not an optimal solution to the problem, especially in mazes with several intersections without walls near them (“islands”). In order to avoid this problem, depth-first search was employed. DFS allows traversal of the entire set of reachable nodes by exploring the full subtree of each child before exploring the next child. In other words, a path based on DFS will go to the current location’s neighbor, and then move to the new location’s next neighbor before going back to check the original location’s other neighbors. We felt that this solution was optimal mostly because LABron spends as little time as possible retracing over this own steps as he would in a BFS algorithm (which is ideal except when maximizing the explored area of a maze). In this problem, DFS was employed to search for unexplored spaces, so the internal maze representation allowed us to provide define a condition for terminating the DFS: finding an unexplored location. 
+DFS was implemented using two stacks, one which represented the chosen path and a frontier stack that contained the set of accessible nodes to be explored. At each iteration, the frontier stack was expanded, and the top element from it was added to the path stack. If the frontier stack was not expanded at an intersection, it meant that no additional nodes could be reached from that location and it was time to turn back, so each subsequent path location was popped from both stacks until an unexplored location from the frontier stack could be added to the path stack. We found that in a 9x9 maze, to implement a stack data structure as described in the C++ standard library required much more memory than we had available. So, we implemented these stacks using two 9x9 byte arrays, each initialized with 255 values and updated according to the location. Then, each stack had a “head” int global variable that was incremented/decremented as elements were popped and pushed. In this way, the memory used by the stack was reduced to 2x81 bytes + 2 integers (2 bytes each) to yield a memory requirement of 166 bytes. In the graphic below, we run through a full depth-first search until all nodes have been visited at least once, starting at 0 and ending at 4 after traversing the other two legs of this maze.
+
+
+</p>
+											</div>
+										</div>
+								</section>
+								<section>
+										<div class="content">
+											<div class="inner">
+												<header class="major">
+													<h3>Last Minute Fatal Problems</h3>
+												</header>
+												<p>During the competition, unfortunately, several major obstacles were faced that LABron was ultimately unable to overcome. Shortly before the competition, as LABron’s design was being tuned, all sensors stopped working, and LABron’s motion was ruined. This was presumably the result of a circuit failure that short-circuited the Arduino and damaged it, because hours of circuit debugging and baseline software tests (like checking individual line sensor outputs and PWM outputs on the Arduino) seemed to imply. After frantically being repaired with a new Arduino and fixing the circuitry that was moved in taking him apart, it was evident that new bugs were introduced, and LABron was not fixed in time for the competition despite the team’s best efforts. While we succeeded in reintroducing the logic and motion, the circuit had failed somehow because LABron’s turns were wrong and untimely. One small success was the introduction of a functional starting pushbutton, to be used in case LABron’s microphone did not detect the 660 Hz tone amidst the noise of the event itself. The implementation of this was quite simple, adding to our function waitToStart(), which ordinarily continuously called LABron to stop() inside a while loop until an FFT function returned the presence of  a 660 Hz tone. We simply connected our pushbutton between a digital input and ground, and also passed out of the waitToStart() function when that particular digital input was read as LOW (ordinarily, it was left floating and determine to be HIGH on the newly installed Arduino).
+
+</p>
+											</div>
+										</div>
+								</section>
+
+							</section>
+					</div>
+
+					<!-- Four -->
+								<ul class="actions">
+									<li><a href="index.html" class="button next">Back To Home</a></li>
+								</ul>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<div class="inner">
+							<ul class="icons">
+								<li><a href="https://twitter.com/KingJames?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor" class="icon alt fa-twitter"><span class="label">Twitter</span></a></li>
+								<li><a href="https://www.facebook.com/LeBron/" class="icon alt fa-facebook"><span class="label">Facebook</span></a></li>
+								<li><a href="https://www.instagram.com/kingjames/?hl=en" class="icon alt fa-instagram"><span class="label">Instagram</span></a></li>
+								<li><a href="https://github.com/ece-3400-group/" class="icon alt fa-github"><span class="label">GitHub</span></a></li>
+								<li><a href="https://www.linkedin.com/in/shubhom/" class="icon alt fa-linkedin"><span class="label">LinkedIn</span></a></li>
+							</ul>
+							<ul class="copyright">
+								<li>&copy; Cornell University</li>
+								<li>Design Credits: <a href="https://html5up.net">HTML5 UP</a></li>
+								<li>Mathematics Display Engine: <a href="https://www.mathjax.org/">MathJax</a></li>
+								<li>Electronics Design: <a href="http://fritzing.org/home/">Fritzing</a></li>
+							</ul>
+						</div>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
