@@ -76,6 +76,7 @@
 										</div>
 									</div>
 								</section>
+
 								<section>
 									<iframe width="560" height="315" src="https://www.youtube.com/embed/OhUrtoF0Udk?ecver=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 									<div class="content">
@@ -84,6 +85,23 @@
 												<h3>Shape Detection</h3>
 											</header>
 											<p>Shape detection offere less obvious routes to success compared to color detection. Our singular attack strategy was that we already had a set of well-defined shapes we wanted to search for (triangle, square, diamond). We began by looking for patterns in rows of pixels we received, and after some initial succes in locating "clumps" of red or blue, were able to extrapolate from there with larger shape detection. The most trouble we received was in determining the presence of a diamond. Having a shape very distinctly between a square and a triangle, the inclusion of this third shape made testing quite extensive to be sure we were thresholding all our values correctly. Unfortunately, we were quite hurried in making our video for demonstraction of completion, and so were only able to show the diamond being correctly identified. However, given that this was the hardest shape to determine, it follows that the square and triangle had to be completed before this task.</p>
+										</div>
+									</div>
+								</section>
+
+								<section>
+									<iframe width="560" height="315" src="https://www.youtube.com/embed/hO2f7GQmMOQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+									<div class="content">
+										<div class="inner">
+											<header class="major">
+												<h3>Shape Detection Update</h3>
+											</header>
+											<p>The shape detection update greatly improved the accuracy and quality after multiple corrections. Here is how we do the image processing to detect the treasure shapes (Triangle, Square, and Diamond). Our concept is to find the upper bound and the last bound of the treasure for locating and thus, could dynamically locate the middle three rows for shape detection.
+												<li>First of all, we would have to find first row and the last row of the treasure for the second frame for shape detection. </li>
+												<li>Because the frame update so fast, the first row and last row wouldn't make much difference between the two frame unless the the camera or the treasure isn't stable enough. Then, the second frame would be able to locate the treasure according to the upper and lower bound row position. </li>
+												<li>The middle three rows could detect the shape from comparison each other. For example, diamond would have the longest row in the middle. And triangle would have the longest at the last row. </li>
+												Through this alogorithm, we would be able to detect the shape accurately and precisely. 
+												</p>
 										</div>
 									</div>
 								</section>
