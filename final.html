@@ -261,30 +261,39 @@ Color Detection
 For each frame, count the number of red and blue pixels
 Red meant a certain amount of red, little blue, and little green
 Blue meant a certain amount of blue, little green, and a little red was ok
-If there was more red then blue, the color detection would detect red and vice versa
-Shape Detection
-Didn’t get this fully working, there were some bugs with finding the last line
-Working principle
-Get the firstline and lastline of a red or blue shape
-Firstline is row with more than 15 red or blue pixels in it
-Lastline is row with less than 15 red or blue pixels in it (matches color with firstline)
-We assume the frames are fast enough
-Move to the next frame and use the firstline and lastline from the previous frame to get 3 middle lines
-Classify based on middle 3 lines
-Triangle = very few red pixels on top, middle number in middle, and largest number on bottom
-Square = approximately the same number of pixels for each row
-Diamond = very few pixels on top, largest in middle, and very few on bottom
-Issues
-Couldn’t latch onto the last line
-Hard to adjust for distance
-Thresholds are hard to decide, would trigger on non-shapes also
-Didnt’ really put on robot in the end because it didn’t fit really well and didn’t really work
-Penalties if detect a treasure that’s not there and thresholding with ambient light could be tricky
-
-	</p>
+If there was more red then blue, the color detection would detect red and vice versa. </p>
 											</div>
 										</div>
 								</section>
+
+								<section>
+									<iframe width="560" height="315" src="https://www.youtube.com/embed/hO2f7GQmMOQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+									<div class="content">
+										<div class="inner">
+											<header class="major">
+												<h3>Shape Detection</h3>
+											</header>
+											<p>The shape detection update greatly improved the accuracy and quality after multiple corrections. Here is how we do the image processing to detect the treasure shapes (Triangle, Square, and Diamond).
+												Our concept is to find the upper bound and the last bound of the treasure for locating and thus, could dynamically locate the middle three rows for shape detection.
+												<ol>
+													<li>First of all, we would have to find first row and the last row of the treasure for the second frame for shape detection. </li>
+													<li>Because the frame update so fast, the first row and last row wouldn't make much difference between the two frame unless the the camera or the treasure isn't stable enough. Then, the second frame would be able to locate the treasure according to the upper and lower bound row position. </li>
+													<li>The middle three rows could detect the shape from comparison each other. </li>
+												</ol>
+											</p>
+											<p>
+												After getting pixel number in each rows, we could follow the following idea to distinguish the shapes.
+												<ol>
+													<li>Triangle = very few red pixels on top, middle number in middle, and largest number on bottom</li>
+													<li>Square = approximately the same number of pixels for each row</li>
+													<li>Diamond = very few pixels on top, largest in middle, and very few on bottom</li>
+												</ol>
+												Through this algorithm, we would be able to detect the shape accurately and precisely.
+												</p>
+										</div>
+									</div>
+								</section>
+
 								<section>
 									<section>
 										<img src="images/final/dfs.png" height=330>
